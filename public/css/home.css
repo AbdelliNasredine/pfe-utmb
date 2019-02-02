@@ -1,0 +1,116 @@
+* {
+  font-family: 'Roboto', sans-serif !important;
+}
+.btn , .btn:active , .btn:focus , .btn:hover {
+  outline: none;
+  box-shadow: none;
+  color: #ffffff;
+
+}
+.bg-light-green {
+  background-color: #ffffff !important;
+}
+.langnavbar{
+  font-family: 'Roboto', sans-serif;
+  padding: 0 16px;
+  background-color: #474b4f;
+} 
+.langnavbar .dropdown {
+  margin-left: auto;
+  margin-right: 0;
+  min-width: 0;
+}
+.langnavbar .dropdown:hover , .langnavbar .dropdown:focus {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.langnavbar .dropdown .dropdown-menu {
+  color: #ffffff !important;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 10px 5px #00000011;
+  -moz-box-shadow: 0px 0px 10px 5px #00000011;
+  box-shadow: 0px 0px 10px 5px #00000011;
+}
+.langnavbar .dropdown .dropdown-menu span {
+  color: #9b9b9b;
+}
+.langnavbar .dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.mynavbar {
+  font-family: 'Roboto', sans-serif;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 10px 10px 5px #00000009;
+  -moz-box-shadow: 0px 10px 10px 5px #00000009;
+  box-shadow: 0px 10px 10px 5px #00000009;
+}
+.mynavbar .navbar-brand {
+  /*padding: 0;*/
+}
+.mynavbar .nav-item a {
+  padding: 16px 0;
+}
+.mynavbar .nav-item .btn {
+  border-radius: 7px;
+  margin: 8px 8px;
+  padding: 4px 16px;
+}
+.lang {
+  height: 16px;
+  margin-right: 5px;
+}
+.mynavbar .nav-item .btn-reg {
+  text-transform: capitalize;
+  font-weight: 700;
+  color: #ffffff !important;
+  background-color: #61892f;
+  -webkit-box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.41);
+  -moz-box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.41);
+  box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.41);
+}
+.jumbtron {
+  color: #ffffff;
+  background:linear-gradient(#61892f,#73a52d);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.jumbtron .display-4 {
+  font-size: 64px;
+  font-weight: 700;
+}
+.jumbtron .lead {
+  color: rgba(255, 255, 255, 0.5);
+}
+.jumbtron .container {
+  padding-top: 80px;
+  padding-bottom: 120px;
+}
+.jumbtron .badge-secondary {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.jumbtron .btn {
+  text-transform: capitalize;
+  font-weight: 700;
+  padding: 10px 18px;
+}
+.jumbtron .btn:hover , .jumbtron .btn:focus {
+  background: #47c7d8;
+}
+.services .container {
+  margin-top: -50px;
+}
+.services .container{
+  -webkit-box-shadow: 0px 0px 20px 5px rgba(19, 19, 19, 0.075);
+  -moz-box-shadow: 0px 0px 20px 5px rgba(19, 19, 19, 0.075);
+  box-shadow: 0px 0px 20px 5px rgba(19, 19, 19, 0.075);
+}
+.services .card-title {
+  font-weight: 700;
+  font-size: 28px;
+}
+.services .container img{
+  height: 128px;
+  width: 128px;
+  margin: 0 auto;
+  margin-top: 15px;
+}
