@@ -14,12 +14,12 @@ $config['addContentLengthHeader'] = false;
 // {2}
 $config['db']['host']   = 'localhost';
 $config['db']['user']   = 'root';
-$config['db']['pass']   = '1998Bechar';
+$config['db']['pass']   = '';
 $config['db']['dbname'] = 'pfe-utmb';
 
 // {3}
 // lang 'fr' par defaut 
 $default_language = 'fr';
-$available_languages = ['fr', 'ar', 'en'];
+$available_languages = ['fr', 'ar'];
 
 

@@ -2,8 +2,12 @@
 
 :mortar_board: by **A.Nasredine** et **B.Ismail**
 
-### Instalation :
+### Guide :
 
 1. Il faut installer `composer` , [clicker ici](https://getcomposer.org/download/) pour installer `composer`
 
-2. aprés l'instalation de composer , installer 
+2. aprés l'instalation de composer , utiliser la command `composer install` ou `php composer.phar install` pour installer tout les `Dependencies` que nous utilisons.
+
+3. lancer `php -S localhost:8888` dans `pfe-utmb\`
+
+

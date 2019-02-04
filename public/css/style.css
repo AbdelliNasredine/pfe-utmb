@@ -1,0 +1,252 @@
+/* utils */
+html{
+    scroll-behavior: smooth;
+}
+body {
+    -webkit-font-smoothing: antialiased !important; 
+    -moz-osx-font-smoothing: grayscale !important; 
+    text-rendering: optimizeLegibility !important; 
+    -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
+    font-family: 'Work Sans', sans-serif;
+}
+.btn-reg {
+    background-color: rgba(255, 255, 255, .1) !important;
+    border-bottom: none !important;
+    border-radius: 45px;
+    margin-right: 0px;
+    color: #fff;
+}
+.btn-reg:active , .btn-reg:focus {
+    box-shadow: none !important;
+}
+.btn-reg:hover  {
+    border: none !important;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* partie navégation */
+.lang .float-right a  {
+    text-decoration: none !important;
+    margin-left: 15px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, .7);
+    border-right: 1px solid rgba(255, 255, 255, .7);
+    padding-right: 15px;
+}
+.lang .float-right a:hover {
+    color: rgba(255, 255, 255, .9)
+}
+.lang .float-right a:nth-child(3){
+    border: none;
+}
+.lang , .navbar {
+    background-color: rgba(0, 0, 0, 0); 
+}
+.navbar .container  .navbar-nav li a:active , .navbar .container  .navbar-nav li a:focus{
+    color: rgba(255, 255, 255, .9) !important;
+}
+.navbar .container  .navbar-nav li a{
+    padding: 8px 12px ;
+    margin-right: 8px;
+    margin-top: 23px;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.849);
+    transition: all .3s ease-in-out;
+}
+.navbar .container  .navbar-nav li a:hover {
+    color: #fff;
+    box-shadow: inset 0 -2px 0 0 #fff;
+}
+.jumbotron {
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    margin-top: -106px;
+    margin-bottom: 0;
+    height: 100vh;
+}
+.jumbotron .container {
+    margin-top: 150px;
+}
+.jumbotron .container h1 {
+    font-size: 54px;
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+}
+.jumbotron .container .btn {
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: 300;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: none !important;
+    color: rgba(255, 255, 255, .8);
+    animation: anim 2s infinite;
+}
+.arrow{
+    font-size: 26px;
+    display: block;
+    position: relative;
+    animation: anim 1s infinite;
+    margin-top: calc(100vh - 480px);
+}
+@keyframes anim {
+    0%{
+        top: 0px;
+    }
+    50%{
+        top: 10px;
+    }
+    100%{
+        top: 0px
+    }
+}
+.jumbotron .container .btn:hover , .jumbotron .container .btn:focus {
+    outline: none !important;
+    color: #fff;
+}
+
+/* section a propos */
+.propos .container h1 {
+    font-weight: 500;
+    color: #000;
+}
+.propos .container .lead {
+    color: #464646;
+    margin-bottom: 60px;
+}
+.propos .container .row .card{
+    border: none;
+    color: #464646;
+    width: 12rem;
+    height: 12rem;
+    margin-left: 25px;
+    margin-right: 25px;
+    -webkit-box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
+    -moz-box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
+    box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
+    margin-bottom: 50px;
+    font-size: 21px;
+    border-radius: 8px;
+    transition: all .2s ease-in-out;
+}
+.propos .container .row .card .card-body i {
+    margin-top: 20px;
+    font-size: 62px;
+    margin-bottom: 15px;
+    color : #7f3d9b;
+}
+.propos .container .row .p{
+    background-color: #7f3d9b !important;
+    color: #fff !important;
+}
+.propos .container .row .p .card-body i {
+    color: #fff !important;
+}
+.propos .container .row .card:hover {
+    -webkit-box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
+    -moz-box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
+    box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
+    color: #fff !important;
+    background-color: #7f3d9b;
+}
+.propos .container .row .card:hover i {
+    color: #fff !important;
+}
+/* partie devs */
+.devs {
+    padding-top: 25px;
+    padding-bottom: 50px;
+    background-color: #464646;
+}
+
+.devs .container h1 {
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 90px;
+    margin-top: 40px;
+}
+.devs .container .row  .col-4 .card {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.devs .container .row  .col-4 .social{
+    margin-top: 15px;
+    color: rgba(255, 255, 255, .7);
+    padding: 5px;
+    border-radius: 2.5px;
+    transition: all .3s ease-in-out;
+}
+.devs .container .row  .col-4 .social a:hover{
+    color: #fff;
+    background-color: #7f3d9b;
+}
+.devs .container .row  .col-4 h4 {
+    color: #fff;
+}
+.devs .container .row .col-4 img{
+    -webkit-box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
+    -moz-box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
+    box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
+    margin-bottom: 15px;
+}
+.devs .container .row .col-4 figcaption {
+    color: #6e6e6e;
+}
+.devs .container .row .col-4 i{
+    font-size: 18px;
+}
+/* patie contact */
+.contact .container h1 {
+    font-weight: 500;
+    color: #000;
+    margin-top: 40px;  
+    margin-bottom: 25px; 
+}
+.contact .container .lead {
+    margin-bottom: 50px;
+    color: #464646;
+}
+.contact .container .form-row {
+    margin: 12px 0;
+}
+.contact .container .form-row textarea {
+    resize: none;
+}
+.contact .container .form-row input:focus , .contact .container .form-row textarea:focus {
+    -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
+    -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
+    box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
+    outline: none;
+    border: none;
+} 
+.contact .container .form-row input[type='submit']{
+    width: 100%;
+    background-color: #7f3d9b;
+    border-radius: 48px;
+    padding: 10px 0;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    transition: background-color .2s ease-in-out;
+}
+.contact .container .form-row input[type='submit']:hover{
+    cursor: pointer;
+    background-color: #9c4fbd;
+    -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39);
+    -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39);
+    box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39);
+}
+
+/* partie Footer */
+footer {
+    padding: 40px 0;
+    padding-bottom: 60px;
+    background-color: #7f3d9b;
+    color: #fff;
+    font-weight: 500;
+}

@@ -4,7 +4,6 @@
 **      {1}   ajoute de con PDO dans le $container  
 **      {2}   ajoute/config de moteur d'affichag des vue 'php-view'
 **      {3}   config de page 404 'page d'ereur'
-**      {4}   ajoute des 'Controlles' dans $constainer
 */
 
 // {1}
@@ -31,9 +30,4 @@ $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
         return $container['view']->render($response->withStatus(404), '404.php', [] );
     };
-};
-
-// {4}
-$container['HomeController'] = function($constainer) {
-    return new App\Controllers\HomeController($constainer);
 };
