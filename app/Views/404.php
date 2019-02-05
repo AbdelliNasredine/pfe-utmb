@@ -10,7 +10,7 @@
 
 <body>
     <h1>Ereur 404</h1>
-    <a href="<?php echo $router->pathFor('Home') ?>">Page d'acuille</a>
+    <a href="<?php echo $router->pathFor('accueil') ?>">Page d'acuille</a>
 </body>
 
 </html>
