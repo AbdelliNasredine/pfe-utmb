@@ -18,7 +18,7 @@ $container = $app->getContainer();
 
 /*
 **  {2}
-**  les arguments 
+**  les variables: 
 **      -   $available_languages
 **      -   $default_language
 **  sont importer de fichier 'config.php' 
