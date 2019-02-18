@@ -1,19 +1,20 @@
 <?php
 /*
 **  dependencys.php contient :
-**      {1}   ajoute de con PDO dans le $container  
+**      {1}   illuminate/databse "ORM" configuration 
 **      {2}   ajoute/config de moteur d'affichag des vue 'php-view'
 **      {3}   config de page 404 'page d'ereur'
+**      {4}   l'ajout des controller dans le $container
 */
 
 // {1}
-$container['db'] = function ($container) {
-    $db = $container['settings']['db'];
-    $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'],
-        $db['user'], $db['pass']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    return $pdo;
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($container['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+$container['db'] = function($container) use ($capsule){
+    return $capsule;
 };
 
 // {2}
@@ -30,4 +31,28 @@ $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
         return $container['view']->render($response->withStatus(404), '404.php', [] );
     };
+};  
+
+// {4}
+$container['HomeController'] = function($container){
+    return new \App\Controllers\HomeController($container);
 };
+
+$container['AuthController'] = function($container){
+    return new \App\Controllers\AuthController($container);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

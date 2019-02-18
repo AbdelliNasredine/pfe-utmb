@@ -10,8 +10,8 @@
       <!-- langauge partie -->
       <div class="lang container clearfix">
         <div class="float-right">
-          <a href="<?php print "/fr".$router->pathFor('accueil') ?>">FR</a>
-          <a href="<?php print "/ar".$router->pathFor('accueil') ?>">AR</a>
+          <a href="<?php print "/fr".$router->pathFor('home') ?>">FR</a>
+          <a href="<?php print "/ar".$router->pathFor('home') ?>">AR</a>
         </div>
       </div>
       <nav class="navbar navbar-expand-sm navbar-light ">
@@ -37,7 +37,7 @@
     <div class="container">
       <h1 class="display-4">Accéder aux meilleurs<br><strong>pfe’s</strong> en ligne</h1>
       <a class="btn btn-reg" href="<?php print '/'.$lang.$router->pathFor('inscription') ?>">Créer Votre Compt Maintenant</a>
-      <span class="arrow">&darr;</span>
+      <span class="arrow d-none d-md-block">&darr;</span>
     </div>
   </div>
 <!-- section a propos -->
@@ -47,55 +47,71 @@
       <p class="lead">ce site permet un accés gratuit à des documents pfe’s dans des
         des domaines variés</p>
         <div class="row">
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-code"></i>
-              <p class="card-text">Informatique</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-code"></i>
+                <p class="card-text">Informatique</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
                 <i class="fas fa-atom"></i>
-              <p class="card-text">Physique</p>
+                <p class="card-text">Physique</p>
+              </div>
             </div>            
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-superscript"></i>
-              <p class="card-text">Mathématique</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-superscript"></i>
+                <p class="card-text">Mathématique</p>
+              </div>     
+            </div>       
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-balance-scale"></i>
-              <p class="card-text">Droit</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-balance-scale"></i>
+                <p class="card-text">Droit</p>
+              </div>        
+            </div>    
           </div>
         </div>
-        <div class="row">
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-language"></i>
-              <p class="card-text">Les langues</p>
-            </div>            
+        <div class="row pb-5">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-language"></i>
+                <p class="card-text">Les langues</p>
+              </div>       
+            </div>     
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-clinic-medical"></i>
-              <p class="card-text">Médcine</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-clinic-medical"></i>
+                <p class="card-text">Médcine</p>
+              </div>         
+            </div>   
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-calculator"></i>
-              <p class="card-text">Economie</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-calculator"></i>
+                <p class="card-text">Economie</p>
+              </div>       
+            </div>     
           </div>
-          <div class="col card p">
-            <div class="card-body">
-              <i class="fas fa-plus"></i>
-              <p class="card-text">Plan <br>d’autre</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-plus"></i>
+                <p class="card-text">Plan <br>d’autre</p>
+              </div>   
+            </div>         
           </div>
         </div>
     </div>
@@ -105,8 +121,8 @@
       <div class="container">
         <h1 data-aos="fade-down" data-aos-once="true" class="display-4 text-center">Ce site était creé par</h1>
         <div class="row" >
-          <div class="col-4 offset-2 text-center">
-              <figure data-aos="fade-down" data-aos-delay="100" data-aos-once="true" class="figure">
+          <div class="col-sm-12 col-md text-center">
+              <figure class="figure">
                 <img src="/public/img/Nasro.png" class="figure-img img-fluid rounded-circle" alt="A.Nasredine" title="A.Nasredine">
                 <h4>Abdelli Nasredine</h4>
                 <figcaption class="figure-caption">étudiant en informatique</figcaption>
@@ -116,8 +132,8 @@
                 </div>
               </figure>
           </div>
-          <div class="col-4 text-center">
-              <figure data-aos="fade-down" data-aos-delay="100" data-aos-once="true" class="figure">
+          <div class="col-sm-12 col-md text-center">
+              <figure class="figure">
                 <img src="/public/img/ismail.png" class="figure-img img-fluid rounded-circle" alt="B.Ismail" title="B.Ismail">
                 <h4>Bourega Ismail</h4>
                 <figcaption class="figure-caption">étudiant en informatique</figcaption>
@@ -136,10 +152,10 @@
       <p class="lead">Vous avez besoin d’information prenez contact avec nous</p> 
       <form action="">
         <div class="form-row">
-            <div class="col-4 offset-2">
+            <div class="col-md-4 offset-2 col-sm-8 mb-sm-3">
               <input type="text" class="form-control form-control-lg" placeholder="Votre Nom">
             </div>
-            <div class="col-4">
+            <div class="col-md-4 col-sm-8 offset-2 offset-md-0">
               <input type="text" class="form-control form-control-lg" placeholder="Votre Prénom">
             </div>          
         </div>
@@ -159,7 +175,7 @@
             </div>          
         </div>
         <div class="form-row">
-          <div class="col-2 offset-2">
+          <div class="col-md-2 col-sm-8 offset-2">
             <input type="submit" value="Envoyer">
           </div>
         </div>

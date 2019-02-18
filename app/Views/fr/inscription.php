@@ -15,13 +15,13 @@
             font-family: 'Work Sans', sans-serif;
             background-color: #7f3d9b10;
         } 
-        input , select{
-            border-color: #4646462d !important;
-        }
         input:focus , select:focus {
             -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
             -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
             box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
+        }
+        input{
+            border-color : rgba(36, 36, 36, 0.39) ;
         }
         input[type='submit']{
             width: 100%;
@@ -105,6 +105,21 @@
             color: #9d57bb;
             border-bottom: 1px dotted #9d57bb;
         }
+        .is-valid {
+            border-color: #28a745;
+            background-image: url(/public/img/succ.svg);
+            background-repeat: no-repeat;
+            background-position: center right calc(.375em + .1875rem);
+            background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+        }
+        .is-invalid {
+            border-color: #dc3545;
+            background-image: url(/public/img/fail.svg);
+            background-repeat: no-repeat;
+            background-position: center right calc(.375em + .1875rem);
+            background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+
+        }
     </style>
 </head>
 <body>
@@ -118,52 +133,59 @@
         <div class="col right">
             <div class="container">
                 <h4>Form d'inscription</h4>
-                <a href="<?php print "/".$lang.$router->pathFor('accueil') ?>" class="float-right">retour page d'accueil<span class="pl-2">&rarr;</span></a>
-                <form action="" method="POST">
+                <a href="<?php print "/".$lang.$router->pathFor('home') ?>" class="float-right">retour page d'accueil<span class="pl-2">&rarr;</span></a>
+                <form id="reg-form" class="" action="/inscription" method="POST" novalidate>
                     <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Votre nom *</label>
-                                    <input type="text" class="form-control">
+                                    <label for="">Votre nom *</label>
+                                    <input id="nom" name="nom" type="text" class="form-control"  required>
+                                    <div id="err-nom" class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Votre prénom *</label>
-                                    <input type="text" class="form-control">
+                                    <label for="">Votre prénom *</label>
+                                    <input id="prenom" name="prenom" type="text" class="form-control" required>
+                                    <div id="err-prenom" class="invalid-feedback"></div>
                                 </div>
                             </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Votre email *</label>
-                                <input type="email" class="form-control">
+                                <label for="">Votre email *</label>
+                                <input id="email" name="email" type="email" class="form-control" required>
+                                <div id="err-email" class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Mote de pass *</label>
-                                <input type="password" class="form-control">
+                                <label for="">Mote de pass *</label>
+                                <input id="pass" name="pass" type="password" class="form-control" required>
+                                <div id="err-pass" class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Mote de pass (Confirmation) *</label>
-                                <input type="password" class="form-control">
+                                <label for="pass-c">Mote de pass (Confirmation) *</label>
+                                <input id="pass-c" name="pass-c" type="password" class="form-control" required>
+                                <div id="err-pass-c" class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">Vous etes un ? *</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                  <option>Ensiegnant</option>
-                                  <option>Etudiant</option>
+                                <label for="select">Vous etes un ? *</label>
+                                <select id="type" name="type" class="custom-select" id="select" required>
+                                    <option value="">choisi ...</option>
+                                    <option value="Etudiant">Etudiant</option>
+                                    <option value="Ensiegnant">Ensiegnant</option>
                                 </select>
+                                <div id="err-type" class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
@@ -181,5 +203,114 @@
     </div>
 <!-- scripts -->
 <?php include './app/Views/partials/inc.js.php'  ?>
+<script>
+    $(function() {
+        $("#err-nom").hide();
+        $("#err-prenom").hide();
+        $("#err-email").hide();
+        $("#err-pass").hide();
+        $("#err-pass-c").hide();
+        $("#err-type").hide();
+
+        var err_nom = false;
+        var err_prenom = false;
+        var err_email = false;
+        var err_pass = false;
+        var err_pass_c = false;
+        var err_type = false;
+
+        var regex_s = /^[a-zA-Z]*$/;
+        var regex_e = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        $("#nom").focusout(function(){
+            var nom = $("#nom").val();
+            if(nom !== '' && regex_s.test(nom) ){
+                $("#err-nom").hide();
+                $("#nom").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                if( nom === ''){
+                    $("#err-nom").html("le nom ne doit pas être vide");    
+                }else{
+                    $("#err-nom").html("le nom ne doit contenir que des lettres");
+                }
+                $("#err-nom").show();
+                $("#nom").removeClass("is-invalid").addClass("is-invalid");
+                err_nom = true;
+            }
+        });
+        $("#prenom").focusout(function(){
+            var prenom = $("#prenom").val();
+            if(prenom !== '' && regex_s.test(prenom) ){
+                $("#err-prenom").hide();
+                $("#prenom").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                if( prenom === ''){
+                    $("#err-prenom").html("le prénom ne doit pas être vide");    
+                }else{
+                    $("#err-prenom").html("le prénom ne doit contenir que des lettres");
+                }
+                $("#err-prenom").show();
+                $("#prenom").removeClass("is-invalid").addClass("is-invalid");
+                err_prenom = true;
+            }
+        });
+        $("#email").focusout(function(){
+            var email = $("#email").val();
+            if(email !== '' && regex_e.test(email) ){
+                $("#err-email").hide();
+                $("#email").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                if( email === ''){
+                    $("#err-email").html("l'email ne doit pas être vide");    
+                }else{
+                    $("#err-email").html("email non valid");
+                }
+                $("#err-email").show();
+                $("#email").removeClass("is-invalid").addClass("is-invalid");
+                err_email = true;
+            }
+        });
+        $("#pass").focusout(function(){
+            var pass = $("#pass").val();
+            if(pass !== '' && pass.length >= 8){
+                $("#err-pass").hide();
+                $("#pass").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                if( pass === ''){
+                    $("#err-pass").html("la mot de pass est vide");    
+                }else{
+                    $("#err-pass").html("la mot de pass doit être au moins composé de 8 caractères ");
+                }
+                $("#err-pass").show();
+                $("#pass").removeClass("is-invalid").addClass("is-invalid");
+                err_pass = true;
+            }
+        });
+        $("#pass-c").focusout(function(){
+            var pass_c = $("#pass-c").val();
+            if(pass_c === $("#pass").val() && pass_c !== ''){
+                $("#err-pass-c").hide();
+                $("#pass-c").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                $("#err-pass-c").html("la confirmation du mot de passe doit être identique au mot de passe original");
+                $("#err-pass-c").show();
+                $("#pass-c").removeClass("is-invalid").addClass("is-invalid");
+                err_pass_c = true;
+            }
+        });
+        $("#type").focusout(function(){
+            var type = $('#type').val();
+            if( type !== '' ){
+                $("#err-type").hide();
+                $("#type").removeClass("is-invalid").addClass("is-valid");
+            }else{
+                $("#err-type").html("erreur !");
+                $("#err-type").show();
+                $("#type").removeClass("is-invalid").addClass("is-invalid");
+                err_type = true;
+            }
+        });
+    });
+</script>
 </body>
 </html>

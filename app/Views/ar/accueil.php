@@ -16,8 +16,8 @@
       <!-- langauge partie -->
       <div class="lang container clearfix">
         <div class="float-right">
-          <a href="<?php print "/fr".$router->pathFor('accueil') ?>">FR</a>
-          <a href="<?php print "/ar".$router->pathFor('accueil') ?>">AR</a>
+          <a href="<?php print "/fr".$router->pathFor('home') ?>">FR</a>
+          <a href="<?php print "/ar".$router->pathFor('home') ?>">AR</a>
         </div>
       </div>
       <nav class="navbar navbar-expand-sm navbar-light ">
@@ -43,7 +43,7 @@
     <div class="container">
       <h1 class="display-4"> <h1>يمكنك الوصول إلى أفضل مذكرات تخرج عبر الإنترنت</h1>
       <a class="btn btn-reg" href="<?php print '/'.$lang.$router->pathFor('inscription') ?>">أفتح حساب الأن</a>
-      <span class="arrow">&darr;</span>
+      <span class="arrow d-none d-md-block">&darr;</span>
     </div>
   </div>
 <!-- section a propos -->
@@ -52,55 +52,71 @@
       <h1 class="display-4 py-3 pt-5">معلومات عنا</h1>
       <p class="lead">هذا الموقع يتيح حرية الوصول إلى مذكرات تخرج في مختلف المجالات</p>
         <div class="row">
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-code"></i>
-              <p class="card-text">الاعلام الالي</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-code"></i>
+                <p class="card-text">الاعلام الالي</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
-                <i class="fas fa-atom"></i>
-              <p class="card-text">فيزياء</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                  <i class="fas fa-atom"></i>
+                <p class="card-text">فيزياء</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-superscript"></i>
-              <p class="card-text">رياضيات</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-superscript"></i>
+                <p class="card-text">رياضيات</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-balance-scale"></i>
-              <p class="card-text">حقوق</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-balance-scale"></i>
+                <p class="card-text">حقوق</p>
+              </div> 
+            </div>           
           </div>
         </div>
-        <div class="row">
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-language"></i>
-              <p class="card-text">لغات اجنبية</p>
-            </div>            
+        <div class="row pb-5">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-language"></i>
+                <p class="card-text">لغات اجنبية</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-clinic-medical"></i>
-              <p class="card-text">الطب</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-clinic-medical"></i>
+                <p class="card-text">الطب</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card">
-            <div class="card-body">
-              <i class="fas fa-calculator"></i>
-              <p class="card-text">اقتصاد</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-calculator"></i>
+                <p class="card-text">اقتصاد</p>
+              </div> 
+            </div>           
           </div>
-          <div class="col card p">
-            <div class="card-body">
-              <i class="fas fa-plus"></i>
-              <p class="card-text">آخرى</p>
-            </div>            
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <i class="fas fa-plus"></i>
+                <p class="card-text">آخرى</p>
+              </div> 
+            </div>           
           </div>
         </div>
     </div>
@@ -110,7 +126,7 @@
       <div class="container">
         <h1 data-aos="fade-down" data-aos-once="true" class="display-4 text-center">تم انشاء هذا الموقع من قبل</h1>
         <div class="row" >
-          <div class="col-4 offset-2 text-center">
+          <div class="col-sm-12 col-md text-center">
               <figure data-aos="fade-down" data-aos-delay="100" data-aos-once="true" class="figure">
                 <img src="/public/img/Nasro.png" class="figure-img img-fluid rounded-circle" alt="A.Nasredine" title="A.Nasredine">
                 <h4>عبدلي نصرالدين</h4>
@@ -121,7 +137,7 @@
                 </div>
               </figure>
           </div>
-          <div class="col-4 text-center">
+          <div class="col-sm-12 col-md text-center">
               <figure data-aos="fade-down" data-aos-delay="100" data-aos-once="true" class="figure">
                 <img src="/public/img/ismail.png" class="figure-img img-fluid rounded-circle" alt="B.Ismail" title="B.Ismail">
                 <h4>بورقعة اسماعيل</h4>
@@ -164,8 +180,8 @@
             </div>          
         </div>
         <div class="form-row">
-          <div class="col-2 offset-2">
-            <input type="submit" value="Envoyer">
+          <div class="col-2 offset-8">
+            <input type="submit" value="أرسل">
           </div>
         </div>
       </form>    

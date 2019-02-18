@@ -10,16 +10,48 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-// route de page d'acuille (affichage)
-$app->get('/',function (Request $req , Response $res){
-    
-    return $this->view->render($res , $this->language.DIRECTORY_SEPARATOR.'accueil.php' , ["lang" => $this->language]);
+$app->get('/','HomeController:index')->setName('home');
+$app->get('/inscription' ,'AuthController:getReg')->setName('inscription');
+$app->post('/inscription' ,'AuthController:postReg');
 
-})->setName('accueil');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // route de page d'acuille (affichage)
+// $app->get('/',function (Request $req , Response $res){
+    
+//     return $this->view->render($res , $this->language.DIRECTORY_SEPARATOR.'accueil.php' , ["lang" => $this->language]);
+
+// })->setName('accueil');
 
 // route de page d'inscription (affichage)
-$app->get('/inscription' , function(Request $req , Response $res){
 
-    return $this->view->render($res , $this->language.DIRECTORY_SEPARATOR.'inscription.php' , ["lang" => $this->language]);
+// // {?} test root :
+// $app->get('/posttest' , function(Request $req , Response $res){
+    
+//     $resutlt = $this->db->query(" SELECT * FROM jeux_video")->fetchAll(PDO::FETCH_ASSOC);
+//     // $json_data = array();
+//     // while ( $r = $resutlt->fetchAll(PDO::FETCH_ASSOC)){
+//     //     $json_data['data'] = $r;
+//     // }
+//     // var_dump($resutlt);
+//     // die();
+//     $nvres = $res->withHeader('Content-type', 'application/json');
+//     return $nvres->withJson($resutlt);
+// }); 
 
-})->setName('inscription');
+// $app->get('/test' , function(Request $req , Response $res){
+//     return $this->view->render($res , '/test/test.php' , []);
+// });
+

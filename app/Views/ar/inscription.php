@@ -22,6 +22,7 @@
             -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
             -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
             box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) !important;
+            border-color: #464646 !important;
         }
         input[type='submit']{
             width: 100%;
@@ -112,9 +113,9 @@
     <div class="row">
         <div class="col right">
             <div class="container">
-                <a href="<?php print "/".$lang.$router->pathFor('accueil') ?>" class="float-left"><span class="pr-2">&larr;</span>العودة الصفحة الرئيسية</a>
+                <a href="<?php print "/".$lang.$router->pathFor('home') ?>" class="float-left"><span class="pr-2">&larr;</span>العودة الصفحة الرئيسية</a>
                 <h4>استمارة التسجيل</h4>
-                <form action="" method="POST">
+                <form action="<?php $router->pathFor('inscription') ?>" method="POST">
                     <div class="form-row">
                             <div class="col">
                                 <div class="form-group">

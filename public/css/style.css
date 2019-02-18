@@ -112,21 +112,20 @@ body {
     font-weight: 500;
     color: #000;
 }
+.propos .container .row .col {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 .propos .container .lead {
     color: #464646;
     margin-bottom: 60px;
 }
 .propos .container .row .card{
-    border: none;
     color: #464646;
-    width: 12rem;
     height: 12rem;
-    margin-left: 25px;
-    margin-right: 25px;
-    -webkit-box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
-    -moz-box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
-    box-shadow: 0px 0px 50px -4px rgba(127,61,155,0.18);
-    margin-bottom: 50px;
+    -webkit-box-shadow: 0px 0px 20px -4px rgba(127,61,155,0.18);
+    -moz-box-shadow: 0px 0px 20px -4px rgba(127,61,155,0.18);
+    box-shadow: 0px 0px 20px -4px rgba(127,61,155,0.18);
     font-size: 21px;
     border-radius: 8px;
     transition: all .2s ease-in-out;
@@ -145,11 +144,12 @@ body {
     color: #fff !important;
 }
 .propos .container .row .card:hover {
-    -webkit-box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
-    -moz-box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
-    box-shadow: 0px 0px 70px -4px rgba(127, 61, 155, 0.39);
+    -webkit-box-shadow: 0px 20px 70px -4px rgba(127, 61, 155, 0.39);
+    -moz-box-shadow: 0px 20px 70px -4px rgba(127, 61, 155, 0.39);
+    box-shadow: 0px 20px 70px -4px rgba(127, 61, 155, 0.39);
     color: #fff !important;
     background-color: #7f3d9b;
+    cursor: pointer;
 }
 .propos .container .row .card:hover i {
     color: #fff !important;
@@ -167,34 +167,35 @@ body {
     margin-bottom: 90px;
     margin-top: 40px;
 }
-.devs .container .row  .col-4 .card {
+.devs .container .row  .col-sm-12 .card {
     margin-left: 20px;
     margin-right: 20px;
 }
-.devs .container .row  .col-4 .social{
+.devs .container .row  .col-sm-12 .social{
     margin-top: 15px;
     color: rgba(255, 255, 255, .7);
     padding: 5px;
+    padding-top: 8px;
     border-radius: 2.5px;
     transition: all .3s ease-in-out;
 }
-.devs .container .row  .col-4 .social a:hover{
+.devs .container .row  .col-sm-12 .social a:hover{
     color: #fff;
     background-color: #7f3d9b;
 }
-.devs .container .row  .col-4 h4 {
+.devs .container .row  .col-sm-12 h4 {
     color: #fff;
 }
-.devs .container .row .col-4 img{
+.devs .container .row .col-sm-12 img{
     -webkit-box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
     -moz-box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
     box-shadow: 0px 0px 50px -4px rgba(255, 255, 255, 0.39);
     margin-bottom: 15px;
 }
-.devs .container .row .col-4 figcaption {
+.devs .container .row .col-sm-12 figcaption {
     color: #6e6e6e;
 }
-.devs .container .row .col-4 i{
+.devs .container .row .col-sm-12 i{
     font-size: 18px;
 }
 /* patie contact */
@@ -215,11 +216,11 @@ body {
     resize: none;
 }
 .contact .container .form-row input:focus , .contact .container .form-row textarea:focus {
-    -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
-    -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
-    box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 2px #7f3d9b;
+    -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 -2px #7f3d9b;
+    -moz-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 -2px #7f3d9b;
+    box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39) , inset 0 0 0 -2px #7f3d9b;
     outline: none;
-    border: none;
+    border: 1px solid #464646;
 } 
 .contact .container .form-row input[type='submit']{
     width: 100%;
@@ -234,7 +235,7 @@ body {
     margin-bottom: 25px;
     transition: background-color .2s ease-in-out;
 }
-.contact .container .form-row input[type='submit']:hover{
+.contact .container .form-row input[type='submit']:hover , .contact .container .form-row input[type='submit']:focus{
     cursor: pointer;
     background-color: #9c4fbd;
     -webkit-box-shadow: 0px 0px 20px -4px rgba(36, 36, 36, 0.39);
