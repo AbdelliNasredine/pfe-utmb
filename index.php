@@ -6,6 +6,8 @@
 **      {2}   getion des 'Middleware'    
 */
 
+session_start();
+
 require './vendor/autoload.php';
 require './app/configs.php';
 
@@ -25,6 +27,7 @@ $container = $app->getContainer();
 */
 $app->add( new \App\Middleware\LanguageMiddleware($available_languages, $default_language, $container) );
 
+require './app/functions.php';
 require './app/dependencys.php';
 require './app/routes.php';
 

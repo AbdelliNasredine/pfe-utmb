@@ -1,0 +1,113 @@
+{% extends "layout.html.twig" %}
+{% block titre %} Inscription - UTMB {% endblock %}
+
+{% block contenu %}
+    <div class="d-flex justify-content-center my-4 my-md-0 mt-md-4 pt-md-4">
+        <a href="{{ path_for('home') }}">
+            <img src="/public/img/logo-bl.svg" alt="logo" height="92px">
+        </a>
+    </div>
+    <div class="container ">
+        <div class="mx-md-5 my-5">
+            <div class="card shadow-sm w-75 mx-auto">
+                <div class="card-body p-5 b-top">
+                    <h5 class="card-title">Forumulaire d'inscription</h5>
+                    <h6 class="card-subtitle mb-4 text-muted">vous pouver
+                        créer votre compt ici</h6>
+                    {% if flash.getMessage('global') %}
+                        <div class="alert alert-success" role="alert">
+                            {{ flash.getMessage('global') | first }}
+                            <a href="{{ path_for('connection') }}" class="alert-link">ici</a>
+                        </div>
+                    {% endif %}
+                    {% if flash.getMessage('error') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ flash.getMessage('error') | first }}
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% elseif flash.getMessage('errors') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% if flash.getMessage('errors') %}
+                                <li class="no-list-style"> {{ flash.getMessage('errors') | first }} </li>
+                            {% endif %}
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+
+                    <form action="{{ path_for('inscription') }}" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nomId">Votre Nom *</label>
+                                <input class="form-control" type="text"
+                                       name="nom" id="nomId" required>
+                                <small class="form-text text-muted"
+                                       id="err-nom"></small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="prenomId">Votre Prenom *</label>
+                                <input class="form-control" type="text"
+                                       name="prenom" id="prenomId" required>
+                                <small class="form-text text-muted"
+                                       id="err-prenom"></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailId">Votre
+                                Email *</label><input
+                                    type="email" name="email" id="emailId"
+                                    class="form-control" required>
+                            <small class="form-text text-muted"
+                                   id="err-email"></small>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label
+                                        for="passwordId">Mot de pass *
+                                </label>
+                                <input type="password" name="password" id="passwordId"
+                                        class="form-control" required>
+                                <small id="err-pass"
+                                       class="form-text text-muted">
+                                    mote de pass doit avoir ou moins 6
+                                    caréctaire
+                                </small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label
+                                        for="passwordConfId">Mot de
+                                    pass(Confirmation) *
+                                </label>
+                                <input
+                                        type="password" name="passwordConf"
+                                        id="passwordConfId"
+                                        class="form-control" required>
+                                <small class="form-text text-muted"
+                                       id="err-pass-c"></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span> (*) Champ obligatoir</span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block
+                            btn-primary" id="btnId">Inscrire
+                            </button>
+                        </div>
+                    </form>
+                    <div class="divider text-center mt-5 mb-4">
+                        <strong>vous êtes déjà inscrit</strong>
+                    </div>
+                    <a class="btn btn-block btn-outline-primary " href="{{ path_for('connection') }}"
+                       role="button">Connecter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

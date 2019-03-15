@@ -1,0 +1,32 @@
+*** TO DO LIST :
+--------------------------------------------------
+* la liste de faculté de l'univércité de bechar :
+    - Faculté de Technologie
+        - Architecteur
+        - Génie Electrique
+        - Génie Mécanique
+    - Faculté des Sciences de la Nature et de la vie
+        - Biologie
+        - Sciences agronomiques
+    - Faculté de Médecine
+
+    - Faculté des Sciences Exactes
+    - Faculté des Science Economique et commerciales
+    - Faculté droit et Sciences Politique
+    - Faculté Science humaines et sociales
+    - Faculté des lettres et des langues
+--------------------------------------------------
+* design interface
+    - page d'aceuil                 --done(80%)
+    - page de connection            --done
+    - page d'inscription            --done
+    - page de reset mote de page    --done
+* fom validation
+    - jquary functions              --done(60%)
+* envoi d'email
+    - contact form                  --failed
+    - email de reset mot de pass    --done
+* partie php
+    - inscription                   --done
+    - connection                    --done
+    - reset mot de pass             --not yet

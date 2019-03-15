@@ -1,0 +1,56 @@
+{% extends "layout.html.twig" %}
+{% block titre %} Réinitialisation de mote de pass - UTMB {% endblock %}
+
+{% block contenu %}
+    <div class="d-flex justify-content-center my-4 my-md-0 mt-md-4 pt-md-4">
+        <a href="{{ path_for('home') }}">
+            <img src="/public/img/logo-bl.svg" alt="logo" height="92px">
+        </a>
+    </div>
+    <div class="container px-5">
+        <div class="mx-md-5 mt-5">
+            <div class="card shadow-sm w-75 mx-auto b-top">
+                <div class="card-body p-5">
+                    <h5 class="card-title">Réinitialisation de mot de passe</h5>
+                    <h6 class="card-subtitle mb-4 text-muted">vous pouver
+                        réinitialiser votre mot de pass ici (par email)</h6>
+                    {% if flash.getMessage('global') %}
+                        <div class="alert alert-danger alert-dismissible fade show"
+                             role="alert">
+                            {{ flash.getMessage('global') | first }}
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    {% if flash.getMessage('Succes') %}
+                        <div class="alert alert-success alert-dismissible fade show"
+                             role="alert">
+                            {{ flash.getMessage('Succes') | first }}
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    <form action="{{ path_for('reinitialiser') }}" method="POST">
+                        <div class="form-group my-4">
+                            <lable>Votre Email</lable>
+                            <input type="email" name="email" id="emailId"
+                                   class="form-control">
+                            <small id="err-email"></small>
+                        </div>
+                        <div class="from-group my-4">
+                            <div class="d-flex flex-column flex-md-row
+                            justify-content-between">
+                                <input type="submit" value="Réinitialiser"
+                                       class="btn btn-primary btn-block">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

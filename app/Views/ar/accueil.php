@@ -157,14 +157,6 @@
       <p class="lead">تحتاج إلى معلومات اتصل بنا</p> 
       <form action="">
         <div class="form-row">
-            <div class="col-4 offset-2">
-              <input type="text" class="form-control form-control-lg" placeholder="اللقب">
-            </div>
-            <div class="col-4">
-              <input type="text" class="form-control form-control-lg" placeholder="الاسم">
-            </div>          
-        </div>
-        <div class="form-row">
           <div class="col-8 offset-2">
             <input type="text" class="form-control form-control-lg" placeholder="بريد الكتروني">
           </div>
@@ -180,7 +172,7 @@
             </div>          
         </div>
         <div class="form-row">
-          <div class="col-2 offset-8">
+          <div class="col-8 offset-2">
             <input type="submit" value="أرسل">
           </div>
         </div>
@@ -190,12 +182,10 @@
 <!-- La Footer -->
 <footer>
   <div class="container">
-    <span class="float-left">
-      Copyright - Pfe utmb 2019
-    </span>
-    <span class="float-right">
-      Par A.nasredine et B.Ismail
-    </span>
+    <div class="row">
+      <div class="col">Copyright - Pfe utmb 2019</div>
+      <div class="col text-right">Par A.nasredine et B.Ismail</div>
+    </div>
   </div>
 </footer>
 <!-- Script js -->

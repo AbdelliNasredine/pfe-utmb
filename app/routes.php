@@ -9,10 +9,34 @@
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \App\Middleware\VisiteurMiddleware;
+use \App\Middleware\AuthMiddleware;
 
+/*
+** HomeController routes
+*/
+/*  Accesible pour Tout (Connecter / non-connecter) */
 $app->get('/','HomeController:index')->setName('home');
-$app->get('/inscription' ,'AuthController:getReg')->setName('inscription');
-$app->post('/inscription' ,'AuthController:postReg');
+
+/*
+ *
+ *  - route groupe pour proteger l'accees au certiane
+ *    'Root/Page' d'application
+*/
+/* Si l'utilisateur n'est pas connecter (Visiteur) */
+$app->group('' , function () {
+    $this->get('/inscription' ,'AuthController:getReg')->setName('inscription');
+    $this->post('/inscription' ,'AuthController:postReg');
+    $this->get('/connection' , 'AuthController:getCon')->setName('connection');
+    $this->post('/connection' , 'AuthController:postCon');
+    $this->get('/reinitialiser' , 'AuthController:getReset')->setName('reinitialiser');
+    $this->post('/reinitialiser' , 'AuthController:postReset');
+    $this->map( ['GET' ,'POST'] ,'/contact' , 'HomeController:contact')->setName('envoyer');
+})->add( new VisiteurMiddleware($container));
+/*  Si l'utilisateur est connecter */
+$app->group('' , function () {
+    $this->get('/deconnecter' , 'AuthController:getDeCon')->setName('deconnecter');
+})->add(new AuthMiddleware($container));
 
 
 
@@ -26,8 +50,7 @@ $app->post('/inscription' ,'AuthController:postReg');
 
 
 
-
-
+//--------------------------- TESTING ---------------------------------------------------------------
 // // route de page d'acuille (affichage)
 // $app->get('/',function (Request $req , Response $res){
     
@@ -54,4 +77,4 @@ $app->post('/inscription' ,'AuthController:postReg');
 // $app->get('/test' , function(Request $req , Response $res){
 //     return $this->view->render($res , '/test/test.php' , []);
 // });
-
+// ----------------------------------------------------------------------------------------------------
