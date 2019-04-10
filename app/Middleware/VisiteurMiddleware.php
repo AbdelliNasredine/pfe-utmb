@@ -19,7 +19,7 @@ class VisiteurMiddleware
          *  on ne pas donner l'access au certient 'root/Pages'
          */
         if($this->container->auth->isConnected()){
-            return $response->withRedirect($this->container->router->pathFor('home'));
+            return $response->withRedirect($this->container->router->pathFor('user' , "{'id' : $this->container->auth->user()->id}"));
         }
         $response = $next($request, $response);
         return $response;

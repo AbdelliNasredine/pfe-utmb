@@ -1,10 +1,4 @@
 $(document).ready(function () {
-    $('#megamenuId').hover(function () {
-        $('.megamenu').fadeIn().removeClass('d-none');
-        $('.megamenu').mouseleave(function () {
-            $('.megamenu').fadeOut();
-        });
-    });
     // --------------------------------------------------------------------
     // btn up animation function
     $(window).scroll(function () {

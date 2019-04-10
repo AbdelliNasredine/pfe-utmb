@@ -1,6 +1,8 @@
-<div class="alert alert-primary w-50 mx-auto mt-4" role="alert">
-  Binevenu {{ auth.user.email }}
-  <li>nom : {{ auth.user.nom }}</li>
-  <li>prénom :{{ auth.user.prenom }}</li>
-  <a href="{{ path_for('deconnecter') }}" class="alert-link">déconnecter</a>
+<div class="pt-3">
+  <div class="alert alert-primary w-50 mx-auto" role="alert">
+    Binevenu {{ auth.user.email }}
+    <li>nom : {{ auth.user.nom }}</li>
+    <li>prénom :{{ auth.user.prenom }}</li>
+    <a href="{{ path_for('deconnecter') }}" class="alert-link">déconnecter</a>
+  </div>
 </div>

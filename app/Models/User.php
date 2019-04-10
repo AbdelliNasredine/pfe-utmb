@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
 
+    protected  $table ="users";
+
     protected $fillable = [
         'nom',
         'prenom',
         'email',
-        'pass',
+        'password',
+        'type',
+        'etat',
+        'is_admin'
     ];
 
     public $timestamps = false;

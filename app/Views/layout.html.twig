@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="/public/css/bootstrap.css">
     <link rel="stylesheet" href="/public/css/aos.css">
     <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-    crossorigin="anonymous">
+    <script src="/public/js/icon-feather.js"></script>
     {% block script %}
         {# def de block de script javascript #}
     {% endblock %}
@@ -19,14 +17,19 @@
         {% endblock %}
     </title>
 </head>
-<body class="bg-light">
+<body>
+    {% include '/partials/navigation.twig' %}
     {% block contenu %}
         {#  def de block de contenu de page #}
     {% endblock %}
+    {% include '/partials/footer.twig' %}
     <script src="/public/js/jquery-3.3.1.min.js"></script>
     <script src="/public/js/popper.min.js"></script>
-    <script src="/public/js/bootstrap.min.js"></script>
+    <script src="/public/js/bootstrap.js"></script>
     <script src="/public/js/aos.js"></script>
     <script src="/public/js/main.js"></script>
+    <script>
+        feather.replace()
+    </script>
 </body>
 </html>

@@ -2,18 +2,17 @@
 {% block titre %} Connection - UTMB {% endblock %}
 
 {% block contenu %}
-    <div class="d-flex justify-content-center my-4 my-md-0 mt-md-4 pt-md-4">
-        <a href="{{ path_for('home') }}">
-            <img src="/public/img/logo-bl.svg" alt="logo" height="92px">
-        </a>
-    </div>
-    <div class="container px-5">
-        <div class="mx-md-5 mt-5">
-            <div class="card w-75 shadow-sm mx-auto b-top">
+<section class="bg-light">
+    <div class="container px-5 pt-5">
+        <div class="px-md-5 py-5">
+            <div class="card mb-4 w-75 shadow-sm mx-auto">
+                <div class="card-img bg-img img-singin h-25 text-center py-5">
+                    <h1 class="text-white">Connection</h1>
+                    <p class="lead text-white-50 font-weight-bold">
+                        vous pouver connecter ici
+                    </p>
+                </div>
                 <div class="card-body p-5">
-                    <h5 class="card-title">Connection</h5>
-                    <h6 class="card-subtitle mb-4 text-muted">vous pouver
-                        connecter ici</h6>
                     {% if flash.getMessage('global') %}
                         <div class="alert alert-danger alert-dismissible fade show"
                              role="alert">
@@ -38,32 +37,33 @@
                         <div class="form-group my-4">
                             <lable>Votre Email</lable>
                             <input type="email" name="email" id="emailId"
-                                   class="form-control">
+                                   class="form-control" placeholder="exemple@exemple.com" required>
                             <small id="err-email"></small>
                         </div>
                         <div class="form-group my-4">
                             <lable>Votre mote de pass</lable>
                             <input type="password" name="password"
-                                   id="passwordId" class="form-control">
+                                   id="passwordId" class="form-control" required>
                             <small id="err-pass"></small>
                         </div>
                         <div class="from-group my-4">
                             <div class="d-flex flex-column flex-md-row
                             justify-content-between">
                                 <input type="submit" value="Connecter"
-                                       class="btn btn-primary">
+                                       class="btn btn-primary rounded-pill">
                                 <a class="mt-3" href="{{ path_for('reinitialiser') }}">mot de pass oblier ?</a>
                             </div>
                         </div>
                     </form>
-                    <div class="divider text-center mt-5 mb-4">
+                    <div class="divider text-center mt-5 mb-4 color-pr">
                         <strong>Pas encore inscrit ?</strong>
                     </div>
-                    <a class="btn btn-block btn-outline-primary " href="{{ path_for('inscription') }}"
+                    <a class="btn btn-block btn-outline-primary rounded-pill" href="{{ path_for('inscription') }}"
                        role="button">Incrire
                     </a>
                 </div>
             </div>
         </div>
     </div>
+</section>
 {% endblock %}

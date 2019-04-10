@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/aos.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+          crossorigin="anonymous">
+    <title>
+        A propos de nous
+    </title>
+</head>
+<body>
+<header>
+    <div class="bg-img img-login py-5">
+        <div class="bg-white d-inline px-5 py-3 shadow-sm rounded-right">
+            <a class="font-weight-bold font-18 color-pr text-" href="{{ path_for('home') }}">Page d'Acuile</a>
+        </div>
+        <div class="container">
+            <div class="text-center">
+                <img src="/public/img/logo-white.svg" alt="logo" width="75">
+            </div>
+            <h6 class="display-4 text-center text-white mt-2 mb-5 font-weight-bold">
+                A propos de nous
+            </h6>
+        </div>
+    </div>
+</header>
+<nav class="nav color-pr">
+    <div class="container d-flex justify-content-center mt-3">
+        <a class="nav-link font-22 px-0 border-active mr-5" href="#">A propos</a>
+        <a class="nav-link font-22 px-0" href="#">Témoignage</a>
+    </div>
+</nav>
+<main class="bg-white">
+    <div class="container my-3 pt-5 text-center">
+        <img class="img-fluid mb-4" src="/public/img/programming.svg" alt="coded by" width="800">
+        <h2 class="color-secondary font-weight-bold">Les outils de developments</h2>
+        <p class="color-lead lead my-3 text-justify">
+            Nous avant utiliseé <i class="font-weight-bold color-secondary">PHP</i> comme language de programmation
+            coté serveur
+            et nous avant choisie <i class="font-weight-bold color-secondary">Slim 3</i> comme Framework de
+            dévelopement,
+            et nous utilisont <i class="font-weight-bold color-secondary">Bootstrap 4</i> comme lib de style CSS
+            et finalement le fameux <i class="font-weight-bold color-secondary">JQuery</i> comme lib de JavaScript
+        </p>
+        <h2 class="color-secondary font-weight-bold">qui sommes nous ?</h2>
+        <p class="lead color-lead my-3 text-justify">
+            Ce site a été développé dans le cadre de projet de fin d'etude et pour l'obtution de déplome licence en
+            informatique , nous somme deux étudiant :
+        </p>
+    </div>
+</main>
+{% include "partials/footer.twig" %}
+<script src="/public/js/jquery-3.3.1.min.js"></script>
+<script src="/public/js/popper.min.js"></script>
+<script src="/public/js/bootstrap.js"></script>
+<script src="/public/js/aos.js"></script>
+<script src="/public/js/main.js"></script>
+</body>
+</html>

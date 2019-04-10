@@ -22,7 +22,7 @@ class Auth
             return false;
         }
 
-        if (password_verify($password, $user->pass)) {
+        if (password_verify($password, $user->password)) {
             $_SESSION['user'] = $user->id;
             return true;
         }

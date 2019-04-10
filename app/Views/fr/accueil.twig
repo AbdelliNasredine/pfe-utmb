@@ -2,11 +2,11 @@
 
 {% block script %}
     <script>
-        window.addEventListener('load', function(){
-            //document.body.removeChild(spn);
-            //var spn = document.getElementById("spn");
+        window.addEventListener('load', function () {
             var spn = document.querySelector(".spinnerBg");
-            spn.className += " fade";
+            if (spn) {
+                spn.className += " fade";
+            }
         });
     </script>
 {% endblock %}
@@ -14,273 +14,229 @@
 {% block titre %} Acuille - UTMB {% endblock %}
 
 {% block contenu %}
-    {% if auth.connected %}
-        {% include lang  ~ '/espace/espace.twig' %}
-    {% else %}
-        <div class="spinnerBg" id="spn">
-            <div class="spinner">
+    <div class="spinnerBg" id="spn">
+        <div class="spinner">
+        </div>
+    </div>
+    <a href="#" class="btn_up d-none"><i data-feather="chevron-up"></i></a>
+    <section class="jumbotron jumbotron-fluid pt-80 bg-light mb-0">
+        <div class="container px-0">
+            <div class="row">
+                <div class="col-12 col-md pt-5" data-aos="fade-down">
+                    <h1 class="display-4 color-pr font-bold mb-32">PFE univercité de
+                        béchar</h1>
+                    <p class="lead color-lead mb-32">Partager vos projects de fin
+                        d'etude avec les étudiants</p>
+                    <form action="{{ path_for('search') }}" class="mb-4 d-inline" autocomplete="off">
+                        <div class="input-group input-group-lg mb-3">
+                            <input type="search" name="q" class="form-control border-0 shadow-sm rounded-pill py-4 mr-2"
+                                   placeholder="Recherche un document" aria-describedby="searchId">
+                            <button class="btn btn-primary shadow rounded-circle"
+                                    type="submit"
+                                    id="searchId"
+                                    style="z-index: 2">
+                                <i class="font-weight-bold" data-feather="search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col" data-aos="fade-in">
+                    <img src="/public/img/illus-blue.svg" class="img-fluid" alt="">
+                </div>
             </div>
         </div>
-        <a href="#"><i class="fas fa-angle-up btn_up d-none"></i></a>
-        <nav class="navbar navbar-expand-lg bg-white shadow-sm border-bottom fixed-top">
-            <div class="container-fluid px-4">
-                <a class="navbar-brand mb-0" href="#">
-                    <img class="mr-4" src="/public/img/logo-full-bl.svg" alt="logo" width="160px">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class=""><img src="/public/img/menu-icon.svg" alt="" width="18px"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="mr-auto d-flex flex-column flex-md-row">
-                        <ul class="no-list-style m-0 p-0">
-                            <li>
-                                <a href="" id="megamenuId" class="p-0 py-1 ml-40 my-md-0 my-2 nav-item nav-link">Catégories</a>
-                                <div class="megamenu container-fluid position-absolute bg-white p-4 d-none  shadow-sm">
-                                    <div class="row">
-                                        <div class="col-sm-3 p-3 border-right text-center">
-                                            <img class="mb-3" src="/public/img/categorie.svg" alt="categorie icon"
-                                                 width="32">
-                                            <h3 class="color-pr">Les Catégories</h3>
-                                        </div>
-                                        <div class="col-sm-9 p-3 pl-4 text-primary ">
-                                            <div class="row">
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Sciences Exactes</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Sciences Et Technologie</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Sciences de la Nature et
-                                                        de la vie</a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Médecine</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Science Economique Et
-                                                        Commerciales</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Droit Et Sciences
-                                                        Politique</a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Science Humaines Et
-                                                        Sociales</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                    <a href="" class="nav-link d-inline-block">Langues Etrangères</a>
-                                                </div>
-                                                <div class="col p-0">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <form class="ml-md-3">
-                            <input class="form-control mr-sm-2" name="q" type="search" placeholder="Chercher un document ..." aria-label="Search">
-                        </form>
-                    </div>
-                    <div class="navbar-nav ml-auto">
-                        <a class="nav-item nav-link py-1 ml-40 my-md-0 my-2" href="{{ path_for('connection') }}">Connection</a>
-                        <a class="nav-item nav-link px-3 py-1 my-md-0 my-2 btn btn-sm btn-primary d-inline shadow"
-                           href="{{ path_for('inscription') }}">INSCRIPTION</a>
-                    </div>
+    </section>
+    <section class="bg-dark text-white">
+        <div class="container pt-80 pb-80" data-aos="fade-down">
+            <h2 class="text-center mb-40 display-4 border-active-small-white" data-aos="fade">Que puis-je faire dans
+                le site ?</h2>
+            <div class="row text-sm-center text-md-left">
+                <div class="col-sm">
+                    <img src="/public/img/share.svg" class="img-fluid mb-32 mt-2" alt="share
+                            icon" width="100" data-aos="fade" data-aos-delay="50">
+                    <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Partager des documents</strong>
+                    </h4>
+                    <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">
+                        Ce site vous donnera la possibilité de partager votre project de fin d'etude et de le rendre
+                        accessible à d'autres
+                        étudiants pour le voir en ligne</p>
+                </div>
+                <div class="col-sm">
+                    <img src="/public/img/search-icon.svg" class="img-fluid mb-32 mt-2"
+                         alt="search
+                            icon" width="100" data-aos="fade" data-aos-delay="50">
+                    <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Consulter des documents</strong>
+                    </h4>
+                    <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">
+                        Vous pouvez voir les projets des autres étudiants via le Web et même les télécharger
+                        pour les consulter hors ligne.</p>
+                </div>
+                <div class="col-sm">
+                    <img src="/public/img/rating.svg" class="img-fluid mb-32 mt-2"
+                         alt="rating
+                            icon" width="100" data-aos="fade" data-aos-delay="50">
+                    <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Evaluer des documents</strong></h4>
+                    <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">Vous avez également le droit de
+                        donner votre avis sur le contenu du
+                        projet afin de donner une evaluation à l'étudiant.
+                    </p>
                 </div>
             </div>
-        </nav>
-        <section class="jumbotron jumbotron-fluid pt-80 mt-5">
-            <div class="container px-0">
-                <div class="row">
-                    <div class="col-12 col-md pt-5" data-aos="fade-down">
-                        <h1 class="display-4 color-pr font-bold mb-32">PFE univercité de
-                            béchar</h1>
-                        <p class="lead color-lead mb-32">Partager vos projects de fin
-                            d'etude avec les étudiants</p>
-                        <a class="btn btn-primary shadow" href="{{ path_for('inscription') }}"
-                           role="button">S'inscrire
-                            maintenant</a>
-                    </div>
-                    <div class="col" data-aos="fade-in">
-                        <img src="/public/img/illus-blue-dark.svg" class="img-fluid" alt="">
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="bg-dark text-white">
-            <div class="container pt-80 pb-80" data-aos="fade-down">
-                <h2 class="text-center mb-40 display-4" data-aos="fade">Que puis-je faire dans le site ?</h2>
-                <div class="row text-sm-center text-md-left">
-                    <div class="col-sm">
-                        <img src="/public/img/share.svg" class="img-fluid mb-32 mt-2" alt="share
-                            icon" width="50" data-aos="fade" data-aos-delay="50">
-                        <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Partager des documents</strong>
-                        </h4>
-                        <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">
-                            Ce site vous donnera la possibilité de partager votre project de fin d'etude et de le rendre
-                            accessible à d'autres
-                            étudiants pour le voir en ligne</p>
-                    </div>
-                    <div class="col-sm">
-                        <img src="/public/img/magnifier.svg" class="img-fluid mb-32 mt-2"
-                             alt="search
-                            icon" width="50" data-aos="fade" data-aos-delay="50">
-                        <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Consulter des documents</strong>
-                        </h4>
-                        <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">
-                            Vous pouvez voir les projets des autres étudiants via le Web et même les télécharger
-                            pour les consulter hors ligne.</p>
-                    </div>
-                    <div class="col-sm">
-                        <img src="/public/img/rating.svg" class="img-fluid mb-32 mt-2"
-                             alt="rating
-                            icon" width="50" data-aos="fade" data-aos-delay="50">
-                        <h4 class="mb-3" data-aos="fade" data-aos-delay="50"><strong>Evaluer des documents</strong></h4>
-                        <p class="color-sc mt-4" data-aos="fade" data-aos-delay="50">Vous avez également le droit de
-                            donner votre avis sur le contenu du
-                            projet afin de donner une evaluation à l'étudiant.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container w-75" data-aos="fade-down">
-                <h3 class="display-4 pt-5 mb-3 text-center color-pr" data-aos="fade">LES THÉMATIQUES</h3>
-                <p class="lead text-center mb-5 color-lead" data-aos="fade">Sélectionnez la catégorie qui vous intéresse et découvrez
-                    les documents disponibles.</p>
-                <div class="text-break pb-5 mx-auto text-capitalize text-center">
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/computer.svg" alt="computer icon">
-                        <h5 class="my-1 font-weight-light">Informatique</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/translate.svg" alt="translate icon">
-                        <h5 class="my-1 font-weight-light">langues étrangères</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/humain.svg" alt="humain icon">
-                        <h5 class="my-1 font-weight-light">Science humaines et sociales</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/law.svg" alt="law icon">
-                        <h5 class="my-1 font-weight-light">Droit</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/biology.svg" alt="biology icon">
-                        <h5 class="my-1 font-weight-light">Biologie</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/eco.svg" alt="economy icon">
-                        <h5 class="my-1 font-weight-light">Science Economique</h5>
-                    </a>
-                    <a href="#" class="badge badge-light p-3 m-2">
-                        <img src="/public/img/medical.svg" alt="medical icon">
-                        <h5 class="my-1 font-weight-light">Medcine</h5>
-                    </a>
-                    <a href="#" class="badge badge-primary p-3 m-2">
-                        <img src="/public/img/plus.svg" alt="plus icon">
-                        <h5 class="my-1 font-weight-light">Voir Autre</h5>
-                    </a>
-                </div>
-            </div>
-        </section>
-        <section class="bg-grd">
-            <div class="container pt-80 pb-80 text-white text-center" data-aos="fade-down">
-                <img src="/public/img/about-icon.svg" class="mb-4" alt="about us icon">
-                <h2 class="text-center display-4">A propos de nous</h2>
-                <p class="text-center mb-40 lead">Ce site a été maintenue et
-                    développé
-                    par :</p>
-                <div class="row">
-                    <div class="col-md-4 offset-md-2 my-3">
-                        <img class="rounded-circle border border-white mb-3" src="/public/img/Nasro.png"
-                             alt="nasro image">
-                        <h5>Abdelli Nasredine</h5>
-                        <p class="lead text-white-50 ">Etudiant Informatique</p>
-                        <a href="" class="badge p-2 "><img src="/public/img/facebook.svg" alt="facebook icon"></a>
-                        <a href="" class="badge p-2 "><img src="/public/img/github.svg" alt="github icon"></a>
-                    </div>
-                    <div class="col-md-4 my-3">
-                        <img class="rounded-circle border border-white mb-3" src="/public/img/ismail.png"
-                             alt="ismail image">
-                        <h5>Bouregaa Ismail</h5>
-                        <p class="lead text-white-50">Etudiant Informatique</p>
-                        <a href="" class="badge p-2 "><img src="/public/img/facebook.svg" alt="facebook icon"></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container pt-80 pb-80" data-aos="fade-down">
-                <div class="row">
-                    <div class="col-sm-5 mb-3">
-                        <h4 class="mb-5">Information de contact</h4>
-                        <p class="color-lead"><img class="pr-3" src="/public/img/email-icon.svg"
-                                                 alt="email icon">info@pfe-utmb.dz</p>
-                    </div>
-                    <div class="col-sm-7">
-                        <h4 class="mb-5">Contactez nous par formulaire</h4>
-                        <form id="contact" action="{{ path_for('envoyer') }}" method="POST">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="nom">Votre nom</label>
-                                    <input class="form-control" type="text" name="nom"
-                                           placeholder="nom" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="email">Votre email</label>
-                                    <input class="form-control" type="email" name="email"
-                                           placeholder="exempl@site.com" required>
+        </div>
+    </section>
+    <section class="bg-light">
+        <div class="container w-75 text-center" data-aos="fade-down">
+            <h3 class="display-4 pt-5 mb-3 text-center color-pr border-active-small" data-aos="fade">LES
+                THÉMATIQUES</h3>
+            <p class="lead text-center mb-5  mt-4 color-lead" data-aos="fade">Sélectionnez la catégorie qui vous
+                intéresse
+                et découvrez
+                les pfe's disponibles.</p>
+        </div>
+        <div class="row mx-5" data-aos="fade-right">
+            {% for categorie in cat %}
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card border-0 m-2 hover">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <div class="card-body">
+                                    <h6 class="card-title mt-3 font-22">
+                                        <a class="stretched-link"
+                                           href="{{ "/"~ lang ~ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}">
+                                                <span data-feather="book-open"
+                                                      class="mr-3"></span>{{ categorie.nom | capitalize }}
+                                        </a>
+                                    </h6>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="titre">Titre de message</label>
-                                <input class="form-control" type="text" name="titre"
-                                       placeholder="Le sujet de message" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contenu">Votre message</label>
-                                <textarea class="form-control" name="contenu"
-                                          rows="5" placeholder="Message ..." required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary "><i class="fas fa-share-square pr-2"></i>Envoyer
-                                </button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{{ "/"~ lang ~ path_for('categorie') }}" class="btn btn-inverted bg-grd rounded-pill p-3 my-4">
+                <span data-feather="plus"></span>
+                <span class="my-1 px-1">Voir Touts Les categories</span>
+            </a>
+        </div>
+    </section>
+    <section class="bg-white">
+        <div class="container pt-80 pb-80" data-aos="fade-down">
+            <h6 class="display-4 color-pr text-center mb-5 border-active-small">
+                Témoignages
+            </h6>
+            <div class="d-flex justify-content-between">
+                <p class="lead color-lead text-center mb-5">
+                    Voir ce que nos utilisateurs disent de nous
+                </p>
+                <a class="color-secondary" href="{{ path_for('a-propos') }}">&plus; Voir Tous</a>
             </div>
-        </section>
-        <footer>
-            <div class="container d-flex justify-content-between p-4 border-top">
-                <p class="d-inline mb-0">monpfe.utmb.dz © Tous Droits Résérvés</p>
-                <div class="lang">
-                    <div class="btn-group dropup">
-                        <a class="dropdown-toggle"
-                           href="#" role="button" id="langMenu"
-                           data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
-                            <i class="fas fa-language mr-2"></i>Language
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right p-0 shadow border-0" aria-labelledby="langMenu">
-                            <a class="dropdown-item" href="{{ "/fr" ~ path_for('home') }}">Français</a>
-                            <a class="dropdown-item" href="{{ "/ar" ~ path_for('home') }}">عربية</a>
+            <div class="row mt-3" data-aos="fade-up">
+                <div class="col-12 col-md-4">
+                    <div class="card  bg-primary rounded-lg shadow-sm m-2 px-2">
+                        <div class="card-body pt-0">
+                            <h5 class="card-title my-4 text-left text-white">
+                                I think you should add a share button somewhere so we can share this beautiful app
+                                to our friends. Thank you. It is very useful,simple and UI is too good.
+                            </h5>
+                            <img class="rounded-circle img-border-white" src="/public/img/ismail.png" alt=""
+                                 width="45">
+                            <p class="card-subtitle d-inline text-white-50 font-weight-bold text-left color-lead mt-3 ml-3">
+                                Bouregga Ismail
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card  bg-primary rounded-lg shadow-sm m-2 px-2">
+                        <div class="card-body pt-0">
+                            <h5 class="card-title my-4 text-left text-white">
+                                I think you should add a share button somewhere so we can share this beautiful app
+                                to our friends. Thank you. It is very useful,simple and UI is too good.
+                            </h5>
+                            <img class="rounded-circle img-border-white" src="/public/img/ismail.png" alt=""
+                                 width="45">
+                            <p class="card-subtitle d-inline text-white-50 font-weight-bold text-left color-lead mt-3 ml-3">
+                                Bouregga Ismail
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card  bg-primary rounded-lg shadow-sm m-2 px-2">
+                        <div class="card-body pt-0">
+                            <h5 class="card-title my-4 text-left text-white">
+                                I think you should add a share button somewhere so we can share this beautiful app
+                                to our friends. Thank you. It is very useful,simple and UI is too good.
+                            </h5>
+                            <img class="rounded-circle img-border-white" src="/public/img/ismail.png" alt=""
+                                 width="45">
+                            <p class="card-subtitle d-inline text-white-50 font-weight-bold text-left color-lead mt-3 ml-3">
+                                Bouregga Ismail
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-    {% endif %}
+        </div>
+    </section>
+    <section class="bg-light">
+        <div class="container pt-80 pb-80" data-aos="fade-down">
+            <div class="row">
+                <div class="col-sm-5 mb-3">
+                    <h4 class="mb-5 color-pr font-weight-bold">Information de contact</h4>
+                    <p class="color-lead"><img class="pr-3" src="/public/img/email-icon.svg"
+                                               alt="email icon">info@pfe-utmb.dz</p>
+                </div>
+                <div class="col-sm-7">
+                    <h4 class="mb-5 color-pr font-weight-bold">Contactez nous par formulaire</h4>
+                    <form id="contact" action="{{ path_for('envoyer') }}" method="POST" autocomplete="off">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="color-lead" for="nom">Votre nom</label>
+                                <input class="form-control" type="text" name="nom"
+                                       placeholder="nom" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="color-lead" for="email">Votre email</label>
+                                <input class="form-control" type="email" name="email"
+                                       placeholder="exemple@site.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="color-lead" for="titre">Titre de message</label>
+                            <input class="form-control" type="text" name="titre"
+                                   placeholder="Le sujet de message" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="color-lead" for="contenu">Votre message</label>
+                            <textarea class="form-control" name="contenu"
+                                      rows="5" placeholder="Message ..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary rounded-pill ">
+                                <i class="pr-2" data-feather="send"></i>
+                                Envoyer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-grd">
+        <div class="container-fluid px-5 py-5">
+            <div class="d-flex justify-content-between">
+                <h2 class="font-weight-bold text-white mb-0">
+                    Qu'est-ce que tu attends ?
+                </h2>
+                <a class="btn btn-inverted shadow-sm" href="{{ "/"~ lang ~ path_for('inscription') }}">
+                    <span class="mr-3" data-feather="log-in"></span>
+                    <span>Crée votre compte</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

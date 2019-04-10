@@ -1,0 +1,211 @@
+{% extends 'layout.html.twig' %}
+{% block titre %} Page utilisateur {% endblock %}
+{% block contenu %}
+    <header>
+        <div class="jumbotron jumbotron-fluid bg-img img-user text-center">
+            <h4 class="display-4 font-weight-bold text-white">
+                Page de profil
+            </h4>
+            <p class="lead text-white">
+                Bienvenu {{ auth.user.nom }}
+            </p>
+        </div>
+    </header>
+    <main class="mx-5 mb-5">
+        <div class="row no-gutters">
+            {# user info #}
+            <div class="col-12 col-lg-3 mb-3">
+                <div class="card p-4 mr-lg-3 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="bg-light rounded-circle mx-auto"
+                             style="width: 150px;height: 150px;">
+                            <i data-feather="user" class="mt-3 color-secondary" style="width: 100px;height: 100px;"></i>
+                        </div>
+                        <h6 class="font-weight-bold mt-3" style="opacity: .5">{{ auth.user.email }}</h6>
+                        <p class="text-center color-lead">
+                            <strong>{{ auth.user.nom  | capitalize }} - {{ auth.user.prenom | capitalize }}</strong>
+                        </p>
+                        <div class="text-center">
+                            <h3 class="badge-primary rounded-pill py-2">{{ auth.user.type }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# user menu #}
+            <div class="col-12 col-lg-9">
+                <div class="card p-4 shadow-sm">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item active">
+                            <a class="nav-link active font-18" id="pills-pfe-tab" data-toggle="pill" href="#pills-pfe"
+                               role="tab" aria-controls="pills-home" aria-selected="true">
+                                <i class="mr-2" data-feather="file-text"></i>
+                                Mes PFE's
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-18" id="pills-options-tab" data-toggle="pill" href="#pills-options"
+                               role="tab" aria-controls="pills-profile" aria-selected="false">
+                                <i class="mr-2" data-feather="settings"></i>
+                                Mon profile
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active py-3 " id="pills-pfe" role="tabpanel"
+                             aria-labelledby="pills-pfe-tab">
+                            {# tableaux de mon pfe #}
+                            <div>
+                                <h4 class="color-pr font-weight-bold">
+                                    <i class="mr-2" data-feather="list"></i>
+                                    Votre list des pfe
+                                </h4>
+                                <table class="table">
+                                    <thead>
+                                    <tr class="color-pr">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Titre</th>
+                                        <th scope="col">Evaluation</th>
+                                        <th scope="col">date d'ajoute</th>
+                                        <th scope="col">Opérations</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="color-lead">
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Dévlopement d'une application de getion d'automobile</td>
+                                        <td>
+                                            <span class="badge badge-success">7.8</span>
+                                        </td>
+                                        <td>21-09-2019</td>
+                                        <td>
+                                            <button class="btn btn-primary px-2 py-0" type="button">
+                                                <i data-feather="edit" style="width: 16px;"></i>
+                                            </button>
+                                            <a href="" class="btn btn-primary px-2 py-0">
+                                                <i data-feather="trash-2" style="width: 16px;"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h4 class="color-pr font-weight-bold mt-5">
+                                    <i class="mr-2" data-feather="clipboard"></i>
+                                    Ajouter un pfe
+                                </h4>
+                            </div>
+                            {# formulaire d'ajoute #}
+                            <p class="color-lead">ajouter votre projet de fin d'étude</p>
+                            <!--  Erreur message ici -->
+                            {% if flash.getMessage('errors') %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <li class="no-list-style">
+                                        {{ flash.getMessage('errors') | first }}
+                                    </li>
+                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            <form class="color-pr" action="{{ path_for('add-pfe') }}" method="post"
+                                  enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label for="titre" class="col-sm-2 col-form-label">Titre</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               name="titre"
+                                               class="form-control"
+                                               id="titre"
+                                               placeholder="le titre de pfe"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="resume" class="col-sm-2 col-form-label">Résume</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control"
+                                                  id="resume"
+                                                  rows="4"
+                                                  placeholder="votre résume"
+                                                  maxlength="300"
+                                                  name="resume"
+                                                  required ></textarea>
+                                        <p class="text-muted font-12 float-right mb-0">300 caractére max</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control"
+                                                id="type"
+                                                name="type">
+                                            <option value="mémoire de licence">mémoire de licence</option>
+                                            <option value="mémoire de master">mémoire de master</option>
+                                            <option value="thése doctorat">thése doctorat</option>
+                                            <option value="rapport de stage">rapport de stage</option>
+                                            <option value="autre">autre</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="langue" class="col-sm-2 col-form-label">langue</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control"
+                                                id="langue"
+                                                name="langue">
+                                            <option value="ar">Arabe</option>
+                                            <option value="en">Anglais</option>
+                                            <option value="fr">Français</option>
+                                            <option value="autre">Autre</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="domaine" class="col-sm-2 col-form-label">domain</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control"
+                                                id="domaine"
+                                                name="domaine">
+                                            {% for categorie in cat %}
+                                                {% for domain in categorie.souscategories %}
+                                                    <option value="{{ domain.id }}">
+                                                        {{ domain.nom }}
+                                                    </option>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        Fichier(.pdf)
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="file" name="fichier" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row pt-3">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary rounded-pill">
+                                            <i class="mr-2" data-feather="plus"></i>
+                                            Ajoutez
+                                        </button>
+                                        <button type="reset" class="btn btn-inverted rounded-pill">
+                                            <i class="mr-2" data-feather="repeat"></i>
+                                            reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="pills-options" role="tabpanel"
+                             aria-labelledby="pills-options-tab">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque labore laborum natus
+                            similique suscipit tempore. Ad animi aperiam aut cum dolor magnam possimus praesentium, quam
+                            quos veniam vero voluptas, voluptatum?
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

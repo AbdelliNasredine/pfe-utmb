@@ -12,7 +12,21 @@ class HomeController extends BaseController
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     public function index($request, $response)
     {
-        $path = $this->language . DIRECTORY_SEPARATOR . 'accueil.twig';
+        if($this->auth->isConnected()){
+            return $response->withRedirect($this->container->router->pathFor('user'));
+        }else{
+            $path = $this->language . DIRECTORY_SEPARATOR . 'accueil.twig';
+            return $this->view->render($response, $path, ["lang" => $this->language]);
+        }
+    }
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /* methode qui gére l'affchage de page d'accuile */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    public function propos($request, $response)
+    {
+        $path = $this->language . DIRECTORY_SEPARATOR . 'a-propos.twig';
         return $this->view->render($response, $path, ["lang" => $this->language]);
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

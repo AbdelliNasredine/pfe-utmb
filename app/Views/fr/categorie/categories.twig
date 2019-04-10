@@ -1,0 +1,61 @@
+{% extends "layout.html.twig" %}
+{% block titre %} La liste des categories {% endblock %}
+{% block contenu %}
+    <div class="jumbotron rounded-0 bg-img img-categorie pt-2 mb-0">
+        <div class="container py-2 position-relative">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
+                    <li class="breadcrumb-item"><a href="{{ "/" ~ lang ~ path_for('home') }}"
+                                                   class="text-white">Accueil</a></li>
+                    <li class="breadcrumb-item">Categories</li>
+                </ol>
+            </nav>
+            <h2 class="text-white font-weight-bold pt-3 mt-5 display-4">
+                LES CATÉGORIES
+            </h2>
+            <p class="lead font-weight-normal text-white">
+                RETROUVE LA LISTE DES CATÉGORIES DISPONIBLES SUR LE SITE !
+            </p>
+        </div>
+    </div>
+    <section class="bg-light">
+        <div class="container py-5">
+            <div class="row">
+                {% for categorie in categories %}
+                    <div class="col-xs-12 col-sm-6 col-lg-4 mb-4">
+                        <div class="card rounded-0 b-top border-0 shadow-sm">
+                            <div class="card-body">
+                                <a href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}">
+                                    <h5 class="card-title font-weight-bold pb-3">
+                                        <span class="mr-3" data-feather="book-open"></span>
+                                        {{ categorie.nom | capitalize }}
+                                    </h5>
+                                </a>
+                                <hr>
+                                <div class="text-capitalize">
+                                    <ul class="no-list-style pl-0">
+                                        {% for souscategorie in categorie.souscategories %}
+                                            <li class="my-2">
+                                                <a href="{{ path_for('categorie' ,
+                                                    {
+                                                        'categorieNom' : generateURL(categorie.nom) ,
+                                                        'sousCategorieNom' : generateURL(souscategorie.nom)
+                                                    }
+                                                ) }}"
+                                                   class="p-2 color-lead">
+                                                    <span class="font-weight-normal">
+                                                        {{ souscategorie.nom }}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

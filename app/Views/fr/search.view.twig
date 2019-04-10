@@ -1,0 +1,99 @@
+{% extends 'layout.html.twig' %}
+{% block titre %} Recherche {% endblock %}
+{% block contenu %}
+    <header>
+        <div class="jumbotron jumbotron-fluid bg-img img-search mb-0">
+            <div class="container text-center">
+                <h1 class="display-3 text-white font-weight-bold pt-4">Page de Recherche</h1>
+                <p class="lead text-white">Vous pouvez rechercher des pfe's ici</p>
+                <form action="{{ path_for('search') }}" method="get" class="pb-4 mt-5">
+                    <div class="input-group input-group-lg shadow">
+                        <input placeholder="Titre , mot clé ..." type="search"
+                               class="form-control border-0"
+                               name="q"
+                               style="box-shadow: 1px 0 0 0 rgba(0,0,0,.15);"
+                               required>
+                        <div class="d-flex input-group-lg">
+                            <select class="custom-select rounded-0 border-0"
+                                    name="cat">
+                                <option value="">Categorie...</option>
+                                {% for categroie in categories %}
+                                    <option value="{{ categroie.nom }}">
+                                        {{ categroie.nom }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i data-feather="search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="py-4 mx-5">
+            <div class="p-5">
+                {% if documents|length != 0 %}
+                    <div class="row no-gutters">
+                        <h4 class="ml-4">{{ documents|length }} pfe(s) est trouvé(s)</h4>
+                        {% for document in documents %}
+                            <div class="col-sm-12 card border-0 rounded-lg m-4"
+                                 style="box-shadow: 0px 4px 8px rgba(0,0,0,.1)">
+                                <div class="card-body">
+                                    <a href="{{ path_for('document',{'id': document.id }) }}"
+                                       class="font-22 font-weight-bold color-secondary">
+                                        {{ document.titre }}
+                                    </a>
+                                    <p> par <strong>{{ document.auteur }}</strong></p>
+                                    <p>
+                                        Evaluation
+                                        <span class="badge badge-pill badge-success">9.3</span>
+                                    </p>
+                                    <span class="badge badge-pill badge-primary">{{ document.categorie.des_categorie | capitalize }}</span>
+                                    <span class="badge badge-pill badge-primary">{{ document.souscategorie.des_sous_categorie }}</span>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="mb-0 text-muted">
+                                        <span class="mr-2" data-feather="clock"></span>
+                                        ajouter le {{ document.date_ajoute }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h3 class="font-weight-bold color-pr">
+                        Oups ! Nous n'avons trouvé aucune ressource pour "{{ searchWord }}"
+                    </h3>
+                    <p class="lead color-lead mb-3">
+                        Essayez d'ajuster votre recherche. Voici quelques idées :
+                    </p>
+                    <ul class="list-unstyled text-muted mb-3">
+                        <li>
+                            - Assurez-vous que tous les mots soient orthographiés correctement
+                        </li>
+                        <li>
+                            - Essayez d'autres mots clés pour affiner votre recherche
+                        </li>
+                    </ul>
+                    <h3 class="font-weight-bold color-pr my-3">
+                        Vous pourriez être intéressé par l'une de ces catégories :
+                    </h3>
+                    <p class="text-wrap">
+                        {% for categorie in categories %}
+                            <a href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}">
+                                <span class="badge badge-pill badge-primary mb-2 hover">
+                                    {{ categorie.nom | capitalize }}<i class="ml-2" data-feather="plus"></i>
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

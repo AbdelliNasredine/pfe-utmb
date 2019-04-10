@@ -1,0 +1,242 @@
+{% extends 'layout.html.twig' %}
+{% block titre %}
+    {{ document.titre }}
+{% endblock %}
+{% block contenu %}
+    <div class="jumbotron-fluid pr-5 pl-5 pb-5 mb-0 bg-img img-document">
+        <nav class="" aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ path_for('home') }}" class="text-white">
+                        <i data-feather="home"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">Document</li>
+                <li class="breadcrumb-item">{{ document.titre }}</li>
+            </ol>
+        </nav>
+        <h6 class="font-weight-bold text-white mt-4 mb-2 display-4">Voir un project de fin d'étude</h6>
+        <p class="lead text-white">{{ document.titre }} par <i class="font-weight-bold">{{ document.auteur }}</i></p>
+    </div>
+    <main class="bg-light">
+        <div class="mt-n4 mr-5 position-absolute " style="z-index: 2; right: 0">
+            <a href="" class="btn btn-primary"><span class="mr-2" data-feather="download"></span>Télécharger</a>
+        </div>
+        <div class="mx-5 pt-3 pb-4">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active font-weight-bold" id="details-tab"
+                       data-toggle="tab"
+                       href="#details" role="tab" aria-controls="details"
+                       aria-selected="true">
+                        <i class="pr-2" data-feather="info"></i>
+                        Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold" id="resume-tab"
+                       data-toggle="tab"
+                       href="#resume" role="tab" aria-controls="résumé"
+                       aria-selected="false">
+                        <i class="pr-2" data-feather="bookmark"></i>
+                        Résumé
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold" id="evaluation-tab"
+                       data-toggle="tab"
+                       href="#evaluation" role="tab" aria-controls="evaluation"
+                       aria-selected="false">
+                        <i class="pr-2" data-feather="star"></i>
+                        Evaluations
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content border border-top-0 rounded-bottom shadow-sm bg-white"
+                 id="myTabContent">
+                <div class="tab-pane fade show active" id="details"
+                     role="tabpanel"
+                     aria-labelledby="details-tab">
+                    <div class="row no-gutters px-3 pt-4 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Titre</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.titre }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Auteur(s)</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.auteur }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Type de document</h6>
+                        </div>
+                        <div class="col-9">
+                        <span class="badge badge-pill badge-info">
+                            {{ document.type }}
+                        </span>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Date d'ajoute</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.date_ajoute }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Langue du document</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.langue }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Nombre de pages </h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">67</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Université</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.universite }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row no-gutters px-3 pb-3">
+                        <div class="col-3">
+                            <h6 class="font-weight-bold text-muted">Thématiques</h6>
+                        </div>
+                        <div class="col-9">
+                            <p class="mb-2">
+                                {{ document.departement }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade p-3" id="resume" role="tabpanel"
+                     aria-labelledby="resume-tab">
+                    <h4 class="font-weight-bold color-pr">Résume</h4>
+                    <p class="text-justify text-muted py-2">
+                        {{ document.resume }}
+                    </p>
+                    <h4 class="font-weight-bold color-pr text-right">ملخص</h4>
+                    <p class="text-justify text-muted py-2 text-right">
+                        {{ document.resume }}
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="evaluation" role="tabpanel"
+                     aria-labelledby="evaluation-tab">
+                    <h4 class="font-weight-bold color-pr text-capitalize px-3 pt-4 mb-4">évaluation générale</h4>
+                    <div class="row no-gutters">
+                        <div class="col-2 border-right p-4">
+                            <h1><span class="badge badge-success badge-pill">9.2</span></h1>
+                            <p class="color-lead">basé sur <span class="font-weight-bold">29</span> avis</p>
+                        </div>
+                        <div class="col-9 p-4">
+                            <span class="color-lead">Avis positives  <strong>(9/29)</strong></span>
+                            <div class="progress mb-3 " style="height: 12px">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 65%">
+                                </div>
+                            </div>
+                            <span class="color-lead">Avis négatives  <strong>(14/29)</strong></span>
+                            <div class="progress"  style="height: 12px">
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 87%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="m-4">
+                        <ul class="list-unstyled">
+                            {% if auth.connected %}
+                                {# si l'utilisateur est connecter #}
+                                <li class="bg-light py-4 rounded-lg">
+                                    <form action="" class="mx-3">
+                                        <label class="color-pr font-weight-bold font-18">
+                                            Est ce que vous aimez ce document ?
+                                        </label>
+                                        <div class="evaluation-oui-non">
+                                            <label class="btn-eval">
+                                                <input type="radio" checked="checked" name="eval-type" value="oui">
+                                                <span class="text-black-50 checkmark-like">
+                                                    <i class="rounded" data-feather="thumbs-up"></i>
+                                                </span>
+                                            </label>
+                                            <label class="btn-eval">
+                                                <input type="radio" name="eval-type" value="non">
+                                                <span class="text-black-50  checkmark-dislike">
+                                                    <i class="rounded" data-feather="thumbs-down"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <label class="color-pr font-weight-bold font-18 d-block">
+                                            Pourquoi ?
+                                        </label>
+                                        <textarea class="form-control border-0" name="eval-contenu" rows="6"
+                                                  placeholder="Ecrivez spécifiquement les raisons pour lesquelles vous avez aimé ou pas ce PFE ..."></textarea>
+                                        <input class="btn btn-sm btn-primary rounded-pill mt-3" type="submit"
+                                               value="ajouter">
+                                    </form>
+                                </li>
+                            {% else %}
+                                {# si utilistaeur n'est pas connecter #}
+                                <li class="my-4 py-4 text-center bg-light rounded-lg">
+                                    <a class="font-weight-bold" href="{{ path_for('connection') }}">Connecter</a>
+                                    ou
+                                    <a class="font-weight-bold" href="{{ path_for('inscription') }}">Inscrire</a>
+                                    pour ajouter une évaluation
+                                </li>
+                            {% endif %}
+                            <h4 class="font-weight-bold color-pr px-3 pt-3 mb-4">Les avis</h4>
+                            <ul class="pl-0">
+                                <li class="media my-4 py-3">
+                                    <img src="/public/img/ismail.png" class="mr-3 rounded-circle" height="45">
+                                    <div class="media-body">
+                                        <h6 class="mt-0 font-weight-bold color-pr">
+                                            Bouregga Ismail
+                                            <i class="text-danger ml-3" data-feather="thumbs-down"></i>
+                                        </h6>
+                                        <p class="text-muted">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet
+                                            cupiditate
+                                            debitis
+                                            distinctio ea eaque est hic incidunt ipsa, iste laboriosam placeat porro
+                                            possimus
+                                            praesentium rem sed sint tempore velit?
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

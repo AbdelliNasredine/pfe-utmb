@@ -1,0 +1,104 @@
+{% extends "layout.html.twig" %}
+{% block titre %}  {% endblock %}
+{% block contenu %}
+    <div class="jumbotron rounded-0 bg-img img-project pt-2 mb-0 border-bottom shadow-sm">
+        <div class="container-fluid py-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path_for('home') }}" class="text-white">
+                            <i class="mt-n2" data-feather="home"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="{{ path_for('categorie') }}" class="text-white">Categorie</a>
+                    </li>
+                    {% if sousCategorie is empty %}
+                        <li class="breadcrumb-item">{{ categorie.nom  | capitalize }}</li>
+                    {% else %}
+                        <li class="breadcrumb-item">
+                            <a href="{{ path_for('categorie',{'categorieNom': generateURL(categorie.nom) }) }}"
+                               class="text-white">
+                                {{ categorie.nom  | capitalize}}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">{{ sousCategorie.nom }}</li>
+                    {% endif %}
+                </ol>
+            </nav>
+            <h3 class="text-white font-weight-bold pt-3 mt-5 display-4">
+                {{ categorie.nom | capitalize }}
+            </h3>
+            <p class="lead text-white font-weight-normal">
+                Bienvenue sur la base des Projets de Fin d'Etudes (PFE) de {{ categorie.nom }}
+            </p>
+        </div>
+    </div>
+    <main class="bg-light">
+        <div class="container-fluid">
+            <div class="row no-gutters py-4">
+                <div class="col-2 p-2 px-3">
+                    <h5 class="color-pr mb-3 pb-3 border-bottom font-weight-bold">Sous categories</h5>
+                    {% for souscategorie in categorie.souscategories %}
+                        <div class="d-flex justify-content-between mb-3">
+                            <a class="font-14" href="{{ path_for('categorie' ,
+                                {
+                                    'categorieNom' : generateURL(categorie.nom) ,
+                                    'sousCategorieNom' : generateURL(souscategorie.nom)
+                                }
+                            ) }}">
+                                {{ souscategorie.nom }}
+                            </a>
+                            <div>
+                                <span class="badge badge-primary badge-pill">{{ souscategorie.documents().count() }} PFE(s)</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-10 py-4 bg-white rounded shadow-sm">
+                    <div class="d-flex justify-content-between pb-4 px-4">
+                        <h5 class="color-pr mb-0 mt-2">Resultat({{ total }})</h5>
+                    </div>
+                    {% if documents|length != 0 %}
+                        {% for document in documents %}
+                            <div class="border-bottom p-4">
+                                <a class="color-secondary font-weight-bold font-22"
+                                   href="{{ path_for('document' , {'id': document.id}) }}">
+                                    {{ document.titre }}
+                                </a>
+                                <br>
+                                <span class="">{{ document.type }}</span>
+                                <h6 class="font-14 color-lead mt-2 mb-5">Auteur(s) : {{ document.auteur }}</h6>
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="color-pr">
+                                        Evaluation <span class="badge badge-warning">7.5</span>
+                                    </h6>
+                                    <p class="font-14 text-black-50">Ajouter le {{ document.date_ajoute }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <nav class="d-flex justify-content-between mx-4 mt-3" aria-label="Page navigation">
+                            <h6 class="font-weight-bold color-pr mt-1">Page {{ pageCourante }}</h6>
+                            <ul class="pagination">
+                                {% for i in 1..nombrePage %}
+                                    {% if pageCourante == i %}
+                                        <li class="page-item active mx-2">
+                                            <span class="page-link rounded border-0">
+                                                {{ i }}
+                                            </span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item mx-2">
+                                            <a class="page-link rounded border-0" href="?page={{ i }}">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                    {% else %}
+                        <h2 class="color-lead p-4">Aucun document disponible</h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

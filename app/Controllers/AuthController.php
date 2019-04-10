@@ -27,6 +27,7 @@ class AuthController extends BaseController
         $email = filter_var($request->getParam('email'), FILTER_SANITIZE_EMAIL);
         $password = filter_var($request->getParam('password'), FILTER_SANITIZE_STRING);
         $passwordConfirmation = filter_var($request->getParam('passwordConf'), FILTER_SANITIZE_STRING);
+        $type = filter_var($request->getParam('type'),FILTER_SANITIZE_STRING);
 
         // Les Tests de validation :
         if (!$validation->valid()) {
@@ -69,7 +70,10 @@ class AuthController extends BaseController
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
-            'pass' => password_hash($password, PASSWORD_DEFAULT),
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'type' => $type,
+            'etat' => true,
+            'is_admin' => false,
         ]);
 
         // inscription fait avec succée !
@@ -78,7 +82,6 @@ class AuthController extends BaseController
 
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     /* methode qui gére la connection (get/post) */
@@ -101,12 +104,10 @@ class AuthController extends BaseController
             return $response->withRedirect($this->router->pathFor('connection'));
         }
 
-        $path = $this->language . DIRECTORY_SEPARATOR . 'espace.twig';
         return $response->withRedirect($this->router->pathFor('home'));
 
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     /* methode qui gére la déconnection (get/post) */
@@ -117,7 +118,6 @@ class AuthController extends BaseController
         return $response->withRedirect($this->router->pathFor('home'));
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     /* methode qui gére la réinitialiation de mot de passe (get/post) */
@@ -143,8 +143,10 @@ class AuthController extends BaseController
         $newPassword = randomString();
 
         // sauvgardage de nouvaux mot de pass dans la bd's
-        // crypter la mote de pass avant l'ajoute dans la bd's :
-        User::where('id', $userId)->update(['pass' => password_hash($newPassword, PASSWORD_DEFAULT)]);
+        // hasher la mote de pass avant l'ajoute dans la bd's :
+        User::where('id', $userId)->update([
+            'password' => password_hash($newPassword, PASSWORD_DEFAULT)]
+        );
 
         // message à envoye :
         $message = " Votre nouveaux mote de pass est :" . $newPassword;
