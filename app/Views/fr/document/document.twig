@@ -20,7 +20,10 @@
     </div>
     <main class="bg-light">
         <div class="mt-n4 mr-5 position-absolute " style="z-index: 2; right: 0">
-            <a href="" class="btn btn-primary"><span class="mr-2" data-feather="download"></span>Télécharger</a>
+            <a href="{{ path_for('download',{'url' : document.url }) }}" class="btn btn-primary">
+                <span class="mr-2" data-feather="download"></span>
+                Télécharger
+            </a>
         </div>
         <div class="mx-5 pt-3 pb-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -82,7 +85,7 @@
                             <h6 class="font-weight-bold text-muted">Type de document</h6>
                         </div>
                         <div class="col-9">
-                        <span class="badge badge-pill badge-info">
+                        <span class="badge badge-pill badge-primary">
                             {{ document.type }}
                         </span>
                         </div>
@@ -93,7 +96,7 @@
                         </div>
                         <div class="col-9">
                             <p class="mb-2">
-                                {{ document.date_ajoute }}
+                                {{ document.annee_publication }}
                             </p>
                         </div>
                     </div>
@@ -105,14 +108,6 @@
                             <p class="mb-2">
                                 {{ document.langue }}
                             </p>
-                        </div>
-                    </div>
-                    <div class="row no-gutters px-3">
-                        <div class="col-3">
-                            <h6 class="font-weight-bold text-muted">Nombre de pages </h6>
-                        </div>
-                        <div class="col-9">
-                            <p class="mb-2">67</p>
                         </div>
                     </div>
                     <hr>
@@ -132,21 +127,36 @@
                         </div>
                         <div class="col-9">
                             <p class="mb-2">
-                                {{ document.departement }}
+                                <span class="badge-primary rounded-pill py-1 px-2 mr-2">
+                                    {{ document.categorie.nom }}
+                                </span>
+                                <span class="badge-primary rounded-pill py-1 px-2">
+                                    {{ document.souscategorie.nom }}
+                                </span>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade p-3" id="resume" role="tabpanel"
                      aria-labelledby="resume-tab">
-                    <h4 class="font-weight-bold color-pr">Résume</h4>
-                    <p class="text-justify text-muted py-2">
-                        {{ document.resume }}
-                    </p>
-                    <h4 class="font-weight-bold color-pr text-right">ملخص</h4>
-                    <p class="text-justify text-muted py-2 text-right">
-                        {{ document.resume }}
-                    </p>
+                     {% if document.langue == 'fr' %}
+                        <h4 class="font-weight-bold color-pr">Résume</h4>
+                        <p class="text-justify text-muted py-2">
+                            {{ document.resume }}
+                        </p>
+                     {% endif %}
+                     {% if document.langue == 'ar' %}
+                        <h4 class="font-weight-bold color-pr">ملخص</h4>
+                        <p class="text-justify text-muted py-2">
+                            {{ document.resume }}
+                        </p>                     
+                     {% endif %}
+                     {% if document.langue == 'en' %}
+                        <h4 class="font-weight-bold color-pr">Abstract</h4>
+                        <p class="text-justify text-muted py-2">
+                            {{ document.resume }}
+                        </p>
+                     {% endif %}
                 </div>
                 <div class="tab-pane fade" id="evaluation" role="tabpanel"
                      aria-labelledby="evaluation-tab">

@@ -21,6 +21,7 @@ $app->get('/a-propos','HomeController:propos')->setName('a-propos');
 $app->get('/categorie[/{categorieNom}[/{sousCategorieNom}]]', 'CategorieController:getCategories')
     ->setName('categorie');
 $app->get('/document/{id}' , 'DocumentController:getDocument')->setName('document');
+$app->get('/download/{url}','DocumentController:downloadDocument')->setName('download');
 $app->get('/recherche','RechercheController:index')->setName('search');
 
 /*

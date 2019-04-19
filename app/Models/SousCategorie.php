@@ -16,6 +16,10 @@ class SousCategorie extends  Model
 
     public $timestamps = false;
 
+    public function categorie(){
+        return $this->belongsTo('\App\Models\Categorie','categorie_id');
+    }
+
     public function documents()
     {
         return $this->hasMany('App\Models\Document','sous_categories_id');

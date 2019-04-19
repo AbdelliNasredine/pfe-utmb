@@ -15,13 +15,11 @@ class Document extends Model
         'titre',
         'resume',
         'langue',
+        'type',
         'faculte',
         'universite',
         'annee_publication',
-        'domain',
-        'nb_page',
-        'evaluation_generale',
-        'mots_cle',
+        'url',
         'categories_id',
         'sous_categories_id',
     ];
@@ -30,12 +28,12 @@ class Document extends Model
 
     public function categorie()
     {
-        return $this->belongsTo('\App\Models\Categorie','id');
+        return $this->belongsTo('\App\Models\Categorie','categories_id');
     }
 
     public function souscategorie()
     {
-        return $this->belongsTo('\App\Models\SousCategorie','id');
+        return $this->belongsTo('\App\Models\SousCategorie','sous_categories_id');
     }
     
 }

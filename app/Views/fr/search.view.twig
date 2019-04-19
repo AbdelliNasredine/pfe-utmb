@@ -41,7 +41,7 @@
                     <div class="row no-gutters">
                         <h4 class="ml-4">{{ documents|length }} pfe(s) est trouvé(s)</h4>
                         {% for document in documents %}
-                            <div class="col-sm-12 card border-0 rounded-lg m-4"
+                            <div class="col-sm-12 card rounded-lg m-4"
                                  style="box-shadow: 0px 4px 8px rgba(0,0,0,.1)">
                                 <div class="card-body">
                                     <a href="{{ path_for('document',{'id': document.id }) }}"
@@ -59,7 +59,7 @@
                                 <div class="card-footer">
                                     <p class="mb-0 text-muted">
                                         <span class="mr-2" data-feather="clock"></span>
-                                        ajouter le {{ document.date_ajoute }}
+                                        ajouter le {{ document.annee_publication }}
                                     </p>
                                 </div>
                             </div>

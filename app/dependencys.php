@@ -19,7 +19,7 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 //---------------------------ARCHIVE / DOSSIER DE TELECHARGEMENT-------------------
-$container['upload_directory'] = __DIR__ . '/uploads';
+$container['upload_directory'] = __DIR__ .DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'uploads';
 
 //---------------------------FLASH MESSAGES----------------------------------------
 $container['flash'] = function () {
