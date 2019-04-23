@@ -1,80 +1,153 @@
 <!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          name="viewport">
-    <title>Administration</title>
-    <script src="/public/js/icon-feather.js"></script>
-    <link href="/public/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="/public/css/admin.css">
-</head>
-<body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-        <img class="mr-2" src="/public/img/logo-white.svg" alt="logo" height="24">
-        <strong>Administration</strong>
-    </a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link font-weight-bold" href="#">
-                <span data-feather="log-out"></span>
-                Déconnecter
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <title>Administration</title>
+        <script src="/public/js/icon-feather.js"></script>
+        <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/style.css" rel="stylesheet">
+        <link href="/public/css/admin.css" rel="stylesheet">
+    </head>
+    <body>
+        {# Navigation top #}
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
+                <strong>Administration</strong>
             </a>
-        </li>
-    </ul>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i data-feather="home"></i>
-                            Accuille
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            Utilisateur
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="list"></span>
-                            Catégorie
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="archive"></span>
-                            Archive
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="settings"></span>
-                            Paramétre
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
+                        <span data-feather="log-out"></span>
+                        Déconnecter
+                    </a>
+                </li>
+            </ul>
         </nav>
-        <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
-            <div class="mt-2">
-                <h2>Bienvenu mr/ms <b>Mohamed</b></h2>
+        <div class="container-fluid">
+            <div
+                class="row">
+                {# navigation left #}
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path_for('dashboard') }}">
+                                    <i data-feather="home"></i>
+                                    Accuille
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path_for('admin-user-page') }}">
+                                    <span data-feather="users"></span>
+                                    Utilisateur
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path_for('admin-archive-page') }}">
+                                    <span data-feather="folder"></span>
+                                    document
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="settings"></span>
+                                    Paramétre
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                {# main  #}
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
+                    <div class="row mt-3">
+                        <div class="col-sm">
+                            <div class="card shadow-sm hover-scal">
+                                <div class="card-header text-muted">
+                                    <span class="font-weight-bold">Le nombre d'utilisateur total</span>
+                                </div>
+                                <div class="d-flex card-body justify-content-between">
+                                    <i class="color-secondary d-inline-block mr-3" data-feather="users" style="width:75px; height:75px"></i>
+                                    <div>
+                                        <h1 class="color-secondary font-weight-bold text-right">{{ nbUsers }}</h1>
+                                        <span class="text-right text-muted">Utilisateur(s)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card shadow-sm hover-scal">
+                                <div class="card-header text-muted">
+                                    <span class="font-weight-bold">Le nombre des document total</span>
+                                </div>
+                                <div class="d-flex card-body justify-content-between">
+                                    <i class="color-secondary d-inline-block mr-3" data-feather="file" style="width:75px; height:75px"></i>
+                                    <div>
+                                        <h1 class="color-secondary font-weight-bold text-right">{{ nbPfes }}</h1>
+                                        <span class="text-right">Pfe(s)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 mb-2">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card shadow-sm mb-4">
+                                    <div class="card-header text-muted">
+                                        <i class="mr-2" data-feather="clock" style="width:24px;height:24px"></i>
+                                        <span class="font-weight-bold">Les dernier utilisateurs inscri</span>
+                                    </div>
+                                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
+                                        {% for user in lastusers %}
+                                            <li class="list-group-item d-flex">
+                                                <img alt="profil img" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }} " width="32">
+                                                <div class="align-self-center ml-3">
+                                                    <spa class="text-muted font-weight-bold">
+                                                        {{ user.nom }}
+                                                        {{ user.prenom }}
+                                                    </span>
+                                                </div>
+                                                <div class="ml-auto align-self-center">
+                                                    <span class="badge badge-primary badge-pill ml-auto">
+                                                        {{ user.type }}
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="card shadow-sm">
+                                    <div class="card-header text-muted">
+                                        <i class="mr-2" data-feather="upload-cloud" style="width:24px;height:24px"></i>
+                                        <span class="font-weight-bold">Les dernier documents ajouter
+                                        </span>
+                                    </div>
+                                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
+                                        {% for pfe in lastdocuments %}
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span class="align-self-center text-muted font-weight-bold">
+                                                    {{ pfe.titre }}
+                                                </span>
+                                                <a href=" {{ path_for('admin-view-document',{ 'id' : pfe.id }) }} " class="btn btn-primary hover-scal" title="détail">
+                                                    <i data-feather="eye"></i>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-        </main>
-    </div>
-</div>
-<script src="/public/js/jquery-3.3.1.min.js"></script>
-<script src="/public/js/bootstrap.js"></script>
-<script>
-    feather.replace()
-</script>
-</body>
+        </div>
+        <script src="/public/js/jquery-3.3.1.min.js"></script>
+        <script src="/public/js/bootstrap.js"></script>
+        <script src="/public/js/admin.js"></script>
+    </body>
 </html>

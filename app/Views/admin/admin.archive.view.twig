@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <title>Administration</title>
+        <script src="/public/js/icon-feather.js"></script>
+        <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/datatables.min.css" rel="stylesheet">
+        <link href="/public/css/style.css" rel="stylesheet">
+        <link href="/public/css/admin.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
+                <strong>Administration</strong>
+            </a>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
+                        <span data-feather="log-out"></span>
+                        Déconnecter
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div
+                class="row">
+                {# naviagtion left #}
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path_for('dashboard') }}">
+                                    <i data-feather="home"></i>
+                                    Accuille
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path_for('admin-user-page') }}">
+                                    <span data-feather="users"></span>
+                                    Utilisateur
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path_for('admin-archive-page') }}">
+                                    <span data-feather="folder"></span>
+                                    Document
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="settings"></span>
+                                    Paramétre
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
+                    <div class="row">
+                        <div class="col-sm-12 my-3">
+                            {% if flash.getMessage('errors') %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>
+                                        {{ flash.getMessage('errors') | first }}
+                                    </strong>
+                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            {% if flash.getMessage('success') %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>{{ flash.getMessage('success') | first }}</strong>
+                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            <div class="card shadow-sm">
+                                <div class="card-header text-muted">
+                                    <i data-feather="folder" style="width:24px;hieght:24px"></i>
+                                    <span class="font-weight-bold">Gestion des documents</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h4 class="font-weight-bold color-pr align-self-center">
+                                            <i class="mr-2" data-feather="folder" style="width:24px;height:24px"></i>
+                                            Documents
+                                        </h4>
+                                        <button class="btn btn-success hover-scal" title="ajouter document" type="button">
+                                            <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
+                                            uploader document
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <div>
+                                            <p class="text-muted mb-1">
+                                                Trie par :
+                                            </p>
+                                            <select class="custom-select mr-sm-2">
+                                                <option value="l">Mémoire licence</option>
+                                                <option value="m">Mémoire Master</option>
+                                                <option value="d">Thése doctorat</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted mb-1">
+                                                Recherche :
+                                            </p>
+                                            <input class="form-control" type="search">
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        {% for doc in docs %}
+                                            <div class="col-sm-3">
+                                                <div class="card hover-scal m-1" style="height:250px">
+                                                    <div class="card-header text-muted">
+                                                        <i data-feather="file-text" class="mr-2"></i>
+                                                        {{ doc.titre }}
+                                                    </div>
+                                                    <div class="card-body p-4 d-flex flex-column">
+                                                        <a class="font-weight-bold color-secondary d-block" href="{{ path_for('document' , {'id': doc.id}) }}">
+                                                            {{ doc.titre }}
+                                                        </a>
+                                                        <div class="d-flex mt-auto">
+                                                            <a href="#" class="btn btn-info m-1">
+                                                                <i data-feather="info"></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-success m-1">
+                                                                <i data-feather="download-cloud"></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-danger m-1">
+                                                                <i data-feather="trash-2"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script src="/public/js/jquery-3.3.1.min.js"></script>
+        <script src="/public/js/bootstrap.js"></script>
+        <script src="/public/js/datatables.min.js"></script>
+        <script src="/public/js/admin.js"></script>
+    </body>
+</html>

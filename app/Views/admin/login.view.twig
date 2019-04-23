@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <title>Administration</title>
+        <script src="/public/js/icon-feather.js"></script>
+        <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/style.css" rel="stylesheet">
+        <style>
+            span .feather {
+                width: 54px;
+                height: 54px;
+            }
+        </style>
+    </head>
+    <body class="bg-light">
+        <div class="text-center mt-5 pt-5">
+            <h1 class="font-weight-bold color-secondary mb-4 mt-3">
+                <span>
+                    <i class="color-secondary mr-2" data-feather="settings"></i>
+                </span>
+                Admin Login
+            </h1>
+        </div>
+        <div class="mx-auto card shadow-sm border-0" style="width:450px; hieght:800px;">
+            <div class="card-body px-5 pt-5">
+                {% if flash.getMessage('errors') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ flash.getMessage('errors') | first }}
+                        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <form action="{{ path_for('admin-login') }}" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" for="">identifiant
+                            </span>
+                        </div>
+                        <input class="form-control" name="i" type="text">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">mot de pass </span>
+                        </div>
+                        <input class="form-control" name="p" type="password">
+                    </div>
+                    <div class="form-group mt-4">
+                        <button class="btn btn-primary py-2" type="submit">
+                            <i class="mr-2" data-feather="log-in"></i>
+                            Se connecter
+                        </button>
+                        <a href="{{ path_for('home') }}" class="btn btn-inverted py-2 float-right">
+                            <i data-feather="arrow-left"></i>
+                            retour
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="/public/js/jquery-3.3.1.min.js"></script>
+        <script src="/public/js/bootstrap.js"></script>
+        <script>
+            feather.replace()
+        </script>
+    </body>
+</html>

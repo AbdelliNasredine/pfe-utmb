@@ -46,13 +46,22 @@ class CategorieController extends BaseController
                 $page = $request->getParam('page');
                 $limit = 5;
                 $pageCourante = ( isset($page) AND !empty($page) AND $page > 0 )? intval($page) : 1;
-                $total = $categorie->documents()->count();
+                $total = $categorie->documents()
+                                    ->where('valid',true)
+                                    ->count();
                 $depart = ($pageCourante - 1) * $limit;
                 $nbPage = ceil($total / $limit);
                 if($depart === 0){
-                    $documents = $categorie->documents()->limit($limit)->get();
+                    $documents = $categorie->documents()
+                                        ->where('valid',true)
+                                        ->limit($limit)
+                                        ->get();
                 } else{
-                    $documents = $categorie->documents()->skip($depart)->take($limit)->get();
+                    $documents = $categorie->documents()
+                                        ->where('valid',true)
+                                        ->skip($depart)
+                                        ->take($limit)
+                                        ->get();
                 }
                 // Erreur (categorie ou page erronée n'existe pas)
                 if (!$categorie ) {
@@ -81,13 +90,22 @@ class CategorieController extends BaseController
                 $page = $request->getParam('page');
                 $limit = 5;
                 $pageCourante = ( isset($page) AND !empty($page) AND $page > 0 )? intval($page) : 1;
-                $total = $sousCategorie->documents()->count();
+                $total = $sousCategorie->documents()
+                                        ->where('valid',true)
+                                        ->count();
                 $depart = ($pageCourante - 1) * $limit;
                 $nbPage = ceil($total / $limit);
                 if($depart === 0){
-                    $documents = $sousCategorie->documents()->limit($limit)->get();
+                    $documents = $sousCategorie->documents()
+                                            ->where('valid',true)
+                                            ->limit($limit)
+                                            ->get();
                 } else{
-                    $documents = $sousCategorie->documents()->skip($depart)->take($limit)->get();
+                    $documents = $sousCategorie->documents()
+                                            ->where('valid',true)
+                                            ->skip($depart)
+                                            ->take($limit)
+                                            ->get();
                 }
                 // Erreur (categorie ou sous categorie  ou page erronée n'existe pas)
                 if (!$categorie OR !$sousCategorie ) {
@@ -102,6 +120,7 @@ class CategorieController extends BaseController
                     "total" => $total,
                     "nombrePage" => $nbPage,
                     "pageCourante" => $pageCourante,
+                    "active" => $sousCategorieNom
                 ]);
                 return "categorie/categorie-nom/sous-categorie-nom";
                 break;

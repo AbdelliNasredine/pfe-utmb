@@ -1,98 +1,120 @@
 {% extends 'layout.html.twig' %}
-{% block titre %} Recherche {% endblock %}
+{% block titre %}
+    Recherche
+{% endblock %}
 {% block contenu %}
     <header>
         <div class="jumbotron jumbotron-fluid bg-img img-search mb-0">
             <div class="container text-center">
                 <h1 class="display-3 text-white font-weight-bold pt-4">Page de Recherche</h1>
                 <p class="lead text-white">Vous pouvez rechercher des pfe's ici</p>
-                <form action="{{ path_for('search') }}" method="get" class="pb-4 mt-5">
-                    <div class="input-group input-group-lg shadow">
-                        <input placeholder="Titre , mot clé ..." type="search"
-                               class="form-control border-0"
-                               name="q"
-                               style="box-shadow: 1px 0 0 0 rgba(0,0,0,.15);"
-                               required>
-                        <div class="d-flex input-group-lg">
-                            <select class="custom-select rounded-0 border-0"
-                                    name="cat">
-                                <option value="">Categorie...</option>
-                                {% for categroie in categories %}
-                                    <option value="{{ categroie.nom }}">
-                                        {{ categroie.nom }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i data-feather="search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </header>
-    <main>
-        <div class="py-4 mx-5">
-            <div class="p-5">
-                {% if documents|length != 0 %}
-                    <div class="row no-gutters">
-                        <h4 class="ml-4">{{ documents|length }} pfe(s) est trouvé(s)</h4>
-                        {% for document in documents %}
-                            <div class="col-sm-12 card rounded-lg m-4"
-                                 style="box-shadow: 0px 4px 8px rgba(0,0,0,.1)">
-                                <div class="card-body">
-                                    <a href="{{ path_for('document',{'id': document.id }) }}"
-                                       class="font-22 font-weight-bold color-secondary">
-                                        {{ document.titre }}
-                                    </a>
-                                    <p> par <strong>{{ document.auteur }}</strong></p>
-                                    <p>
-                                        Evaluation
-                                        <span class="badge badge-pill badge-success">9.3</span>
-                                    </p>
-                                    <span class="badge badge-pill badge-primary">{{ document.categorie.des_categorie | capitalize }}</span>
-                                    <span class="badge badge-pill badge-primary">{{ document.souscategorie.des_sous_categorie }}</span>
+    <main class="bg-light">
+        <div class="container">
+            <div class="py-5 row no-gutters">
+                <div class="col-sm-12">
+                    <div class="mx-4">
+                        <div class="p-3  card card-body rounded-0 shadow-sm ">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        Recherche simple
+                                    </span>
                                 </div>
-                                <div class="card-footer">
-                                    <p class="mb-0 text-muted">
-                                        <span class="mr-2" data-feather="clock"></span>
-                                        ajouter le {{ document.annee_publication }}
-                                    </p>
-                                </div>
+                                <input autocomplete="off" class="form-control" id="input_search" placeholder="Titre , mot clé , etc" type="text">
                             </div>
-                        {% endfor %}
+                            <div class="mt-2 clear-fix">
+                                <span class="text-danger float-left" id="search_er"></span>
+                                <a aria-expanded="false" class="float-right" data-toggle="collapse" href="#search_avanc" role="button">
+                                    Recherche avancée
+                                </a>
+                            </div>
+                            <div class="mt-2 p-3 bg-light rounded-lg collapse" id="search_avanc">
+                                <h2 class="color-pr">Recherche Avancée</h2>
+                                <form id="search_av">
+                                    <div class="input-group w-75">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Le titre
+                                            </span>
+                                        </div>
+                                        <input class="form-control" id="input_search_av_titre" type="text">
+                                    </div>
+                                    <div class="input-group w-75 mt-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Type de document
+                                            </span>
+                                        </div>
+                                        <select class="custom-select" id="input_search_av_type">
+                                            <option value=""></option>
+                                            <option value="l">Mémoir de licence</option>
+                                            <option value="m">Mémoir de master</option>
+                                            <option value="d">Thése de doctorat</option>
+                                            <option value="autre">Autre</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group w-75 mt-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                La langue
+                                            </span>
+                                        </div>
+                                        <select class="custom-select" id="input_search_av_lang">
+                                            <option value=""></option>
+                                            <option value="ar">Arabe</option>
+                                            <option value="en">Anglais</option>
+                                            <option value="fr">Français</option>
+                                            <option value="autre">Autre</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group w-75 mt-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Categorie
+                                            </span>
+                                        </div>
+                                        <select class="custom-select" id="input_search_av_domain">
+                                            <option value=""></option>
+                                            {% for categorie in categories %}
+                                                <optgroup label="{{ categorie.nom }}">
+                                                    {% for souscategorie in categorie.souscategories %}
+                                                        <option value="{{ souscategorie.id }}">
+                                                            {{ souscategorie.nom }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt-3" style="width:30%">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Année de publication
+                                            </span>
+                                        </div>
+                                        <input class="form-control" id="input_search_av_annee" maxlength="4" pattern="[0-9]{4}" type="text" value="2019"/>
+                                    </div>
+                                    <small>(*)enter année</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="mr-2" data-feather="search"></i>
+                                            Recherche
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                {% else %}
-                    <h3 class="font-weight-bold color-pr">
-                        Oups ! Nous n'avons trouvé aucune ressource pour "{{ searchWord }}"
-                    </h3>
-                    <p class="lead color-lead mb-3">
-                        Essayez d'ajuster votre recherche. Voici quelques idées :
-                    </p>
-                    <ul class="list-unstyled text-muted mb-3">
-                        <li>
-                            - Assurez-vous que tous les mots soient orthographiés correctement
-                        </li>
-                        <li>
-                            - Essayez d'autres mots clés pour affiner votre recherche
-                        </li>
-                    </ul>
-                    <h3 class="font-weight-bold color-pr my-3">
-                        Vous pourriez être intéressé par l'une de ces catégories :
-                    </h3>
-                    <p class="text-wrap">
-                        {% for categorie in categories %}
-                            <a href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}">
-                                <span class="badge badge-pill badge-primary mb-2 hover">
-                                    {{ categorie.nom | capitalize }}<i class="ml-2" data-feather="plus"></i>
-                                </span>
-                            </a>
-                        {% endfor %}
-                    </p>
-                {% endif %}
+                </div>
+                <!-- search result div -->
+                <div class="col-sm-12 mt-4">
+                    <div class="mx-4">
+                        <div class="py-5 card card-body rounded-0 shadow-sm d-none" id="search_result"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

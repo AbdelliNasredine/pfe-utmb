@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "811af7296c66423752f98c8b1d36bc06",
+    "content-hash": "2aa845f922e4c1100739e483b6e75b7e",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -313,6 +313,49 @@
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
             "time": "2019-02-27T14:00:44+00:00"
+        },
+        {
+            "name": "ncjoes/office-converter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ncjoes/office-converter.git",
+                "reference": "869e456814525a1efd0daa83335f133832d946dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ncjoes/office-converter/zipball/869e456814525a1efd0daa83335f133832d946dd",
+                "reference": "869e456814525a1efd0daa83335f133832d946dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NcJoes\\OfficeConverter\\": "src/OfficeConverter"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chukwuemeka Nwobodo",
+                    "email": "jc.nwobodo@gmail.com"
+                }
+            ],
+            "description": "PHP Wrapper for LibreOffice",
+            "keywords": [
+                "converter",
+                "office"
+            ],
+            "time": "2019-02-12T23:36:19+00:00"
         },
         {
             "name": "nesbot/carbon",

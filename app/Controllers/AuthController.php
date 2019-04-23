@@ -72,13 +72,13 @@ class AuthController extends BaseController
             'email' => $email,
             'password' => password_hash($password, PASSWORD_DEFAULT),
             'type' => $type,
-            'etat' => true,
-            'is_admin' => false,
+            'date_inscription' => date("Y-m-d h:i:s"),
+            'etat' => false,
         ]);
 
         // inscription fait avec succée !
-        $this->flash->addMessage('global', 'Vous avais inscri ! vous pouvez connecter');
-        return $response->withRedirect($this->router->pathFor('inscription'));
+        $this->flash->addMessage('global', 'Vous avais inscri ! notre administrateur vérifiera votre inscription dès que possible ');
+        return $response->withRedirect($this->router->pathFor('connection'));
 
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -100,7 +100,15 @@ class AuthController extends BaseController
         );
 
         if (!$auth) {
-            $this->flash->addMessage('global', 'Email ou mote de pass incorrecte !');
+            $this->flash->addMessage('error', 'Email ou mote de pass incorrecte !');
+            return $response->withRedirect($this->router->pathFor('connection'));
+        }
+        // test si l'admin a verfier leur donnée :
+        // var_dump($this->auth->user()->etat);
+        // die();
+        if( $auth == -1 ){
+            // non verfier
+            $this->flash->addMessage('error', "votre compte n'a pas encore été vérifié");
             return $response->withRedirect($this->router->pathFor('connection'));
         }
 

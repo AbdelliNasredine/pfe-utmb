@@ -27,8 +27,8 @@ $container = $app->getContainer();
 */
 $app->add( new \App\Middleware\LanguageMiddleware($available_languages, $default_language, $container) );
 
-require './app/functions.php';
 require './app/dependencys.php';
+require './app/functions.php';
 require './app/routes.php';
 
 // lancement d'application

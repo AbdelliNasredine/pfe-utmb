@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <a href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}">
                                     <h5 class="card-title font-weight-bold pb-3">
-                                        <span class="mr-3" data-feather="book-open"></span>
+                                        <i class="mr-3" data-feather="folder"></i>
                                         {{ categorie.nom | capitalize }}
                                     </h5>
                                 </a>
@@ -42,9 +42,10 @@
                                                         'sousCategorieNom' : generateURL(souscategorie.nom)
                                                     }
                                                 ) }}"
-                                                   class="p-2 color-lead">
-                                                    <span class="font-weight-normal">
-                                                        {{ souscategorie.nom }}
+                                                   class="p-2 color-lead font-weight-normal">
+                                                    {{ souscategorie.nom }}
+                                                    <span class="ml-1 color-secondary font-12">
+                                                        ({{ souscategorie.documents().where('valid',true).count() }})
                                                     </span>
                                                 </a>
                                             </li>

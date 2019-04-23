@@ -7,10 +7,6 @@
 /* ------------------------------------------------------------------------------------------------------------ */
 
 /* utils */
-*, *::after, *::before {
-    box-sizing: border-box !important;
-}
-
 html {
     scroll-behavior: smooth;
 }
@@ -20,16 +16,28 @@ body {
     -moz-osx-font-smoothing: grayscale !important;
     text-rendering: optimizeLegibility !important;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    font-family: Work Sans, Sans-Serif;
+    font-family: "Work Sans" , Sans-Serif;
+    font-size: .875rem;
 }
 
 a {
     color: #26425f;
 }
 
+.nav-item {
+    font-size: 16px;
+}
+
 a:hover {
     color: #4099de;
     text-decoration: none;
+}
+.link-active{
+    box-shadow: inset 3px 0 0 #4099de;
+    background-color: #ffffff;
+    padding-left: 10px;
+    color : #4099de;
+    font-weight: bold;
 }
 
 /* font size utils */
@@ -87,19 +95,21 @@ a:hover {
     box-shadow: none;
 }
 
-.search:focus {
-    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.21);
-    background-color: rgba(8, 32, 42, 0.05);
+/* form control new orders */
+.form-control {
+    border: 2px solid #ced4da;
+}
+.input-group-text {
+    box-shadow: inset 0 0 0 1.5px #ced4da;
+    font-weight: bold;
 }
 
-.search {
-    background-color: rgba(8, 32, 42, 0.05);
-    border: none !important;
-    color: #4e555b;
+.custom-select{
+    border: 2px solid #ced4da;
 }
 
 .bg-light {
-    background-color: #eeeeee !important;
+    background-color: #f0f0f0c5 !important;
 }
 
 .bg-dark {
@@ -119,36 +129,55 @@ a:hover {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
+.img-accuil::after {
+    background-image: url(../img/backgrounds/accuille-univ.jpg);
+    background-position: center;
+}
+
+.img-contact {
+    background-repeat: no-repeat;
+    background-image: url(../img/backgrounds/contact.jpg);
+    background-position:bottom;
+}
+
 .img-user::after {
     background-image: url(../img/backgrounds/user-bg.jpg);
+    background-position: center;
 }
 
 .img-search::after {
     background-image: url(../img/backgrounds/search-bg.jpg) !important;
+    background-position: center;
 }
 
 .img-categorie::after {
     background-image: url(../img/backgrounds/categories-bg.jpg) !important;
+    background-position: center;
 }
 
 .img-project::after {
     background-image: url(../img/backgrounds/categorie-bg.jpg) !important;
+    background-position: center;
 }
 
 .img-document::after {
     background-image: url(../img/backgrounds/document-bg.jpg) !important;
+    background-position: center;
 }
 
 .img-singin::after {
     background-image: url(../img/backgrounds/signin-bg.jpg);
+    background-position: center;
 }
 
 .img-login::after {
     background-image: url(../img/backgrounds/login-bg.jpg);
+    background-position: center;
 }
 
 .img-a-propos::after {
     background-image: url(../img/backgrounds/a-propos-bg.jpg);
+    background-position: center;
 }
 
 .bg-img::after {
@@ -173,8 +202,8 @@ a:hover {
     right: 0;
     left: 0;
     z-index: 2;
-    opacity: .5;
-    background: #4099de;
+    /*opacity: .5;*/
+    background: #0000002f;
     /*background: linear-gradient(180deg, #ffffff 0%, #000000 100%);*/
 }
 
@@ -244,8 +273,6 @@ a:hover {
 .btn {
     color: white;
     font-weight: 700;
-    text-transform: uppercase;
-    border-color: transparent !important;
 }
 
 .btn-inverted {
@@ -285,22 +312,6 @@ a:hover {
     box-shadow: none !important;
     transition: all 0.2s ease-in-out;
 }
-
-.btn-secondary {
-    padding: 12px 24px;
-    box-shadow: none !important;
-    background-color: #84c9d6 !important;
-    color: #26425f !important;
-}
-
-.btn-secondary:active,
-.btn-secondary:hover,
-.btn-secondary:focus {
-    box-shadow: none !important;
-    background-color: #aaf1ff !important;
-    color: #26425f !important;
-}
-
 .form-control::placeholder {
     color: #56677b94;
 }
@@ -428,20 +439,33 @@ a:hover {
 }
 
 /* badge */
-.badge-secondary {
-    background-color: #ececec;
-    color: #5d5d5d;
-}
-
-.badge-secondary:hover {
+.badge-primary{
     background-color: #4099de !important;
 }
 
-.badge-light:hover {
-    -webkit-box-shadow: 0px 7px 19px 3px rgba(180, 188, 194, 0.81);
-    -moz-box-shadow: 0px 7px 19px 3px rgba(180, 188, 194, 0.81);
-    box-shadow: 0px 7px 19px 3px rgba(180, 188, 194, 0.81);
-    transition: all .3s ease-in-out;
+
+.hover-scal{
+    position: relative;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);
+}
+.hover-scal:hover{
+    z-index: 9999;
+    box-shadow: 0px 0px 15px #00000017;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.5);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.5);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.5);
+    transition: all 200ms ease-in;
+    transform: scale(1.1);
 }
 
 .hover:hover {
@@ -452,7 +476,7 @@ a:hover {
 }
 
 /*  alerts  */
-.alert-link {
+/* .alert-link {
     color: rgba(255, 255, 255, .5) !important;
 }
 
@@ -478,7 +502,7 @@ a:hover {
 .alert-primary {
     background-color: #4099de;
     border: none;
-}
+} */
 
 /* breadcrums */
 .breadcrumb-item + .breadcrumb-item::before {
@@ -487,30 +511,51 @@ a:hover {
 }
 
 
-/* oui / non évaluation styling */
-.evaluation-oui-non .btn-eval {
+/* évaluation styling */
+.evaluation label{
     position: relative;
-    margin-right: 20px;
     margin-bottom: 12px;
+    padding: 0 12px;
+    margin: 0 6px;
+    border-radius: 18px;
     cursor: pointer;
     font-size: 24px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background-color: #d6d6d6;
+    color: rgba(0, 0, 0, 0.2);
 }
 
-.evaluation-oui-non .btn-eval input {
+.evaluation  input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
-
-.evaluation-oui-non input:checked ~ .checkmark-like {
-    color: #1fad39 !important;
+.evaluation > div #ev1:checked ~ label {
+    background-color: #d2232a ;
+    font-weight: bold;
+    color : #fff;
 }
-
-.evaluation-oui-non input:checked ~ .checkmark-dislike {
-    color: #df3939 !important;
+.evaluation > div #ev2:checked ~ label {
+    background-color: #faa719;
+    font-weight: bold;
+    color : #fff;
+}
+.evaluation > div #ev3:checked ~ label {
+    background-color: #9dca91 ;
+    font-weight: bold;
+    color : #fff;
+}
+.evaluation > div #ev4:checked ~ label {
+    background-color: #70ba65 ;
+    font-weight: bold;
+    color : #fff;
+}
+.evaluation > div #ev5:checked ~ label {
+    background-color: #41ad48 ;
+    font-weight: bold;
+    color : #fff;
 }
 

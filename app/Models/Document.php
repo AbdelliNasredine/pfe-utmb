@@ -11,15 +11,19 @@ class Document extends Model
     protected $table ="documents";
 
     protected $fillable = [
+        'ref',
         'auteur',
         'titre',
         'resume',
         'langue',
         'type',
-        'faculte',
         'universite',
-        'annee_publication',
+        'faculte',
+        'specialite',
+        'date_publication',
         'url',
+        'valid',
+        'user_id',
         'categories_id',
         'sous_categories_id',
     ];
@@ -35,5 +39,8 @@ class Document extends Model
     {
         return $this->belongsTo('\App\Models\SousCategorie','sous_categories_id');
     }
-    
+    public function evaluations()
+    {
+        return $this->hasMany('\App\Models\Evaluation','documents_id');
+    }
 }

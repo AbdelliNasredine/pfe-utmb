@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Message;
+use App\Models\Document;
 
 class HomeController extends BaseController
+
 {
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -15,8 +17,14 @@ class HomeController extends BaseController
         if($this->auth->isConnected()){
             return $response->withRedirect($this->container->router->pathFor('user'));
         }else{
+            // recupaire les dernier 10 pfe's :
+            $pfes = Document::where('valid',true)->orderBy('date_publication','desc')->limit(10)->get();
             $path = $this->language . DIRECTORY_SEPARATOR . 'accueil.twig';
-            return $this->view->render($response, $path, ["lang" => $this->language]);
+            return $this->view->render($response, $path, 
+            [
+                "lang" => $this->language,
+                "pfes" => $pfes
+            ]);
         }
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -80,7 +88,6 @@ class HomeController extends BaseController
                 'titre' => $titre,
                 'contenu' => $contenu,
                 'date' => date("Y-m-d"),
-                'etat' => false
             ]);
             $data['success'] = true;
         }

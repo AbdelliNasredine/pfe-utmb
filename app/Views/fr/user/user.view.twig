@@ -1,0 +1,339 @@
+{% extends 'layout.html.twig' %}
+{% block titre %}
+    Page utilisateur
+{% endblock %}
+{% block contenu %}
+    <header>
+        <div class="jumbotron jumbotron-fluid bg-img img-user text-center">
+            <h4 class="display-4 font-weight-bold text-white">
+                Page de profil
+            </h4>
+            <p class="lead text-white">
+                Bienvenu -
+                {{ auth.user.nom }}
+            </p>
+        </div>
+    </header>
+    <main class="mx-5 mb-5">
+        <div
+            class="row no-gutters">
+            {# user info #}
+            <div class="col-12 col-lg-3 mb-3">
+                <div class="card p-4 mr-lg-3">
+                    <div class="card-body text-center">
+                        <img alt="profil image" class="rounded-circle img-thumbnail shadow-sm" height="150" src="/public/img/profiles/{{ auth.user.profile_img == null ? 'default.png' : auth.user.profile_img }}" width="150">
+                        <h6 class="font-weight-bold mt-3" style="opacity: .5">{{ auth.user.email }}</h6>
+                        <p class="text-center color-lead">
+                            <strong>{{ auth.user.nom  | capitalize }}
+                                -
+                                {{ auth.user.prenom | capitalize }}</strong>
+                        </p>
+                        <div class="text-center">
+                            <h3 class="badge-primary rounded-pill py-2">{{ auth.user.type }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# user menu #}
+            <div
+                class="col-12 col-lg-9">
+                <!--  Erreur message ici -->
+                {% if flash.getMessage('errors') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <li class="no-list-style">
+                            {{ flash.getMessage('errors') | first }}
+                        </li>
+                        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                {% if flash.getMessage('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <li class="no-list-style">
+                            {{ flash.getMessage('success') | first }}
+                        </li>
+                        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <div class="">
+                    <ul class="nav nav-pills mb-3 mx-2" id="pills-tab" role="tablist">
+                        <li class="nav-item active">
+                            <a aria-controls="pills-home" aria-selected="true" class="nav-link active font-18" data-toggle="pill" href="#pills-pfe" id="pills-pfe-tab" role="tab">
+                                <i class="mr-2" data-feather="file-text"></i>
+                                Mes Documents
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a aria-controls="pills-addpfe" aria-selected="false" class="nav-link font-18" data-toggle="pill" href="#pills-addpfe" id="pills-addpfe-tab" role="tab">
+                                <i class="mr-2" data-feather="upload"></i>
+                                Ajouter un pfe
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a aria-controls="pills-options" aria-selected="false" class="nav-link font-18" data-toggle="pill" href="#pills-options" id="pills-options-tab" role="tab">
+                                <i class="mr-2" data-feather="settings"></i>
+                                Options
+                            </a>
+                        </li>
+                    </ul>
+                    <div
+                        class="tab-content" id="pills-tabContent">
+                        {# tableaux de mon pfe #}
+                        <div aria-labelledby="pills-pfe-tab" class="tab-pane fade show active p-2" id="pills-pfe" role="tabpanel">
+                            <div>
+                                <table class="table table-striped">
+                                    <thead class="thead-dark">
+                                        <tr class="color-pr">
+                                            <th scope="col">Titre</th>
+                                            <th scope="col">date d'ajoute</th>
+                                            <th scope="col">Lien</th>
+                                            <th scope="col">Etat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="color-lead">
+                                        {% for pfe in pfes %}
+                                            <tr>
+                                                <td>
+                                                    {{ pfe.titre }}
+                                                </td>
+                                                <td>
+                                                    {{ pfe.date_publication }}
+                                                </td>
+                                                <td>
+                                                    {% if pfe.valid %}
+                                                        <a class="btn btn-primary px-2 py-0" href="{{ pfe.valid ? path_for('document',{'id':pfe.id}) : " " }}" disabled>
+                                                            <i data-feather="link-2" style="width: 16px;"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a class="btn btn-primary px-2 py-0 disabled" href="{{ pfe.valid ? path_for('document',{'id':pfe.id}) : " " }}" disabled>
+                                                            <i data-feather="link-2" style="width: 16px;"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if pfe.valid %}
+                                                        <span class="badge badge-success py-2 px-2">
+                                                            Valid
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge badge-danger py-2 px-2">
+                                                            Pas encore validé
+                                                        </span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr class="text-center">
+                                                <td class="font-weight-bold" colspan="4">
+                                                    Aucun document est ajouté
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div
+                            aria-labelledby="pills-addpfe-tab" class="tab-pane fade p-2" id="pills-addpfe" role="tabpanel">
+                            {# formulaire d'ajoute #}
+                            <div class="card">
+                                <div class="card-header text-muted">
+                                    <i class="mr-2" data-feather="clipboard"></i>
+                                    Ajouter un pfe
+                                </div>
+                                <div class="card-body">
+                                    <p class="color-lead font-16 font-weight-bold">Ajouter votre projet de fin d'étude</p>
+                                    <form class="color-pr" action="{{ path_for('add-pfe') }}" method="post" enctype="multipart/form-data">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="titre">Titre</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="titre" name="titre" placeholder="le titre" required type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="titre">Auteur(s)</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="auteur" name="auteur" placeholder="Auteur(s)" required type="text">
+                                                <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="resume">Résume</label>
+                                            <div class="col-sm-8">
+                                                <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="type">Type</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="type" name="type" required>
+                                                    <option value="" selected></option>
+                                                    <option value="l">mémoire de licence</option>
+                                                    <option value="m">mémoire de master</option>
+                                                    <option value="d">thése doctorat</option>
+                                                    <option value="a">autre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="langue">langue</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="langue" name="langue" required>
+                                                    <option value="" selected></option>
+                                                    <option value="ar">Arabe</option>
+                                                    <option value="en">Anglais</option>
+                                                    <option value="fr">Français</option>
+                                                    <option value="autre">Autre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="domaine">Categorie</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="domaine" name="domaine" required>
+                                                    <option value="" selected></option>
+                                                    {% for categorie in cat %}
+                                                        <optgroup label="{{ categorie.nom }}">
+                                                            {% for domain in categorie.souscategories %}
+                                                                <option value="{{ domain.id }}">
+                                                                    {{ domain.nom }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </optgroup>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Université</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="univ" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Faculté</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="fact" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Spécialité</label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="spes" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2">
+                                                Fichier(.pdf)
+                                                <span class="text-muted font-12">
+                                                    max 20 méga
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input name="doc" required type="file">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row pt-3">
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-primary rounded-pill hover-scal" type="submit">
+                                                    <i class="mr-2" data-feather="plus"></i>
+                                                    Ajoutez
+                                                </button>
+                                                <button class="btn btn-danger rounded-pill hover-scal" type="reset">
+                                                    <i class="mr-2" data-feather="repeat"></i>
+                                                    reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            aria-labelledby="pills-options-tab" class="tab-pane fade p-2" id="pills-options" role="tabpanel">
+                            {# mod image profil #}
+                            <div class="card">
+                                <div class="card-header text-muted">
+                                    <i class="mr-2" data-feather="user"></i>
+                                    Photo de profil
+                                </div>
+                                <div class="card-body">
+                                    <form action=" {{ path_for('user-profil-img') }} " enctype="multipart/form-data" method="post">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label color-lead">Choisir une photo :</label>
+                                            <div class="col-sm-8">
+                                                <input name="profImg" required type="file">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button class="btn btn-primary mb-4 rounded-pill hover-scal" type="submit">
+                                            <i class="mr-2" data-feather="repeat"></i>
+                                            Changer
+                                        </button>
+                                        <button class="ml-2 btn btn-danger mb-4 rounded-pill hover-scal" type="reset">
+                                            <i class="mr-2" data-feather="x"></i>
+                                            reset
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card mt-3">
+                                <div class="card-header text-muted">
+                                    <i class="mr-2" data-feather="lock"></i>
+                                    Modifier mot de pass
+                                </div>
+                                <div
+                                    class="card-body">
+                                    {# mod password #}
+                                    <form action=" {{ path_for('user-password') }} " class="mb-4" method="post">
+                                        <div class="from-group row">
+                                            <label class="col-sm-3 col-form-label color-lead">
+                                                Ancien mot de passe
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="org_pass" required type="password">
+                                            </div>
+                                        </div>
+                                        <div class="from-group row mt-3">
+                                            <label class="col-sm-3 col-form-label color-lead">
+                                                Nouveau mot de pass
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="passwordId" name="nv_pass" required type="password">
+                                                <span class="text-muted fola" id="err-pass">6 caractère min</span>
+                                            </div>
+                                        </div>
+                                        <div class="from-group row mt-3">
+                                            <label class="col-sm-3 col-form-label color-lead">
+                                                Confirmation
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" id="passwordConfId" name="nv_pass_conf" required type="password">
+                                                <span class="text-muted" id="err-pass-c">6 caractère min</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mt-5">
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-primary rounded-pill mr-2 hover-scal" type="submit">
+                                                    <i class="mr-2" data-feather="repeat"></i>
+                                                    Modifier
+                                                </button>
+                                                <button class="btn btn-danger rounded-pill hover-scal" type="reset">
+                                                    <i class="mr-2" data-feather="x"></i>
+                                                    reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}

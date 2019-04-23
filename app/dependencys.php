@@ -21,6 +21,12 @@ $container['db'] = function ($container) use ($capsule) {
 //---------------------------ARCHIVE / DOSSIER DE TELECHARGEMENT-------------------
 $container['upload_directory'] = __DIR__ .DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'uploads';
 
+//---------------------------DOSSIER DE PROFIL IMAGES -----------------------------
+$container['profil_imgs_directory'] = __DIR__ .DIRECTORY_SEPARATOR . '..'
+                                . DIRECTORY_SEPARATOR .'public' 
+                                . DIRECTORY_SEPARATOR .'img'
+                                .DIRECTORY_SEPARATOR.'profiles';
+
 //---------------------------FLASH MESSAGES----------------------------------------
 $container['flash'] = function () {
     return new \Slim\Flash\Messages;
@@ -61,7 +67,10 @@ $container['view'] = function ($container) {
 $url_generator = new Twig_SimpleFunction('generateURL', function($url){
     return slugGenerate($url);
 });
-
+$rand_cl = new Twig_SimpleFunction('randCl', function(){
+    return randomColor();
+});
+$container->get('view')->getEnvironment()->addFunction($rand_cl);
 $container->get('view')->getEnvironment()->addFunction($url_generator);
 
 //----------------------------ERROR HANDLING PAGE'S---------------------------------------
@@ -101,6 +110,10 @@ $container['CategorieController'] = function ($container) {
 //-----------------------------DOCUMENTS CONTROLLER-----------------------------
 $container['DocumentController'] = function ($container) {
     return new \App\Controllers\DocumentController($container);
+};
+//-----------------------------EVALUATIONS CONTROLLER-----------------------------
+$container['EvaluationController'] = function ($container) {
+    return new \App\Controllers\EvaluationController($container);
 };
 //-----------------------------USER CONTROLLER-----------------------------
 $container['UserController'] = function ($container) {

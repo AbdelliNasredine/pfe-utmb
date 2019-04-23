@@ -15,10 +15,11 @@ class User extends Model
         'email',
         'password',
         'type',
+        'date_inscription',
+        'profile_img',
         'etat',
-        'is_admin'
     ];
 
     public $timestamps = false;
-
+    
 }

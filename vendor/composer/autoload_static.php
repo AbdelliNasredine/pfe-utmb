@@ -35,6 +35,10 @@ class ComposerStaticInitaf4b8807d1b3d52e80cfb2d0685dc478
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'N' => 
+        array (
+            'NcJoes\\OfficeConverter\\' => 23,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
@@ -109,6 +113,10 @@ class ComposerStaticInitaf4b8807d1b3d52e80cfb2d0685dc478
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'NcJoes\\OfficeConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ncjoes/office-converter/src/OfficeConverter',
         ),
         'Interop\\Container\\' => 
         array (

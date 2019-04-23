@@ -3,6 +3,7 @@
 namespace App\Authentification;
 
 use App\Models\User;
+use App\Models\Admin;
 
 class Auth
 {
@@ -23,12 +24,35 @@ class Auth
         }
 
         if (password_verify($password, $user->password)) {
+            if($user->etat == 0 ){
+                return -1;
+            }
             $_SESSION['user'] = $user->id;
             return true;
         }
 
         return false;
     }
+
+    /*
+     * méthod verifieAdmin : verfie si il y a un 'admin' avec 
+     * le login et mot de passe
+     */
+    public function verifieAdmin($e, $p)
+    {
+        $admin = Admin::where('identifiant',$e)->first();
+
+        if(!$admin){
+            return false;
+        }
+
+        if(password_verify($p , $admin->password)){
+            $_SESSION['admin'] = $admin->id;
+            return true;
+        }
+
+        return false;
+    }    
 
 
     /*
@@ -56,11 +80,19 @@ class Auth
     }
 
     /*
+     *  méthod isAdminConnected : verifie si il y a un 'admin' est connecter
+     */
+    public function isAdminConnected(){
+        return isset($_SESSION['admin']);
+    }
+
+    /*
      * méthod deconnecter : Vider la session de user ( user connecter )
      */
     public function deconnecter()
     {
         unset($_SESSION['user']);
+        unset($_SESSION['admin']);
     }
 
 
@@ -71,6 +103,16 @@ class Auth
     {
         if (isset($_SESSION['user'])) {
             return User::find($_SESSION['user']);
+        }
+    }
+
+    /*
+     * méthod admin : renvoi les donnée de admin connecter ( dans la suppGlobal _SESSION )
+     */
+    public function admin()
+    {
+        if (isset($_SESSION['admin'])) {
+            return Admin::find($_SESSION['admin']);
         }
     }
 }

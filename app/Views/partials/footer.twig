@@ -1,46 +1,14 @@
 <footer class="bg-dark text-white px-5">
-    <div class="container-fluid py-4">
+    <div class="container py-4">
         <div class="d-flex d-flex justify-content-between">
             <div class="pt-1">
                 <img class="" src="/public/img/logo-white.svg" alt="logo" height="32">
                 <h4 class="ml-3 d-inline font-weight-bold">My pfe</h4>
                 <p class="d-inline lead"> - Universite de bechar</p>
             </div>
-            <div>
-                <a href="" class="badge p-2"><img src="/public/img/facebook.svg" alt="facebook-icon" width="32"></a>
-                <a href="" class="badge p-2"><img src="/public/img/twitter.svg" alt="Twitter-icon" width="32"></a>
-            </div>
         </div>
     </div>
-    <div class="container-fluid px-0 py-4 d-flex justify-content-between">
-        <p class="d-inline mb-0">monpfe.utmb.dz © Tous Droits Résérvés</p>
-        <div class="lang">
-            <!-- Button trigger modal de language -->
-            <button type="button" class="btn font-14" data-toggle="modal" data-target="#langModel">
-                language
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="langModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title color-pr" id="exampleModalLabel">Changer la langue</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" class="color-pr">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body d-flex flex-column">
-                            <a class="color-pr py-2 font-weight-bold" href="{{ "/fr" ~ path_for('home') }}">Français</a>
-                            <a class="color-pr py-2 font-weight-bold"
-                               href="{{ "/ar" ~ path_for('home') }}">عربية</a>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Férmer</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container px-0 py-4 d-flex justify-content-between">
+        <p class="d-inline mb-0">monpfe.utmb.dz © Tous Droits Résérvés </p>
     </div>
 </footer>

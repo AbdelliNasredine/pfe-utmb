@@ -1,10 +1,10 @@
 body {
-    /*font-size: .875rem;*/
+    font-size: .875rem;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     text-rendering: optimizeLegibility !important;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    font-family: "Work Sans", Sans-Serif;
+    /* font-family: Sans-Serif; */
 }
 
 .feather {
@@ -21,6 +21,7 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
+    border-right: 2px solid rgb(221, 221, 221);
     z-index: 100; /* Behind the navbar */
     padding: 48px 0 0; /* Height of navbar */
 }
@@ -29,7 +30,6 @@ body {
     position: relative;
     top: 0;
     height: calc(100vh - 48px);
-    box-shadow: inset -4px 0 0 0 rgba(0, 0, 0, 0.09);
     padding-top: .5rem;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -116,4 +116,7 @@ body {
 
 .bg-dark {
     background-color: #4099de !important;
+}
+.breadcrumb-item + .breadcrumb-item::before{
+    color: #6c757d !important;
 }

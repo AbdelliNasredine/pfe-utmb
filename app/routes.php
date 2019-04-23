@@ -11,19 +11,23 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \App\Middleware\VisiteurMiddleware;
 use \App\Middleware\AuthMiddleware;
+use \App\Middleware\AdminMiddleware;
 
 /*
 ** HomeController routes
 */
-/*  Accesible pour Tout (Connecter / non-connecter) */
-$app->get('/', 'HomeController:index')->setName('home');
-$app->get('/a-propos','HomeController:propos')->setName('a-propos');
-$app->get('/categorie[/{categorieNom}[/{sousCategorieNom}]]', 'CategorieController:getCategories')
-    ->setName('categorie');
-$app->get('/document/{id}' , 'DocumentController:getDocument')->setName('document');
+/*  Accesible pour Tout (Connecter / non-connecter) sauf l'admin */
+$app->group('', function(){
+    $this->get('/', 'HomeController:index')->setName('home');
+    $this->get('/a-propos','HomeController:propos')->setName('a-propos');
+    $this->get('/categorie[/{categorieNom}[/{sousCategorieNom}]]', 'CategorieController:getCategories')
+        ->setName('categorie');
+    $this->get('/document/{id}' , 'DocumentController:getDocument')->setName('document');
+    $this->get('/search','RechercheController:index')->setName('search');
+    $this->get('/search/s/{word}','RechercheController:simpleSearch');  
+    $this->get('/search/a','RechercheController:advanceSearch');    
+})->add( new AdminMiddleware($container) );
 $app->get('/download/{url}','DocumentController:downloadDocument')->setName('download');
-$app->get('/recherche','RechercheController:index')->setName('search');
-
 /*
  *
  *  - route groupe pour proteger l'accees au certiane
@@ -38,52 +42,34 @@ $app->group('', function () {
     $this->get('/reinitialiser', 'AuthController:getReset')->setName('reinitialiser');
     $this->post('/reinitialiser', 'AuthController:postReset');
     $this->map(['GET', 'POST'], '/contact', 'HomeController:contact')->setName('envoyer');
-})->add(new VisiteurMiddleware($container));
+})->add(new VisiteurMiddleware($container))
+  ->add( new AdminMiddleware($container));
 /*  Si l'utilisateur est connecter */
 $app->group('', function () {
     $this->get('/user','UserController:index')->setName('user');
+    $this->post('/user/reset-password','UserController:postreset')->setName('user-password');
+    // user-profil-img
+    $this->post('/user/add-profil-image','UserController:postProfilImg')->setName('user-profil-img');
+    $this->get('/delete-document/{id}','DocumentController:deletDocument')->setName('delete-pfe');
     $this->post('/add-pfe','DocumentController:addDocument')->setName('add-pfe');
-    $this->get('/admin','AdminController:index')->setName('admin');
+    $this->post('/add-evaluation/{docId}','EvaluationController:addEvaluation')->setName('add-evaluation');
     $this->get('/deconnecter', 'AuthController:getDeCon')->setName('deconnecter');
-})->add(new AuthMiddleware($container));
+})->add(new AuthMiddleware($container))
+  ->add( new AdminMiddleware($container));
 
 
+/* ------------ administration --------------- */
+/*  Accesible pour la'admin seulement */
+$app->group('' , function(){
+    $this->get('/admin/login' , 'AdminController:getlogin')->setName('admin-login');
+    $this->post('/admin/login' , 'AdminController:postlogin');
+    $this->get('/admin','AdminController:index')->setName('dashboard');
+    $this->get('/admin/user','AdminController:user')->setName('admin-user-page');
+    $this->get('/admin/archive','AdminController:archive')->setName('admin-archive-page');
+    $this->post('/admin/user/add','AdminController:addUser')->setName('admin-user-add');
+    $this->get('/admin/logout' , 'AdminController:getlogout')->setName('admin-log-out');
+    $this->post('/admin/pfe-details','DocumentController:documentDetails');
+    $this->get('/admin/document/{id}','AdminController:viewDocument')->setName('admin-view-document');
+})->add(new VisiteurMiddleware($container));
 
 
-
-
-
-
-
-
-
-
-
-//--------------------------- TESTING ---------------------------------------------------------------
-// // route de page d'acuille (affichage)
-// $app->get('/',function (Request $req , Response $res){
-
-//     return $this->view->render($res , $this->language.DIRECTORY_SEPARATOR.'accueil.php' , ["lang" => $this->language]);
-
-// })->setName('accueil');
-
-// route de page d'inscription (affichage)
-
-// // {?} test root :
-// $app->get('/posttest' , function(Request $req , Response $res){
-
-//     $resutlt = $this->db->query(" SELECT * FROM jeux_video")->fetchAll(PDO::FETCH_ASSOC);
-//     // $json_data = array();
-//     // while ( $r = $resutlt->fetchAll(PDO::FETCH_ASSOC)){
-//     //     $json_data['data'] = $r;
-//     // }
-//     // var_dump($resutlt);
-//     // die();
-//     $nvres = $res->withHeader('Content-type', 'application/json');
-//     return $nvres->withJson($resutlt);
-// }); 
-
-// $app->get('/test' , function(Request $req , Response $res){
-//     return $this->view->render($res , '/test/test.php' , []);
-// });
-// ----------------------------------------------------------------------------------------------------

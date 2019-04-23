@@ -1,11 +1,39 @@
-{% extends "layout.html.twig" %}
-{% block titre %}
-    Page Introuvable
-{% endblock %}
-{% block contenu %}
-    <div class="container text-center my-5 pb-80">
-        <img class="img-fluid pt-80 mt-5" src="/public/img/404.svg" alt="404 illustration" width="512px">
-        <h3 class="display-4 color-pr mt-2"><strong>Page Introuvable !</strong></h3>
-        <a href="{{ path_for('home') }}" class="">revient au page accueille</a>
-    </div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="ie=edge" http-equiv="X-UA-Compatible">
+        <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/aos.css" rel="stylesheet">
+        <link href="/public/css/style.css" rel="stylesheet">
+        <script src="/public/js/icon-feather.js"></script>
+        <title>
+            404
+        </title>
+    </head>
+    <body>
+        <div class="container my-5">
+            <div class="row" style="hieght:300px">
+                <div class="col-sm mt-5 pt-5">
+                    <img alt="404 illustration" class="img-fluid align-middle mt-5" src="/public/img/404.png" width="512px">
+                </div>
+                <div class="col-sm d-flex align-middle mt-5 pt-5">
+                    <div class="align-self-center mt-5 ">
+                        <h3 class="display-4 mt-2">
+                            <strong>Page Introuvable !</strong>
+                        </h3>
+                        <p class="lead">
+                            La page que vous cherchez n'existe pas ou l'URL est incorrecte
+                        </p>
+                        <a class="btn btn-primary rounded-pill" href="{{ path_for('home') }}">
+                            Page d'accuile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            feather.replace()
+        </script>
+    </body>

@@ -5,6 +5,7 @@
  */
 
 use Slim\Http\UploadedFile;
+use App\Models\Document;
 
 function randomString(){
     $legnth = 6;
@@ -51,4 +52,30 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile)
 
     return $filename;
 }
+/*
+ *  Fonction n°6 : génere des coleur aliatoir 
+ */
+function randomColor()
+{
+    // 9 cls
+    $colors = [
+        "#cb2025",
+        "#cb2098",
+        "#8c20cb",
+        "#206acb",
+        "#5320cb",
+        "#20cbcb",
+        "#2ecb20",
+        "#cbba20",
+        "#cb7320",
+    ];
+    return $colors[ rand(0,8) ];
+}
 
+/*
+ *  Fonction n°6 : génere le reférance d'un doc passé sur leur info
+ */
+function genrateREF($lastId , $type ){
+    $lastId = (int) $lastId[0]->lastId;
+    return strtoupper($type).$lastId."-".date("Ymdhis");
+}

@@ -1,70 +1,82 @@
-<nav class="navbar  navbar-expand-lg bg-white shadow-sm border-bottom">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand mb-0" href="{{ "/"~ lang ~ path_for('home') }}" title="Accuil">
-            <img class="mr-4" src="/public/img/logo.svg" alt="logo" width="42px">
+<nav class="navbar  navbar-expand-lg navbar-dark shadow-sm" style="background-color:#4099de">
+    <div class="container">
+        <a class="navbar-brand mb-0" href="{{ path_for('home') }}" title="Accuil">
+            <img alt="logo" class="mr-4" src="/public/img/logo-white.svg" width="42px">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class=""><img src="/public/img/menu-icon.svg" alt="" width="18px"></span>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+            <span class=""><img alt="" src="/public/img/menu-icon.svg" width="18px"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="mr-auto d-flex flex-column flex-md-row">
-                <form action="{{ path_for('search') }}" class="ml-md-3" autocomplete="off">
-                    <input class="form-control mr-sm-2 search rounded-pill" name="q" type="text"
-                           placeholder="Recherche">
-                </form>
+            <div class="mr-auto navbar-nav d-flex flex-column flex-md-row">
+                <div class="dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="dropdownMenuCategorie" role="button">
+                        Categories
+                    </a>
+                    <div aria-labelledby="dropdownMenuCategorie" class="dropdown-menu p-3 shadow-sm" style="width:800px">
+                        <div class="row">
+                            {% for categorie in cat %}
+                                <div class="col-4">
+                                    <a href="{{ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}" class="p-0 color-pr font-18 mb-4 d-inline font-weight-bold">
+                                        {{ categorie.nom | capitalize }}
+                                    </a>
+                                    <hr>
+                                    <ul class="list-unstyled font-14 pl-2">
+                                        {% for souscategorie in categorie.souscategories %}
+                                            <li class="mb-1">
+                                                <a href=" {{ path_for('categorie',
+                                                            {
+                                                                'categorieNom': generateURL(categorie.nom) ,
+                                                                'sousCategorieNom' : generateURL(souscategorie.nom)
+                                                            }) }} ">
+                                                    {{ souscategorie.nom }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                            <div class="col-4">
+                                <h6 class="dropdown-header p-0 font-18 mb-2 d-inline">
+                                    <a href="{{ path_for('categorie') }}">
+                                        <i data-feather="plus"></i>
+                                        Voir Tout
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path_for('search') }}" class="nav-item nav-link ml-3">
+                    Recherche
+                </a>
             </div>
             <div class="navbar-nav ml-auto">
                 {% if auth.connected %}
                     <div class="dropdown">
-                        <a class="dropdown-toggle font-weight-bold"
-                           href="#"
-                           role="button" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
+                        <img class="mr-1 rounded-circle shadow-sm" height="32" src="/public/img/profiles/{{ auth.user.profile_img == null ? 'default.png' : auth.user.profile_img }}" width="32">
+                        <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle nav-item nav-link font-weight-bold d-inline" data-toggle="dropdown" href="#" id="dropdownMenuLink" role="button">
                             {{ auth.user.email }}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                        <div aria-labelledby="dropdownMenuLink" class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ path_for('user') }}">
-                                <i class="mr-2"
-                                   data-feather="user">
-                                </i>
+                                <i class="mr-2" data-feather="user"></i>
                                 Mon profil
                             </a>
                             <a class="dropdown-item" href="{{ path_for('deconnecter') }}">
-                                <i class="mr-2"
-                                   data-feather="log-out">
-                                </i>
+                                <i class="mr-2" data-feather="log-out"></i>
                                 Déconnecter
                             </a>
                         </div>
                     </div>
                 {% else %}
-                    <a class="nav-item nav-link py-1 ml-40 my-md-0 my-2" href="{{ "/"~ lang ~ path_for('a-propos') }}">
-                        A propos
+                    <a class="nav-item btn btn-outline-light py-1 ml-40 my-md-0 my-2" href="{{ path_for('connection') }}">
+                        Connexion
                     </a>
-                    <a class="nav-item nav-link py-1 ml-40 my-md-0 my-2"
-                       href="{{ "/"~ lang ~ path_for('connection') }}">
-                        Connection
-                    </a>
-                    <a class="nav-item nav-link px-3 py-1 my-md-0 my-2 btn btn-sm btn-outline-primary shadow rounded-pill"
-                       href="{{ "/"~ lang ~ path_for('inscription') }}">
-                        INSCRIPTION
+                    <a class="nav-item btn btn-light py-1 ml-40 my-md-0 my-2 text-dark" href="{{ path_for('inscription') }}">
+                        Inscrciption
                     </a>
                 {% endif %}
             </div>
         </div>
     </div>
-</nav>
-<nav class="nav justify-content-center" style="background-color: #4099de !important;">
-    {% for categorie in cat %}
-        <a href="{{ "/"~ lang ~ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}"
-           class="nav-link text-white d-inline-block px-4 mx-1 cat-link">
-            {{ categorie.nom }}
-        </a>
-    {% endfor %}
-    <a href="{{ "/"~ lang ~ path_for('categorie') }}"
-       class="nav-link text-white d-inline-block px-4 mx-1 cat-link">Voir Tout</a>
 </nav>
