@@ -110,4 +110,45 @@ class UserController extends BaseController
         return $response->withRedirect($this->router->pathFor('user'));
 
     } 
+    /* méthod de recupiare user detail */
+    public function userdetails($request,$response)
+    {
+        $id = (int) filter_var($request->getParam('user_id'),FILTER_VALIDATE_INT);
+        $user = User::find($id);
+        $img = $user->profile_img == null ? "default.png" : $user->profile_img;
+        $details = '
+        <div class="table-responsive">  
+            <table class="table table-borderless table-striped">
+        ';
+
+        $details .= '
+        <tr>  
+             <td width="30%"><label class="font-weight-bold">Image de profil</label></td>  
+             <td width="70%">
+                <img src="/public/img/profiles/'. $img .'" alt="profil image" class="img-thumbnail" width="45" height="45">
+             </td>  
+        </tr>   
+        <tr>  
+             <td width="30%"><label class="font-weight-bold">Nom</label></td>  
+             <td width="70%" class="text-muted">'.$user->nom.'</td>  
+        </tr>  
+        <tr>  
+             <td width="30%"><label class="font-weight-bold">Prénom</label></td>  
+             <td width="70%" class="text-muted">'.$user->prenom.'</td>  
+        </tr>  
+        <tr>  
+             <td width="30%"><label class="font-weight-bold">Email</label></td>  
+             <td width="70%" class="text-muted">'.$user->email.'</td>  
+        </tr>  
+        <tr>  
+            <td width="30%"><label class="font-weight-bold">Type</label></td>  
+            <td width="70%" class="text-muted">'.$user->type.'</td>  
+        </tr>          
+        ';
+
+        $details .= '
+            </table>
+        </div>';
+        echo $details;
+    }
 }

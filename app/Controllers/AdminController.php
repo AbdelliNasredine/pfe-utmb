@@ -75,7 +75,7 @@ class AdminController extends BaseController
         if($this->auth->isAdminConnected()){
             return $this->view->render($response, 'admin/admin.users.view.twig', 
                 [
-                    'users' => User::orderBy('date_inscription','desc')->get(),
+                    'users' => User::where('etat',1)->orderBy('date_inscription','desc')->get(),
                 ]
             );    
         }else{
@@ -161,4 +161,53 @@ class AdminController extends BaseController
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
     }
+    /* méthod de validation d'un document */
+    public function validateDocument($request,$response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            $id = (int) $args['id'];
+            $doc = Document::find($id);
+            $doc->valid = 1;
+            $doc->save();
+            $this->flash->addMessage('success', "Document a été valider avec success");
+            return $response->withRedirect($this->router->pathFor('admin-view-document',['id' => $id]));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
+    /* méthod de un document */
+    public function deleteDocument($request,$response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            $id = (int) $args['id'];
+            Document::destroy($id);
+            $this->flash->addMessage('success', "Document ". $id ." supprimer avec succeé !");
+            return $response->withRedirect($this->router->pathFor('admin-archive-page'));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
+    /* méthod d'acceptation de demende d'inscription  */
+    public function acceptUser($request , $response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            $user_id = (int) filter_var($args['user_id'],FILTER_SANITIZE_NUMBER_INT);
+            User::where('id',$user_id)->update(['etat' => 1]);
+            $this->flash->addMessage('success', "demender inscription accepter !");
+            return $response->withRedirect($this->router->pathFor('dashboard'));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    } 
+    public function deleteUser($request , $response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            $user_id = (int) filter_var($args['user_id'],FILTER_SANITIZE_NUMBER_INT);
+            User::destroy($user_id);
+            $this->flash->addMessage('success', "Utilisateur a été supprimer avec succée !");
+            return $response->withRedirect($this->router->pathFor('admin-user-page'));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    } 
 }

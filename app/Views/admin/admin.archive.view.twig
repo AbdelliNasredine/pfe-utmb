@@ -92,51 +92,67 @@
                                             <i class="mr-2" data-feather="folder" style="width:24px;height:24px"></i>
                                             Documents
                                         </h4>
-                                        <button class="btn btn-success hover-scal" title="ajouter document" type="button">
+                                        <button class="btn btn-success hover-scal" data-target="#modale_upload" data-toggle="modal" title="ajouter document" type="button">
                                             <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
                                             uploader document
                                         </button>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <div>
-                                            <p class="text-muted mb-1">
-                                                Trie par :
-                                            </p>
-                                            <select class="custom-select mr-sm-2">
-                                                <option value="l">Mémoire licence</option>
-                                                <option value="m">Mémoire Master</option>
-                                                <option value="d">Thése doctorat</option>
-                                            </select>
+                                        {# modale de upload document #}
+                                        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modale_upload" role="dialog" tabindex="-1">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Uploader un document</h5>
+                                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="">
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Titre de document</span>
+                                                                </div>
+                                                                <input class="form-control" type="text">
+                                                            </div>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Auteur(s)</span>
+                                                                </div>
+                                                                <input class="form-control" type="text">
+                                                            </div>
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Résume</span>
+                                                                </div>
+                                                                <textarea class="form-control" type="text"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input class="btn btn-secondary" type="reset" value="reset">
+                                                            <input class="btn btn-primary" type="submit" value="uploader">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="text-muted mb-1">
-                                                Recherche :
-                                            </p>
-                                            <input class="form-control" type="search">
-                                        </div>
                                     </div>
-                                    <div class="row no-gutters">
+                                    <div class="row no-gutters mt-3">
                                         {% for doc in docs %}
                                             <div class="col-sm-3">
                                                 <div class="card hover-scal m-1" style="height:250px">
-                                                    <div class="card-header text-muted">
-                                                        <i data-feather="file-text" class="mr-2"></i>
-                                                        {{ doc.titre }}
-                                                    </div>
                                                     <div class="card-body p-4 d-flex flex-column">
-                                                        <a class="font-weight-bold color-secondary d-block" href="{{ path_for('document' , {'id': doc.id}) }}">
+                                                        <i class="text-muted mb-2" data-feather="file-text" style="width:24px;height:24px;"></i>
+                                                        <a class="font-weight-bold text-muted d-block" href="{{ path_for('admin-view-document' , {'id': doc.id}) }}">
                                                             {{ doc.titre }}
                                                         </a>
                                                         <div class="d-flex mt-auto">
-                                                            <a href="#" class="btn btn-info m-1">
+                                                            <a class="btn btn-info btn-sm m-1" href=" {{ path_for('admin-view-document',{ 'id' : doc.id }) }} ">
                                                                 <i data-feather="info"></i>
+                                                                Consulter
                                                             </a>
-                                                            <a href="#" class="btn btn-success m-1">
+                                                            <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
                                                                 <i data-feather="download-cloud"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-danger m-1">
-                                                                <i data-feather="trash-2"></i>
+                                                                Télecharger
                                                             </a>
                                                         </div>
                                                     </div>

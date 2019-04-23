@@ -33,8 +33,9 @@ a:hover {
     text-decoration: none;
 }
 .link-active{
-    box-shadow: inset 3px 0 0 #4099de;
-    background-color: #ffffff;
+    /* box-shadow: inset 3px 0 0 #4099de; */
+    background-color: #4099de;
+    color : #ffffff !important;
     padding-left: 10px;
     color : #4099de;
     font-weight: bold;

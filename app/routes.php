@@ -69,7 +69,12 @@ $app->group('' , function(){
     $this->post('/admin/user/add','AdminController:addUser')->setName('admin-user-add');
     $this->get('/admin/logout' , 'AdminController:getlogout')->setName('admin-log-out');
     $this->post('/admin/pfe-details','DocumentController:documentDetails');
+    $this->post('/admin/user-details','UserController:userdetails');
+    $this->get('/admin/accept-user/{user_id}','AdminController:acceptUser')->setName('admin-accept-user');
+    $this->get('/admin/delet-user/{user_id}','AdminController:deleteUser')->setName('delete-user');
     $this->get('/admin/document/{id}','AdminController:viewDocument')->setName('admin-view-document');
+    $this->get('/admin/document/{id}/validate','AdminController:validateDocument')->setName('admin-validate-document');
+    $this->get('/admin/document/{id}/delete','AdminController:deleteDocument')->setName('admin-delete-document');
 })->add(new VisiteurMiddleware($container));
 
 

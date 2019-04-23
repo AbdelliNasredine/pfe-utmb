@@ -33,7 +33,9 @@ class RechercheController extends BaseController
 
         // recherche par titre/réferance (simple) :
         $results = Document::where('titre','LIKE',"%$searchWord%")
-                            ->orWhere('ref',$searchWord);
+                            ->where('valid',true)
+                            ->orWhere('ref',$searchWord)
+                            ->where('valid',true);
         // resultats vide
         if(!$results){
             // oui
