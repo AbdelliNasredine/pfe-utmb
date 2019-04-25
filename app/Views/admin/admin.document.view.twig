@@ -1,258 +1,203 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Administration</title>
-        <script src="/public/js/icon-feather.js"></script>
-        <link href="/public/css/bootstrap.css" rel="stylesheet">
-        <link href="/public/css/style.css" rel="stylesheet">
-        <link href="/public/css/admin.css" rel="stylesheet">
-    </head>
-    <body>
-        {# Navigation top #}
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
-                <strong>Administration</strong>
-            </a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
-                        <span data-feather="log-out"></span>
-                        Déconnecter
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container-fluid">
-            <div
-                class="row">
-                {# navigation left #}
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('dashboard') }}">
-                                    <i data-feather="home"></i>
-                                    Accuille
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('admin-user-page') }}">
-                                    <span data-feather="users"></span>
-                                    Utilisateur
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{{ path_for('admin-archive-page') }}">
-                                    <span data-feather="folder"></span>
-                                    document
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="settings"></span>
-                                    Paramétre
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                {# main  #}
-                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
-                    {% if flash.getMessage('success') %}
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                            <strong>
-                                {{ flash.getMessage('success') | first }}
-                            </strong>
-                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endif %}
-                    <div class="row mt-3 no-gutters">
-                        <div
-                            class="col-sm-8">
-                            {# affichache de pdf #}
-                            <div class="m-2 card p-4 shadow-sm">
-                                <div>
-                                    <h5 class="font-weight-light color-secondary">
-                                        {{ doc.titre }}
-                                    </h5>
-                                    <div id="pdfview" style="height:500px"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-sm-4">
-                            {# details de doc #}
-                            <div class="m-2 card p-4 shadow-sm bg-light">
-                                <h5 class="font-weight-bold color-pr">
-                                    Opérations
-                                </h5>
-                                <div class="d-flex mb-3">
-                                    {% if doc.valid == 0 %}
-                                        {# no valid #}
-                                        <button class="btn btn-success btn-sm mr-2" data-target="#modal_validation" data-toggle="modal" type="button">
-                                            Valider le document
-                                        </button>
-                                        {# modale de validation #}
-                                        <div class="modal fade" id="modal_validation" role="dialog" tabindex="-1">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Validation de document</h5>
-                                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Voulez-vous valider ce document ? le document sera visible au tous utilisateur</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
-                                                        <a class="btn btn-primary" href=" {{ path_for('admin-validate-document',{'id' : doc.id }) }} ">Valider</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    <a title="Télecharger" class="btn btn-primary btn-sm mr-2" href="{{ path_for('download',{'url' : doc.url }) }}">
-                                        <i data-feather="download"></i>
-                                    </a>
-                                    <button class="btn btn-danger btn-sm" data-target="#modal_supprimer" data-toggle="modal" title="supprimer" type="button">
-                                        <i data-feather="trash-2"></i>
-                                    </button>
-                                    {# modale de supprimer #}
-                                    <div class="modal fade" id="modal_supprimer" role="dialog" tabindex="-1">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Suppression de document</h5>
-                                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Voulez-vous supprimer le document? le document sera définitivement supprimé</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
-                                                    <a class="btn btn-danger" href=" {{ path_for('admin-delete-document',{'id' : doc.id}) }} ">Supprimer</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5 class="font-weight-bold color-pr">
-                                    Details
-                                </h5>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <tr>
-                                            <td width="30%">
-                                                <span class="font-weight-bold">
-                                                    Titre
-                                                </span>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.titre }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <span class="font-weight-bold">
-                                                    Auteur
-                                                </span>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.auteur }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <span class="font-weight-bold">
-                                                    Résume
-                                                </span>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.resume }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <span class="font-weight-bold">
-                                                    Type
-                                                </span>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.titre }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <label class="font-weight-bold">Date de publication</label>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.date_publication }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <label class="font-weight-bold">Université</label>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.universite }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <label class="font-weight-bold">Faculté</label>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.faculte }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <label class="font-weight-bold">Specialité</label>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {{ doc.specialite }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="30%">
-                                                <label class="font-weight-bold">Etat</label>
-                                            </td>
-                                            <td class="text-muted" width="70%">
-                                                {% if doc.valid == 0 %}
-                                                    <span class="badge badge-danger">
-                                                        Non valider
-                                                    </span>
-                                                {% else %}
-                                                    <span class="badge badge-success">
-                                                        Valider
-                                                    </span>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+    {% include '/admin/navigation.view.twig' with {'active' : 3} %}
+{% endblock %}
+{% block main %}
+    <div class="row mt-2 no-gutters">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href=" {{ path_for('admin-archive-page')  }} ">Document</a>
+                    </li>
+                    <li aria-current="page" class="breadcrumb-item active">
+                        {{ doc.titre }}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div
+            class="col-sm-8">
+            {# affichache de pdf #}
+            <div class="m-2 card p-4 shadow-sm">
+                <div>
+                    <h5 class="font-weight-normal color-pr">
+                        {{ doc.titre }}
+                    </h5>
+                    <div id="pdfview" style="height:500px"></div>
+                </div>
             </div>
         </div>
-        <script src="/public/js/jquery-3.3.1.min.js"></script>
-        <script src="/public/js/bootstrap.js"></script>
-        <script src="/public/js/admin.js"></script>
-        <script src="/public/js/pdfobject.min.js"></script>
-        <script>
-            PDFObject.embed("/uploads/{{ doc.url }}", "#pdfview");
-        </script>
-    </body>
-</html>
+        <div
+            class="col-sm-4">
+            {# details de doc #}
+            <div class="m-2 card p-4 shadow-sm">
+                <h5 class="font-weight-bold text-muted">
+                    Opérations
+                </h5>
+                <div class="d-flex mb-3">
+                    {% if doc.valid == 0 %}
+                        {# no valid #}
+                        <button class="btn btn-success btn-sm mr-2 hover-scal" data-target="#modal_validation" data-toggle="modal" type="button">
+                            Valider le document
+                        </button>
+                        {# modale de validation #}
+                        <div class="modal fade" id="modal_validation" role="dialog" tabindex="-1">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Validation de document</h5>
+                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Voulez-vous valider ce document ? le document sera visible au tous utilisateur</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
+                                        <a class="btn btn-primary" href=" {{ path_for('admin-validate-document',{'id' : doc.id }) }} ">Valider</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <a title="Télecharger" class="btn btn-primary btn-sm mr-2 hover-scal" href="{{ path_for('download',{'url' : doc.url }) }}">
+                        <i data-feather="download"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm hover-scal" data-target="#modal_supprimer" data-toggle="modal" title="supprimer" type="button">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                    {# modale de supprimer #}
+                    <div class="modal fade" id="modal_supprimer" role="dialog" tabindex="-1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Suppression de document</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez-vous supprimer le document? le document sera définitivement supprimé</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
+                                    <a class="btn btn-danger" href=" {{ path_for('admin-delete-document',{'id' : doc.id}) }} ">Supprimer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="font-weight-bold text-muted">
+                    Details
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Titre
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.titre }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Auteur
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.auteur }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Type
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {% if doc.type == 'l' %}
+                                    Mémoire de licence
+                                {% elseif doc.type == 'm' %}
+                                    Mémoire Master
+                                {% elseif doc.type == 'd' %}
+                                    Thése doctorat
+                                {% else %}
+                                    Autre
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Date de publication</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.date_publication }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Université</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.universite }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Faculté</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.faculte }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Specialité</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.specialite }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Etat</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {% if doc.valid == 0 %}
+                                    <span class="badge badge-danger">
+                                        Non valider
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-success">
+                                        Valider
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="m-2 card p-4 shadow-sm">
+                <h5 class="font-weight-bold text-muted">
+                    Résume
+                </h5>
+                <p>
+                    {{ doc.resume }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        PDFObject.embed("/uploads/{{ doc.url }}", "#pdfview");
+    </script>
+{% endblock %}

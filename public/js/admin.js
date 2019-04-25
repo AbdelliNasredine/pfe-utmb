@@ -18,10 +18,36 @@ $(document).ready(function () {
             }
         });
     });
+    // edit user details (modifications)
+    $('.edit_user').click(function () {
+        var user_id = $(this).attr("id");
+        $('#editModal').modal("show");
+        $.ajax({
+            url: `http://${baseUrl}/admin/user-edit`,
+            method: "GET",
+            data: { user_id: user_id },
+            success: function (data) {
+                $('#user_edit_form').html(data);
+                $('#editModal').modal("show");
+            }
+        });
+    });
     //data-table -> users
     $('#user_table').DataTable({
         "language": {
             "url": `http://${baseUrl}/public/js/lang-fr.json`
+        }
+    });
+    // table vue chekbox :
+    $("#table_vue_checkbox").change(function () {
+        if (this.checked) {
+            // table vue true
+            $('.doc_vue').addClass('d-none');
+            $('.table_vue').removeClass('d-none');
+        } else {
+            // table vue false
+            $('.doc_vue').removeClass('d-none');
+            $('.table_vue').addClass('d-none');
         }
     });
 });

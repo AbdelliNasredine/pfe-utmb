@@ -113,7 +113,7 @@ class DocumentController extends BaseController
                         'date_publication' => date("Y-m-d"),
                         'url' => $filename,
                         'valid' => false,
-                        'user_id' => $this->auth->user()->id, 
+                        'user_id' => $this->auth->user()->id , 
                         'categories_id' => $sousCategorie->categorie_id,
                         'sous_categories_id' => $sousCategorie->id,   
                     ]);   

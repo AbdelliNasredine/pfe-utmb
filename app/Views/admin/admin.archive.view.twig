@@ -1,175 +1,226 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Administration</title>
-        <script src="/public/js/icon-feather.js"></script>
-        <link href="/public/css/bootstrap.css" rel="stylesheet">
-        <link href="/public/css/datatables.min.css" rel="stylesheet">
-        <link href="/public/css/style.css" rel="stylesheet">
-        <link href="/public/css/admin.css" rel="stylesheet">
-    </head>
-    <body>
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
-                <strong>Administration</strong>
-            </a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
-                        <span data-feather="log-out"></span>
-                        Déconnecter
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container-fluid">
-            <div
-                class="row">
-                {# naviagtion left #}
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('dashboard') }}">
-                                    <i data-feather="home"></i>
-                                    Accuille
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('admin-user-page') }}">
-                                    <span data-feather="users"></span>
-                                    Utilisateur
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{{ path_for('admin-archive-page') }}">
-                                    <span data-feather="folder"></span>
-                                    Document
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="settings"></span>
-                                    Paramétre
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
-                    <div class="row">
-                        <div class="col-sm-12 my-3">
-                            {% if flash.getMessage('errors') %}
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>
-                                        {{ flash.getMessage('errors') | first }}
-                                    </strong>
-                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                            {% if flash.getMessage('success') %}
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>{{ flash.getMessage('success') | first }}</strong>
-                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                            <div class="card shadow-sm">
-                                <div class="card-header text-muted">
-                                    <i data-feather="folder" style="width:24px;hieght:24px"></i>
-                                    <span class="font-weight-bold">Gestion des documents</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h4 class="font-weight-bold color-pr align-self-center">
-                                            <i class="mr-2" data-feather="folder" style="width:24px;height:24px"></i>
-                                            Documents
-                                        </h4>
-                                        <button class="btn btn-success hover-scal" data-target="#modale_upload" data-toggle="modal" title="ajouter document" type="button">
-                                            <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
-                                            uploader document
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+    {% include '/admin/navigation.view.twig' with { 'active' : 3 } %}
+{% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12 my-3">
+            <div class="card shadow-sm">
+                <div class="card-header text-muted">
+                    <i data-feather="folder" style="width:24px;hieght:24px"></i>
+                    <span class="font-weight-bold">Gestion des documents</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="font-weight-bold color-pr align-self-center">
+                            Documents
+                        </h4>
+                        <button class="btn btn-success hover-scal" data-target="#modale_upload" data-toggle="modal" title="ajouter document" type="button">
+                            <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
+                            uploader document
+                        </button>
+                        {# modale de upload document #}
+                        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modale_upload" role="dialog" tabindex="-1">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Uploader un document</h5>
+                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
-                                        {# modale de upload document #}
-                                        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modale_upload" role="dialog" tabindex="-1">
-                                            <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Uploader un document</h5>
-                                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="">
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Titre de document</span>
-                                                                </div>
-                                                                <input class="form-control" type="text">
-                                                            </div>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Auteur(s)</span>
-                                                                </div>
-                                                                <input class="form-control" type="text">
-                                                            </div>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Résume</span>
-                                                                </div>
-                                                                <textarea class="form-control" type="text"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input class="btn btn-secondary" type="reset" value="reset">
-                                                            <input class="btn btn-primary" type="submit" value="uploader">
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="row no-gutters mt-3">
-                                        {% for doc in docs %}
-                                            <div class="col-sm-3">
-                                                <div class="card hover-scal m-1" style="height:250px">
-                                                    <div class="card-body p-4 d-flex flex-column">
-                                                        <i class="text-muted mb-2" data-feather="file-text" style="width:24px;height:24px;"></i>
-                                                        <a class="font-weight-bold text-muted d-block" href="{{ path_for('admin-view-document' , {'id': doc.id}) }}">
-                                                            {{ doc.titre }}
-                                                        </a>
-                                                        <div class="d-flex mt-auto">
-                                                            <a class="btn btn-info btn-sm m-1" href=" {{ path_for('admin-view-document',{ 'id' : doc.id }) }} ">
-                                                                <i data-feather="info"></i>
-                                                                Consulter
-                                                            </a>
-                                                            <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
-                                                                <i data-feather="download-cloud"></i>
-                                                                Télecharger
-                                                            </a>
+                                    <div class="modal-body p-3">
+                                        <form action="{{ path_for('admin-add-document') }}" class="color-pr" enctype="multipart/form-data" method="post">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="titre">Titre</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="titre" name="titre" placeholder="le titre" required type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="titre">Auteur(s)</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="auteur" name="auteur" placeholder="Auteur(s)" required type="text">
+                                                    <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="resume">Résume</label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="type">Type</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="type" name="type" required>
+                                                        <option selected value=""></option>
+                                                        <option value="l">mémoire de licence</option>
+                                                        <option value="m">mémoire de master</option>
+                                                        <option value="d">thése doctorat</option>
+                                                        <option value="a">autre</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="langue">langue</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="langue" name="langue" required>
+                                                        <option selected value=""></option>
+                                                        <option value="ar">Arabe</option>
+                                                        <option value="en">Anglais</option>
+                                                        <option value="fr">Français</option>
+                                                        <option value="autre">Autre</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="domaine">Categorie</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="domaine" name="domaine" required>
+                                                        <option selected value=""></option>
+                                                        {% for categorie in cat %}
+                                                            <optgroup label="{{ categorie.nom }}">
+                                                                {% for domain in categorie.souscategories %}
+                                                                    <option value="{{ domain.id }}">
+                                                                        {{ domain.nom }}
+                                                                    </option>
+                                                                {% endfor %}
+                                                            </optgroup>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Université</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" name="univ" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Faculté</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" name="fact" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Spécialité</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" name="spes" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    Fichier(.pdf)
+                                                    <span class="text-muted font-12">
+                                                        max 20 méga
+                                                    </span>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="">
+                                                        <div class="">
+                                                            <input aria-describedby="inputGroupFileAddon01" id="inputGroupFile01" name="doc" required type="file">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        {% endfor %}
+                                            <div class="form-group row pt-3">
+                                                <div class="col-sm-12">
+                                                    <button class="btn btn-primary rounded-pill hover-scal" type="submit">
+                                                        <i class="mr-2" data-feather="plus"></i>
+                                                        Ajoutez
+                                                    </button>
+                                                    <button class="btn btn-danger rounded-pill hover-scal" type="reset">
+                                                        <i class="mr-2" data-feather="repeat"></i>
+                                                        reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </main>
+                    <div>
+                        <div class="custom-control custom-switch mb-3">
+                            <input class="custom-control-input" id="table_vue_checkbox" type="checkbox">
+                            <label class="custom-control-label" for="table_vue_checkbox">Table vue</label>
+                        </div>
+                    </div>
+                    <div class="row no-gutters mt-3 doc_vue">
+                        {% for doc in docs %}
+                            <div class="col-sm-3">
+                                <div class="card hover-scal m-1" style="height:250px">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <i class="text-muted mb-2" data-feather="file-text" style="width:24px;height:24px;"></i>
+                                        <a class="font-weight-bold text-muted d-block" href="{{ path_for('admin-view-document' , {'id': doc.id}) }}">
+                                            {{ doc.titre }}
+                                        </a>
+                                        <div class="d-flex mt-auto">
+                                            <a class="btn btn-info btn-sm m-1" href=" {{ path_for('admin-view-document',{ 'id' : doc.id }) }} ">
+                                                <i data-feather="info"></i>
+                                                Consulter
+                                            </a>
+                                            <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
+                                                <i data-feather="download-cloud"></i>
+                                                Télecharger
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12 text-center p-4 bg-light">
+                                <h5 class="text-muted">
+                                    Aucun document trouvé
+                                </h5>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {# tabele vue #}
+                    <div class="d-none table_vue">
+                        <table class="table table-striped" id="user_table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Réf</th>
+                                    <th scope="col">Titre</th>
+                                    <th scope="col">Langue</th>
+                                    <th scope="col">date de publication</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in docs %}
+                                    <tr>
+                                        <td>
+                                            {{ doc.ref }}
+                                        </td>
+                                        <td>
+                                            {{ doc.titre }}
+                                        </td>
+                                        <td>
+                                            {{ doc.langue }}
+                                        </td>
+                                        <td>
+                                            {{ doc.date_publication }}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-sm m-1" href=" {{ path_for('admin-view-document',{ 'id' : doc.id }) }} ">
+                                                <i data-feather="info"></i>
+                                            </a>
+                                            <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
+                                                <i data-feather="download-cloud"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="/public/js/jquery-3.3.1.min.js"></script>
-        <script src="/public/js/bootstrap.js"></script>
-        <script src="/public/js/datatables.min.js"></script>
-        <script src="/public/js/admin.js"></script>
-    </body>
-</html>
+    </div>
+{% endblock %}

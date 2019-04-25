@@ -14,17 +14,9 @@
             }
         </style>
     </head>
-    <body class="bg-light">
-        <div class="text-center mt-5 pt-5">
-            <h1 class="font-weight-bold color-secondary mb-4 mt-3">
-                <span>
-                    <i class="color-secondary mr-2" data-feather="settings"></i>
-                </span>
-                Admin Login
-            </h1>
-        </div>
-        <div class="mx-auto card shadow-sm border-0" style="width:450px; hieght:800px;">
-            <div class="card-body px-5 pt-5">
+    <body class="bg-light pt-5">
+        <div class="mx-auto card shadow-sm border-0 mt-5" style="width:450px; hieght:800px;">
+            <div class="card-body px-5 pt-4">
                 {% if flash.getMessage('errors') %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ flash.getMessage('errors') | first }}
@@ -33,29 +25,29 @@
                         </button>
                     </div>
                 {% endif %}
+                <h3 class="text-primary mb-3">Admin login</h3>
                 <form action="{{ path_for('admin-login') }}" method="post">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" for="">identifiant
+                            <span class="input-group-text" for="">
+                                <i data-feather="user" style="width:16px;height:16px"></i>
                             </span>
                         </div>
-                        <input class="form-control" name="i" type="text">
+                        <input class="form-control" placeholder="identifiant" name="i" type="text">
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">mot de pass </span>
+                            <span class="input-group-text">
+                                <i data-feather="lock" style="width:16px;height:16px"></i>
+                            </span>
                         </div>
-                        <input class="form-control" name="p" type="password">
+                        <input class="form-control" placeholder="mot de pass" name="p" type="password">
                     </div>
-                    <div class="form-group mt-4">
-                        <button class="btn btn-primary py-2" type="submit">
+                    <div class="form-group mt-5">
+                        <button class="btn btn-primary btn-block py-2" type="submit">
                             <i class="mr-2" data-feather="log-in"></i>
                             Se connecter
                         </button>
-                        <a href="{{ path_for('home') }}" class="btn btn-inverted py-2 float-right">
-                            <i data-feather="arrow-left"></i>
-                            retour
-                        </a>
                     </div>
                 </form>
             </div>

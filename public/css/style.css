@@ -16,7 +16,7 @@ body {
     -moz-osx-font-smoothing: grayscale !important;
     text-rendering: optimizeLegibility !important;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    font-family: "Work Sans" , Sans-Serif;
+    font-family: "Nunito" , Sans-Serif;
     font-size: .875rem;
 }
 
@@ -284,9 +284,8 @@ a:hover {
 .btn-inverted:hover {
     background-color: #436284 !important;
 }
-.btn-primary {
+/* .btn-primary {
     background-color: #4099de !important;
-    /*padding: 12px 24px;*/
 }
 
 .btn-primary:hover,
@@ -294,7 +293,7 @@ a:hover {
 .btn-primary:focus {
     background-color: #236ea8 !important;
     box-shadow: none !important;
-}
+} */
 
 .btn-outline-primary {
     padding: 12px 24px;

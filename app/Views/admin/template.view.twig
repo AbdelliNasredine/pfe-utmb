@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <title>Administration</title>
+        <script src="/public/js/icon-feather.js"></script>
+        {# css #}
+        <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/style.css" rel="stylesheet">
+        <link href="/public/css/admin.css" rel="stylesheet">
+        <link href="/public/css/datatables.min.css" rel="stylesheet">
+    </head>
+    <body>
+        {# Navigation top #}
+        <nav class="navbar fixed-top flex-md-nowrap p-0 border-buttom shadow-sm">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href=" {{ path_for('dashboard') }} ">
+                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
+                <strong>Administration</strong>
+            </a>
+            <ul class="navbar-nav flex-row">
+                <li class="nav-item text-nowrap border-right border-left">
+                    <a class="nav-link font-weight-bold" href="" title="compte">
+                        <img class="mr-2 img-thumbnail" src="/public/img/profiles/admin.png" alt="admin profil image" width="24" height="24"> 
+                        {{ auth.admin.email }}
+                    </a>
+                </li>
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} " title="deconnecter">
+                        <span data-feather="log-out"></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div
+                class="row">
+                {# navigation left #}
+                {% block navigation %}
+                {% endblock %}
+                {# main  #}
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2" role="main">
+                    {% if flash.getMessage('errors') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <li class="no-list-style">
+                                {{ flash.getMessage('errors') | first }}
+                            </li>
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    {% if flash.getMessage('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <li class="no-list-style">
+                                {{ flash.getMessage('success') | first }}
+                            </li>
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    {# main #}
+                    {% block main %}
+                    {% endblock %}
+                </main>
+            </div>
+        </div>
+        {# js #}
+        <script src="/public/js/jquery-3.3.1.min.js"></script>
+        <script src="/public/js/bootstrap.js"></script>
+        <script src="/public/js/datatables.min.js"></script>
+        <script src="/public/js/pdfobject.min.js"></script>
+        <script src="/public/js/admin.js"></script>
+        {% block js %}{% endblock %}
+    </body>
+</html>

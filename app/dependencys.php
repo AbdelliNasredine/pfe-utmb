@@ -58,6 +58,7 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('auth', [
         'connected' => $container->auth->isConnected(),
         'user' => $container->auth->user(),
+        'admin' => $container->auth->admin(),
     ]);
     $view->getEnvironment()->addGlobal('cat', Categorie::all() );
     $view->addExtension(new \Twig_Extension_Debug());

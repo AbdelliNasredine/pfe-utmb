@@ -66,15 +66,19 @@ $app->group('' , function(){
     $this->get('/admin','AdminController:index')->setName('dashboard');
     $this->get('/admin/user','AdminController:user')->setName('admin-user-page');
     $this->get('/admin/archive','AdminController:archive')->setName('admin-archive-page');
+    $this->get('/admin/compte','AdminController:compte')->setName('admin-compte-page');
     $this->post('/admin/user/add','AdminController:addUser')->setName('admin-user-add');
     $this->get('/admin/logout' , 'AdminController:getlogout')->setName('admin-log-out');
     $this->post('/admin/pfe-details','DocumentController:documentDetails');
     $this->post('/admin/user-details','UserController:userdetails');
     $this->get('/admin/accept-user/{user_id}','AdminController:acceptUser')->setName('admin-accept-user');
     $this->get('/admin/delet-user/{user_id}','AdminController:deleteUser')->setName('delete-user');
+    $this->get('/admin/user-edit','UserController:getEditUser')->setName('edit-user');
+    $this->post('/admin/user-edit','UserController:postEditUser');
     $this->get('/admin/document/{id}','AdminController:viewDocument')->setName('admin-view-document');
     $this->get('/admin/document/{id}/validate','AdminController:validateDocument')->setName('admin-validate-document');
     $this->get('/admin/document/{id}/delete','AdminController:deleteDocument')->setName('admin-delete-document');
+    $this->post('/admin/document-add','AdminController:addDocument')->setName('admin-add-document');
 })->add(new VisiteurMiddleware($container));
 
 

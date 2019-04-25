@@ -151,4 +151,78 @@ class UserController extends BaseController
         </div>';
         echo $details;
     }
+    public function getEditUser($request , $response )
+    {
+        $user_id = (int) filter_var($request->getParam('user_id'),FILTER_SANITIZE_NUMBER_INT); 
+        $user = User::find($user_id);
+        $editForm = '<form action="'.$this->router->pathFor('edit-user').'?id='.$user_id.'" method="POST">'; 
+        $editForm .= '<label class="text-muted">Nom :</label>';
+        $editForm .= '<input type="text" class="form-control" name="nom" value="'. $user->nom .'" required/>';
+        $editForm .= '<label class="text-muted">Prénom :</label>';
+        $editForm .= '<input type="text" class="form-control" name="prenom" value="'. $user->prenom .'" required/>';
+        $editForm .= '<label class="text-muted">Email :</label>';
+        $editForm .= '<input type="text" class="form-control" name="email" value="'. $user->email .'" required/>';
+        $editForm .= '<label class="text-muted">Mot de passe :</label>';
+        $editForm .= '<input type="password" class="form-control" name="password" required/>';
+        $editForm .= '<label class="text-muted">Mot de passe (Confirmation) :</label>';
+        $editForm .= '<input type="password" class="form-control" name="passwordConf" required/>';
+        $editForm .= '<label class="text-muted">Type :</label>';
+        $editForm .= '<select class="custom-select" name="type" required>
+                            <option value="" selected></option>
+                            <option value="etudiant">Etudiant</option>
+                            <option value="enseigniant">Enseigniant</option>
+                      </>';
+        $editForm .= '<input type="submit" class="btn btn-success mt-3 mr-2" value="modifier"/>';
+        $editForm .= '<input type="reset" class="btn btn-secondary mt-3" value="reset"/>';
+        $editForm .= '</form>';
+        echo $editForm;
+    } 
+    public function postEditUser($request , $response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            // validation des donnée envoyeé
+            $validation = $this->validator->validateAll($request, ['nom', 'prenom', 'email', 'password', 'passwordConf','type']);
+
+            // filtrage de donnée :
+            $nom = filter_var($request->getParam('nom'), FILTER_SANITIZE_STRING);
+            $prenom = filter_var($request->getParam('prenom'), FILTER_SANITIZE_STRING);
+            $email = filter_var($request->getParam('email'), FILTER_SANITIZE_EMAIL);
+            $password = filter_var($request->getParam('password'), FILTER_SANITIZE_STRING);
+            $passwordConfirmation = filter_var($request->getParam('passwordConf'), FILTER_SANITIZE_STRING);
+            $type = filter_var($request->getParam('type'),FILTER_SANITIZE_STRING);
+            // Les Tests de validation :
+            if (!$validation->valid()) {
+
+                // les champ ne sont pas valid (vide) :
+                return $response->withRedirect($this->router->pathFor('admin-user-page'));
+
+            }
+            if (!$validation->isString($nom)) {
+
+                // nom contint des caratére come (0-9 % ^ $ ... etc)
+                $this->flash->addMessage('errors', "Champ Nom doit contenir seulement les alphabet !");
+                return $response->withRedirect($this->router->pathFor('admin-user-page'));
+
+            }
+            if (!$validation->isString($nom)) {
+
+                // prenom contint des caratére come (0-9 % ^ $ ... etc)
+                $this->flash->addMessage('errors', "Champ Prenom doit contenir seulement les alphabet !");
+                return $response->withRedirect($this->router->pathFor('admin-user-page'));
+
+            }
+            $user_id = (int) filter_var($request->getParam('id'),FILTER_SANITIZE_NUMBER_INT);
+            User::where('id',$user_id)->update([
+                'nom' => $nom ,
+                'prenom' => $prenom ,
+                'password' => $password,
+                'email' => $email ,
+                'type' => $type ,
+            ]);
+            $this->flash->addMessage('success', "Utilisateur ". $user_id ." a été modifier avec succée !");
+            return $response->withRedirect($this->router->pathFor('admin-user-page'));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
 }

@@ -4,12 +4,18 @@ body {
     -moz-osx-font-smoothing: grayscale !important;
     text-rendering: optimizeLegibility !important;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
+    background-color: rgb(235, 235, 235);
+    height: 100%;
     /* font-family: Sans-Serif; */
 }
 
 .feather {
     width: 16px;
     height: 16px;
+}
+
+.navbar {
+    background-color: #fff !important;
 }
 
 /*
@@ -21,9 +27,10 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
-    border-right: 2px solid rgb(221, 221, 221);
+    background-color: #09253a !important;
+    color: #fff !important;
     z-index: 100; /* Behind the navbar */
-    padding: 48px 0 0; /* Height of navbar */
+    padding: 45px 0 0; /* Height of navbar */
 }
 
 .sidebar-sticky {
@@ -42,9 +49,11 @@ body {
     }
 }
 
+
+
 .sidebar .nav-link {
     font-weight: 500;
-    color: #333;
+    color: #fff;
 }
 
 .sidebar .nav-link .feather {
@@ -53,13 +62,13 @@ body {
 }
 
 .sidebar .nav-link.active {
-    color: #ffffff ;
-    /*box-shadow: inset -4px 0 0 0 #4099de ;*/
-    background-color: #4099de !important;
+    box-shadow: inset -4px 0 0 0 #4099de ;
+    background-color: #ffffff44;
+    font-weight: bold;
 }
 
 .sidebar .nav-link:hover {
-    background-color: #00000013;
+    background-color: #ffffff27;
 }
 
 .sidebar .nav-link:hover .feather,
@@ -90,33 +99,28 @@ body {
  * Navbar
  */
 
+.navbar .nav-link {
+    padding: .75rem;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.4);
+} 
+.navbar .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+    background-color:#4099de;
+    color: #ffffff;
+}  
 .navbar-brand {
     padding-top: .75rem;
     padding-bottom: .75rem;
     font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-}
-
-.navbar .form-control {
-    padding: .75rem 1rem;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.form-control-dark {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-}
-
-.bg-dark {
-    background-color: #4099de !important;
+    background-color: #4099de;
+    color: #fff !important;
 }
 .breadcrumb-item + .breadcrumb-item::before{
     color: #6c757d !important;
+}
+.breadcrumb{
+    background-color: transparent !important;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }

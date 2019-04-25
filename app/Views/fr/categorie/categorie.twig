@@ -25,17 +25,30 @@
                     {% endif %}
                 </ol>
             </nav>
-            <h3 class="text-white font-weight-bold pt-3 mt-5 display-4">
+            <h3 class="text-white font-weight-bold pt-3 mt-5 mb-5 display-4">
                 {{ categorie.nom | capitalize }}
             </h3>
-            <p class="lead text-white font-weight-normal">
-                Bienvenue sur la base des Projets de Fin d'Etudes (PFE) de
-                {{ categorie.nom }}
-            </p>
         </div>
     </div>
     <main class="bg-light">
         <div class="container py-3">
+            <div class="row no-gutters bg-white rounded shadow-sm mb-4">
+                <div class="col-sm-12 p-4 color-lead">
+                    <h3 class="color-pr">A propos</h3>
+                    <hr>
+                    <p>
+                        Bienvenue sur la base des Projets de Fin d'Etudes (PFE) de la categorie {{ categorie.nom }},
+                        ici vous pouvez Accédez à document concernant des domaines et thématiques différentes. 
+                        Vous pouvez aussi mettre des évaluation sur les pfe .
+                    </p>
+                    <h1 class="font-weight-bold">
+                       {{ documents|length }} 
+                    </h1>
+                    <span>
+                        Documents ajouté
+                    </span>
+                </div>
+            </div>
             <div class="row no-gutters py-4 bg-white rounded shadow-sm">
                 <div class="col-2 p-2 px-3">
                     <h6 class="color-pr mb-3 pb-3 font-weight-bold">Sous categories</h6>
@@ -54,20 +67,17 @@
                             {% for document in documents %}
                                 <li class="list-group-item d-flex hover-scal">
                                     <div class="align-self-center">
-                                        <img src="/public/img/doc-icon.png" alt="" width="50">
+                                        <img alt="" src="/public/img/doc-icon.png" width="50">
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            <a class="font-weight-bold color-secondary" href="{{ path_for('document' , {'id': document.id}) }}">
+                                            <a class="font-weight-bold color-lead" href="{{ path_for('document' , {'id': document.id}) }}">
                                                 {{ document.titre }}
                                             </a>
                                         </h5>
                                         <p class="card-text text-muted text-justify">
-                                            {{ document.resume }}
+                                            de <i class="font-weight-bold"> {{ document.auteur }} </i>
                                         </p>
-                                        <span class="badge badge-info badge-pill">
-                                            {{ document.souscategorie.nom }}
-                                        </span>
                                     </div>
                                     {% if document.evaluations.avg('nb') < 3 %}
                                         <h4 class="ml-auto align-self-center badge badge-danger font-18">
@@ -85,21 +95,21 @@
                             <h6 class="font-weight-bold text-muted mt-4">Page
                                 {{ pageCourante }}</h6>
                             {% if nombrePage != 1 %}
-                            <ul class="pagination mt-4">
-                                {% for i in 1..nombrePage %}
-                                    {% if pageCourante == i %}
-                                        <li class="active mx-2">
-                                            <span class="page-link rounded border-0">
-                                                {{ i }}
-                                            </span>
-                                        </li>
-                                    {% else %}
-                                        <li class="mx-2">
-                                            <a class="page-link rounded border-0" href="?page={{ i }}">{{ i }}</a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                                <ul class="pagination mt-4">
+                                    {% for i in 1..nombrePage %}
+                                        {% if pageCourante == i %}
+                                            <li class="active mx-2">
+                                                <span class="page-link rounded border-0">
+                                                    {{ i }}
+                                                </span>
+                                            </li>
+                                        {% else %}
+                                            <li class="mx-2">
+                                                <a class="page-link rounded border-0" href="?page={{ i }}">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
                             {% endif %}
                         </nav>
                     {% else %}

@@ -1,189 +1,138 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Administration</title>
-        <script src="/public/js/icon-feather.js"></script>
-        <link href="/public/css/bootstrap.css" rel="stylesheet">
-        <link href="/public/css/style.css" rel="stylesheet">
-        <link href="/public/css/admin.css" rel="stylesheet">
-    </head>
-    <body>
-        {# Navigation top #}
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
-                <strong>Administration</strong>
-            </a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
-                        <span data-feather="log-out"></span>
-                        Déconnecter
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container-fluid">
-            <div
-                class="row">
-                {# navigation left #}
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{{ path_for('dashboard') }}">
-                                    <i data-feather="home"></i>
-                                    Accuille
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('admin-user-page') }}">
-                                    <span data-feather="users"></span>
-                                    Utilisateur
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('admin-archive-page') }}">
-                                    <span data-feather="folder"></span>
-                                    document
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="settings"></span>
-                                    Paramétre
-                                </a>
-                            </li>
-                        </ul>
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+    {% include '/admin/navigation.view.twig' with { 'active' : 1 } %}
+{% endblock %}
+{% block main %}
+    <div class="row mt-3 no-gutters">
+        <div class="col-sm">
+            <div class="card m-2 shadow-sm hover-scal">
+                <div class="card-header text-muted">
+                    <span class="font-weight-bold">Le nombre d'utilisateur total</span>
+                </div>
+                <div class="d-flex card-body justify-content-between">
+                    <img src="/public/img/admin-users.png" alt="user image" width="75" height="75">
+                    <div>
+                        <h1 class="color-pr font-weight-bold text-right">{{ nbUsers }}</h1>
+                        <span class="text-right text-muted">Utilisateur(s)</span>
                     </div>
-                </nav>
-                {# main  #}
-                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
-                    {% if flash.getMessage('success') %}
-                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                            <li class="no-list-style">
-                                {{ flash.getMessage('success') | first }}
-                            </li>
-                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endif %}
-                    <div class="row mt-3">
-                        <div class="col-sm">
-                            <div class="card shadow-sm hover-scal">
-                                <div class="card-header text-muted">
-                                    <span class="font-weight-bold">Le nombre d'utilisateur total</span>
-                                </div>
-                                <div class="d-flex card-body justify-content-between">
-                                    <i class="color-secondary d-inline-block mr-3" data-feather="users" style="width:75px; height:75px"></i>
-                                    <div>
-                                        <h1 class="color-secondary font-weight-bold text-right">{{ nbUsers }}</h1>
-                                        <span class="text-right text-muted">Utilisateur(s)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="card shadow-sm hover-scal">
-                                <div class="card-header text-muted">
-                                    <span class="font-weight-bold">Le nombre des document total</span>
-                                </div>
-                                <div class="d-flex card-body justify-content-between">
-                                    <i class="color-secondary d-inline-block mr-3" data-feather="file" style="width:75px; height:75px"></i>
-                                    <div>
-                                        <h1 class="color-secondary font-weight-bold text-right">{{ nbPfes }}</h1>
-                                        <span class="text-right">Pfe(s)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 mb-2">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="card shadow-sm mb-4">
-                                    <div class="card-header text-muted">
-                                        <i class="mr-2" data-feather="clock" style="width:24px;height:24px"></i>
-                                        <span class="font-weight-bold">Les dernier demende d'incription</span>
-                                    </div>
-                                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
-                                        {% for user in lastusers %}
-                                            <li class="list-group-item d-flex">
-                                                <img alt="profil img" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }} " width="32">
-                                                <div class="align-self-center ml-3">
-                                                    <spa class="text-muted font-weight-bold">
-                                                        {{ user.nom }}
-                                                        {{ user.prenom }}
-                                                    </span>
-                                                </div>
-                                                <div class="ml-auto align-self-center">
-                                                    <input class="btn btn-info btn-sm view_data" id=" {{ user.id }} " name="view" type="button" value="info"/>
-                                                    <a class="btn btn-success btn-sm" href=" {{ path_for('admin-accept-user',{ 'user_id' : user.id }) }} " title="accepter">
-                                                        <i data-feather="check"></i>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                        {% else %}
-                                            <li class="text-center text-muted font-weight-bold list-group-item">
-                                                Aucune demande trouvée
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    {# model info user #}
-                                    <div class="modal fade" id="dataModal">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title color-pr font-weight-bold">Demmende inscription - detail</h5>
-                                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body" id="user_detail"></div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">férmer</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm">
-                                <div class="card shadow-sm">
-                                    <div class="card-header text-muted">
-                                        <i class="mr-2" data-feather="upload-cloud" style="width:24px;height:24px"></i>
-                                        <span class="font-weight-bold">Les dernier documents ajouter
-                                        </span>
-                                    </div>
-                                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
-                                        {% for pfe in lastdocuments %}
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span class="align-self-center text-muted font-weight-bold">
-                                                    {{ pfe.titre }}
-                                                </span>
-                                                <a class="btn btn-primary hover-scal" href=" {{ path_for('admin-view-document',{ 'id' : pfe.id }) }} " title="détail">
-                                                    <i data-feather="eye"></i>
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li class="text-center text-muted font-weight-bold list-group-item">
-                                                aucun document n'est trouvé
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+                </div>
             </div>
         </div>
-        <script src="/public/js/jquery-3.3.1.min.js"></script>
-        <script src="/public/js/bootstrap.js"></script>
-        <script src="/public/js/admin.js"></script>
-    </body>
-</html>
+        <div class="col-sm">
+            <div class="card m-2 shadow-sm hover-scal">
+                <div class="card-header text-muted">
+                    <span class="font-weight-bold">Le nombre des document total</span>
+                </div>
+                <div class="d-flex card-body justify-content-between">
+                    <img src="/public/img/admin-docs.png" alt="user image" width="75" height="75">
+                    <div>
+                        <h1 class="color-pr font-weight-bold text-right">{{ nbPfes }}</h1>
+                        <span class="text-right">doucment(s)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card m-2 shadow-sm hover-scal">
+                <div class="card-header text-muted">
+                    <span class="font-weight-bold">Le nombre des évaluations total</span>
+                </div>
+                <div class="d-flex card-body justify-content-between">
+                    <img src="/public/img/admin-rating.png" alt="user image" width="75" height="75">
+                    <div>
+                        <h1 class="color-pr font-weight-bold text-right">{{ nbEvaluations }}</h1>
+                        <span class="text-right">evaluation(s)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 mb-2">
+        <div class="row no-gutters">
+            <div class="col-sm">
+                <div class="card m-1 shadow-sm mb-4">
+                    <div class="card-header text-muted d-flex">
+                        <i class="mr-2" data-feather="clock" style="width:24px;height:24px"></i>
+                        <div>
+                            <span class="font-weight-bold">Les dernier demende d'incription</span>
+                            <p class="mb-0">
+                                Vous pouvez voire tout les dernier demende d'incription
+                            </p>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
+                        {% for user in lastusers %}
+                            <li class="list-group-item d-flex">
+                                <img alt="profil img" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }} " width="32">
+                                <div class="align-self-center ml-3">
+                                    <spa class="text-muted font-weight-bold">
+                                        {{ user.nom }}
+                                        {{ user.prenom }}
+                                    </span>
+                                </div>
+                                <div class="ml-auto align-self-center">
+                                    <input class="btn btn-info btn-sm view_data" id=" {{ user.id }} " name="view" type="button" value="info"/>
+                                    <a class="btn btn-success btn-sm" href=" {{ path_for('admin-accept-user',{ 'user_id' : user.id }) }} " title="accepter">
+                                        <i data-feather="check"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="text-center text-muted font-weight-bold list-group-item">
+                                <i data-feather="x"></i>
+                                <span>Aucune demande trouvée</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {# model info user #}
+                    <div class="modal fade" id="dataModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title color-pr font-weight-bold">Demmende inscription - detail</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="user_detail"></div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">férmer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card m-1 shadow-sm">
+                    <div class="card-header text-muted d-flex">
+                        <i class="mr-2" data-feather="upload-cloud" style="width:24px;height:24px"></i>
+                        <div>
+                            <span class="font-weight-bold">Les dernier documents ajouter
+                            </span>
+                            <p class="mb-0">
+                                Vous pouvez voire tout les dernier documents ajouter
+                            </p>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush" style="height:280px;overflow: auto;">
+                        {% for pfe in lastdocuments %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="align-self-center text-muted font-weight-bold">
+                                    {{ pfe.titre }}
+                                </span>
+                                <a class="btn btn-primary hover-scal" href=" {{ path_for('admin-view-document',{ 'id' : pfe.id }) }} " title="détail">
+                                    <i data-feather="eye"></i>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="text-center text-muted font-weight-bold list-group-item">
+                                aucun document n'est trouvé
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,231 +1,162 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Administration</title>
-        <script src="/public/js/icon-feather.js"></script>
-        <link href="/public/css/bootstrap.css" rel="stylesheet">
-        <link href="/public/css/datatables.min.css" rel="stylesheet">
-        <link href="/public/css/style.css" rel="stylesheet">
-        <link href="/public/css/admin.css" rel="stylesheet">
-    </head>
-    <body>
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
-                <strong>Administration</strong>
-            </a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} ">
-                        <span data-feather="log-out"></span>
-                        Déconnecter
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container-fluid">
-            <div
-                class="row">
-                {# naviagtion left #}
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('dashboard') }}">
-                                    <i data-feather="home"></i>
-                                    Accuille
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{{ path_for('admin-user-page') }}">
-                                    <span data-feather="users"></span>
-                                    Utilisateur
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path_for('admin-archive-page') }}">
-                                    <span data-feather="folder"></span>
-                                    document
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="settings"></span>
-                                    Paramétre
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                <main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
-                    <div class="row">
-                        <div class="col-sm-12 my-3">
-                            {% if flash.getMessage('errors') %}
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>
-                                        {{ flash.getMessage('errors') | first }}
-                                    </strong>
-                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                            {% if flash.getMessage('success') %}
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>{{ flash.getMessage('success') | first }}</strong>
-                                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                            <div class="card shadow-sm">
-                                <div class="card-header text-muted">
-                                    <i data-feather="users" style="width:24px;hieght:24px"></i>
-                                    <span class="font-weight-bold">Gestion d'utilisateurs</span>
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="text-muted align-self-center">La liste des utilisateurs</h6>
-                                        {# btn add-user #}
-                                        <button class="btn btn-sm btn-success font-14 hover-scal mb-3" data-target="#ModalAddUser" data-toggle="modal" type="button">
-                                            <i class="mr-2" data-feather="user-plus"></i>
-                                            nouveaux utilisateur
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+    {% include '/admin/navigation.view.twig' with { 'active' : 2 }  %}
+{% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12 my-3">
+            <div class="card shadow-sm">
+                <div class="card-header text-muted">
+                    <i data-feather="users" style="width:24px;hieght:24px"></i>
+                    <span class="font-weight-bold">Gestion d'utilisateurs</span>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-muted align-self-center">La liste des utilisateurs</h6>
+                        {# btn add-user #}
+                        <button class="btn btn-sm btn-success font-14 hover-scal mb-3" data-target="#ModalAddUser" data-toggle="modal" type="button">
+                            <i class="mr-2" data-feather="user-plus"></i>
+                            nouveaux utilisateur
+                        </button>
+                        {# model add-user #}
+                        <div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="ModalAddUser" role="dialog" tabindex="-1">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-muted" id="ModalLabel">Ajouter un utilisateur</h5>
+                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                            <span aria-hidden="true" class="text-muted">&times;</span>
                                         </button>
-                                        {# model add-user #}
-                                        <div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="ModalAddUser" role="dialog" tabindex="-1">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title text-muted" id="ModalLabel">Ajouter un utilisateur</h5>
-                                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                            <span aria-hidden="true" class="text-muted">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div
-                                                        class="modal-body">
-                                                        {# form add-user #}
-                                                        <form action="{{ path_for('admin-user-add') }}" method="POST">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Nom</label>
-                                                                <div class="col-sm-9">
-                                                                    <input class="form-control" name="nom" required type="text">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Prénom</label>
-                                                                <div class="col-sm-9">
-                                                                    <input class="form-control" name="prenom" required type="text">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Email</label>
-                                                                <div class="col-sm-9">
-                                                                    <input class="form-control" name="email" placeholder="exemple@exemple.com" required type="email">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">mot de pass</label>
-                                                                <div class="col-sm-9">
-                                                                    <input class="form-control" name="pass" required type="password">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Type</label>
-                                                                <div class="col-sm-9">
-                                                                    <select class="form-control" name="type" required>
-                                                                        <option selected value="etudiant">Etudiant</option>
-                                                                        <option value="enseigniant">Enseigniant</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn btn-inverted hover-scal" data-dismiss="modal" type="button">férmer</button>
-                                                            <button class="btn btn-primary hover-scal" type="submit">ajouter</button>
-                                                        </div>
-                                                    </form>
+                                    </div>
+                                    <div
+                                        class="modal-body">
+                                        {# form add-user #}
+                                        <form action="{{ path_for('admin-user-add') }}" method="POST">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Nom</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" name="nom" required type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Prénom</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" name="prenom" required type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Email</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" name="email" placeholder="exemple@exemple.com" required type="email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">mot de pass</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" name="pass" required type="password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label font-weight-bold text-muted">Type</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control" name="type" required>
+                                                        <option selected value="etudiant">Etudiant</option>
+                                                        <option value="enseigniant">Enseigniant</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <table class="table table-striped" id="user_table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Profil</th>
-                                                <th scope="col">Nom</th>
-                                                <th scope="col">Prénom</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">date d'ajoute</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for user in users %}
-                                                <tr>
-                                                    <td>
-                                                        <img alt="" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }}" width="32">
-                                                    </td>
-                                                    <td>
-                                                        {{ user.nom }}
-                                                    </td>
-                                                    <td>
-                                                        {{ user.prenom }}
-                                                    </td>
-                                                    <td>
-                                                        {{ user.email }}
-                                                    </td>
-                                                    <td>
-                                                        {{ user.date_inscription }}
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge badge-info">
-                                                            {{ user.type }}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <input class="btn btn-info btn-sm view_data" id=" {{ user.id }} " name="view" type="button" value="details"/>
-                                                        <a href=" {{ path_for('delete-user',{'user_id': user.id }) }} " class="btn btn-danger btn-sm">
-                                                            <i data-feather="trash-2"></i>
-                                                        </a>
-                                                        <button class="btn btn-warning btn-sm">
-                                                            <i data-feather="edit"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    {# modale user #}
-                                    <div class="modal fade" id="dataModal">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title color-pr font-weight-bold">Utilisateur - detail</h5>
-                                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body" id="user_detail"></div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">férmer</button>
-                                                </div>
-                                            </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-inverted hover-scal" data-dismiss="modal" type="button">férmer</button>
+                                            <button class="btn btn-primary hover-scal" type="submit">ajouter</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </main>
+                    <table class="table table-striped" id="user_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Profil</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">date d'inscription</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>
+                                        <img alt="" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }}" width="32">
+                                    </td>
+                                    <td>
+                                        {{ user.nom }}
+                                    </td>
+                                    <td>
+                                        {{ user.prenom }}
+                                    </td>
+                                    <td>
+                                        {{ user.email }}
+                                    </td>
+                                    <td>
+                                        {{ user.date_inscription }}
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-info">
+                                            {{ user.type }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <input class="btn btn-info btn-sm view_data" id=" {{ user.id }} " name="view" type="button" value="details"/>
+                                        <input class="btn btn-warning btn-sm edit_user" id=" {{ user.id }} " name="edit" type="button" value="modifier"/>
+                                        <a class="btn btn-danger btn-sm" href=" {{ path_for('delete-user',{'user_id': user.id }) }} ">
+                                            <i data-feather="trash-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {# modale user info #}
+                    <div class="modal fade" id="dataModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title color-pr font-weight-bold">Utilisateur - detail</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="user_detail"></div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">férmer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# modale user edit #}
+                    <div class="modal fade" id="editModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title color-pr font-weight-bold">Utilisateur - Modification</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="user_edit_form"></div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">férmer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="/public/js/jquery-3.3.1.min.js"></script>
-        <script src="/public/js/bootstrap.js"></script>
-        <script src="/public/js/datatables.min.js"></script>
-        <script src="/public/js/admin.js"></script>
-    </body>
-</html>
+    </div>
+{% endblock %}

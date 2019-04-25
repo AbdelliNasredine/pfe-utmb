@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\Document;
 use App\Models\User;
+use App\Models\Categorie;
+use App\Models\SousCategorie;
+use App\Models\Evaluation;
 
 class AdminController extends BaseController
 {
@@ -15,12 +18,22 @@ class AdminController extends BaseController
 
             return $this->view->render($response, 'admin/admin.view.twig', 
                 [
-                    'nbPfes'  => Document::all()->count(),
-                    'nbUsers' => User::all()->count(),
+                    'nbPfes'  => Document::where('valid',1)->count(),
+                    'nbUsers' => User::where('etat',1)->count(),
+                    'nbEvaluations' => Evaluation::count(),
                     'lastusers' => User::where('etat',0)->orderBy('date_inscription','desc')->get(),
                     'lastdocuments' => Document::where('valid',0)->where('user_id','<>',0)->orderBy('date_publication','desc')->get(),
                 ]
             );    
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
+    /* méthod d'affichage de page de compte admin */
+    public function compte($request, $response)
+    {
+        if($this->auth->isAdminConnected()){
+            return $this->view->render($response, 'admin/admin.compte.view.twig');    
         }else{
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
@@ -209,5 +222,78 @@ class AdminController extends BaseController
         }else{
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
+    } 
+    public function addDocument($request , $response)
+    {
+        // le chemin d'acrchive (dossier):
+        $dir = $this->container->get('upload_directory');
+
+
+        // la fichier (.pdf,.doc,.docx,.word)
+        $uploadedFiles = $request->getUploadedFiles();
+        $uploadedFile = $uploadedFiles['doc'];
+
+        // validation de fichier :
+        if( !empty($uploadedFile) ){
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $extention = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+                if(in_array($extention,['pdf','doc','word','docx'])){
+                    // succée 
+                    $filename = moveUploadedFile($dir, $uploadedFile);
+
+                    // convertire au pdf :
+                    // test si extensien != .pdf
+                    if( $extention != 'pdf' ){
+                        // en convertire la fichier
+                        // var_dump('start /wait soffice --headless --convert-to pdf --oudir '.$dir.' '.$dir.DIRECTORY_SEPARATOR.$filename.'');
+                        // die();
+                        $chemin = $dir . DIRECTORY_SEPARATOR . $filename;
+                        // var_dump($chemin);
+                        // die();    
+                        shell_exec('start /wait soffice -headless -convert-to pdf '.$chemin.' -outdir '.$dir );
+                        // supprime la fichier orginall
+                        unlink($dir . DIRECTORY_SEPARATOR . $filename) or die("ereur de suppression");
+                        $ext = ['.word','.docx','.doc'];
+                        $filename = str_replace($ext,".pdf",$filename);
+                        // var_dump($filename);
+                        // die();
+                    }
+
+                    // ajoute de document dans la base de donnée :
+                    $sousCategorie = SousCategorie::find( (int) $request->getParam('domaine') );
+                    $doc = Document::create([
+                        'ref' => genrateREF($this->db::select('select MAX(id) AS lastId from documents'),$request->getParam('type')),
+                        'auteur' => $request->getParam('auteur'),
+                        'titre'  => $request->getParam('titre'),
+                        'resume' => $request->getParam('resume'),
+                        'type'   => $request->getParam('type'),
+                        'langue' => $request->getParam('langue'), 
+                        'universite' => $request->getParam('univ'),
+                        'faculte' => $request->getParam('fact'),
+                        'specialite' => $request->getParam('spes'),
+                        'date_publication' => date("Y-m-d"),
+                        'url' => $filename,
+                        'valid' => true,
+                        'categories_id' => $sousCategorie->categorie_id,
+                        'sous_categories_id' => $sousCategorie->id,   
+                    ]);   
+
+                }else{
+                    // erreur : extention erronner != '.pdf','.doc','.word','.docx'
+                    $this->flash->addMessage('errors', "veullez choisire une fichier .pdf , .doc , .docx , .word");
+                    return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+                }
+            }else{
+                // erreur : fichier pas uploader
+                $this->flash->addMessage('errors', "Erreur l'ors d'upload de fichier , réessayer");
+                return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+            }
+        }else{
+            // erreur : no fichier uploader / taille > 8 mega
+            $this->flash->addMessage('errors', 'Erreur fichier supperiour à 20 méga, essayez autre');
+            return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+        }
+        $this->flash->addMessage('success', 'succeé ! votre document a été ajouter avec succée ');
+        return $response->withRedirect($this->router->pathFor('admin-archive-page'));
     } 
 }
