@@ -1,7 +1,8 @@
-<nav class="navbar  navbar-expand-lg navbar-dark shadow-sm" style="background-color:#4099de">
+<nav class="navbar  navbar-light navbar-expand-lg bg-white shadow-sm">
+{# style="background-color:#4099de" #}
     <div class="container">
         <a class="navbar-brand mb-0" href="{{ path_for('home') }}" title="Accuil">
-            <img alt="logo" class="mr-4" src="/public/img/logo-white.svg" width="42px">
+            <img alt="logo" class="mr-4" src="/public/img/logo.svg" width="42px">
         </a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
             <span class=""><img alt="" src="/public/img/menu-icon.svg" width="18px"></span>
@@ -69,10 +70,10 @@
                         </div>
                     </div>
                 {% else %}
-                    <a class="nav-item btn btn-outline-light py-1 ml-40 my-md-0 my-2" href="{{ path_for('connection') }}">
+                    <a class="nav-item btn btn-outline-primary py-1 ml-40 my-md-0 my-2" href="{{ path_for('connection') }}">
                         Connexion
                     </a>
-                    <a class="nav-item btn btn-light py-1 ml-40 my-md-0 my-2 text-dark" href="{{ path_for('inscription') }}">
+                    <a class="nav-item btn btn-primary py-1 ml-40 my-md-0 my-2" href="{{ path_for('inscription') }}">
                         Inscrciption
                     </a>
                 {% endif %}
