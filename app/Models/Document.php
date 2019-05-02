@@ -43,4 +43,8 @@ class Document extends Model
     {
         return $this->hasMany('\App\Models\Evaluation','documents_id');
     }
+    public function evaluationGenerale(int $id) {
+
+        return number_format( (float) Evaluation::where('documents_id' , $id)->avg('nb'), 1, '.', '') * 100 / 5;
+    }
 }

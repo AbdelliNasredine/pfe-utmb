@@ -14,18 +14,13 @@ class HomeController extends BaseController
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     public function index($request, $response)
     {
-        if($this->auth->isConnected()){
-            return $response->withRedirect($this->container->router->pathFor('user'));
-        }else{
-            // recupaire les dernier 10 pfe's :
-            $pfes = Document::where('valid',true)->orderBy('date_publication','desc')->limit(10)->get();
-            $path = $this->language . DIRECTORY_SEPARATOR . 'accueil.twig';
-            return $this->view->render($response, $path, 
-            [
-                "lang" => $this->language,
-                "pfes" => $pfes
-            ]);
-        }
+        $path = $this->language . DIRECTORY_SEPARATOR . 'accueil.twig';
+        return $this->view->render($response, $path, 
+        [
+            "lang" => $this->language,
+            "pfes" => Document::where('valid',true)->orderBy('date_publication','desc')->limit(10)->get(),
+            "all" => Document::where('valid',true)->orderBy('date_publication','desc')->get()
+        ]);
     }
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

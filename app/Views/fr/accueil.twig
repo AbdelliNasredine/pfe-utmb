@@ -22,192 +22,275 @@
     <a class="btn_up d-none" href="#">
         <i data-feather="chevron-up"></i>
     </a>
-    <section class="jumbotron rounded-0 img-accuil mb-0 shadow border-bottom border-white">
-        <div class="container py-5">
-            <div class="row py-5">
-                <div class="col-sm-12" data-aos="fade-down">
-                    <h1 class="display-3 text-white  mb-32">
-                        Mypfe université de béchar
-                    </h1>
-                    <p class="lead text-white font-22 mb-32 text-justify font-weight-normal">
-                        Partagez vos documents avec tous les étudiants qui visistent le site. 
-                                                Ici vous pouvez déposer vos exposés, PFE (projets de fin d'études), 
-                                                mémoires
-                    </p>
-                    <a class="btn btn-light text-primary mr-3 mt-5 px-4 font-18 hover-scal mb-5" href=" {{ path_for('connection') }}">
-                        <i class="mr-3" data-feather="log-in"></i>
-                        Connecter
-                    </a>
+    {% if auth.connected %}
+        <main class="bg-light py-4">
+            <div class="bg-grd"></div>
+            <div class="container-fluid">
+                <div class="row no-gutters">
+                    <div class="col-sm-10">
+                        <div class="bg-white mr-2 shadow-sm rounded-lg p-4">
+                            <h5 class="text-muted font-weight-bold mb-4">Récemment ajouté</h5>
+                            <div class="row">
+                                {% for pfe in all %}
+                                    <div class="col-3 mb-3">
+                                        <div class="card hover-scal">
+                                            <div class="card-img-top text-center p-4 bg-light">
+                                                <img alt="" height="64" src="/public/img/doc-icon.png" width="64">
+                                            </div>
+                                            <div class="card-body">
+                                                <a class="stretched-link" href="{{ path_for('document',{ 'id' : pfe.id }) }}">
+                                                    <h6 class="card-title font-14 font-bold text-truncate">
+                                                        {{ pfe.titre }}
+                                                    </h6>
+                                                    <h6 class="card-subtitle mb-2 font-12 text-muted"> {{ pfe.auteur }} </h6>
+                                                </a>
+                                                <div class="stars-outer">
+                                                    <div class="stars-inner" style="width: {{pfe.evaluationGenerale(pfe.id)}}%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="bg-white mr-2 shadow-sm rounded-lg p-4">
+                            <h5 class="text-muted font-weight-bold">Les categories</h5>
+                            <ul class="list-unstyled">
+                                {% for categorie in cat %}
+                                    <li>
+                                        <a href=" {{ path_for('categorie',{'categorieNom' : generateURL(categorie.nom) }) }} ">
+                                            {{ categorie.nom }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="bg-white mr-2 shadow-sm rounded-lg p-4 mt-2">
+                            <a class="btn btn-primary btn-block" href="#">
+                                <i class="mr-2" data-feather="upload"></i>
+                                Ajouter votre PFE's
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="text-white bg-grd">
-        <div class="container pt-80 pb-80" data-aos="fade-down">
-            <h2 class="text-center mb-40 display-4 border-active-small-white" data-aos="fade">
-                Que puis-je faire dans le site ?
-            </h2>
-            <div class="row text-sm-center text-md-left">
-                <div
-                    class="col-sm hover-scal p-4 rounded-lg">
-                    {# <img alt="share icon" class="img-fluid mb-32 mt-2" data-aos-delay="50" data-aos="fade" src="/public/img/share.svg" width="100"> #}
-                    <i class="mb-32 mt-2" data-aos-delay="50" data-aos="fade" data-feather="share-2" style="width:100px;height:100px"></i>
-                    <h4 class="mb-3" data-aos-delay="50" data-aos="fade">
-                        <strong>Partager des documents</strong>
-                    </h4>
-                    <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
-                        Ce site vous donnera la possibilité de partager votre project de fin d'etude et de le rendre
-                                                accessible à d'autres étudiants pour le voir en ligne
-                    </p>
-                </div>
-                <div class="col-sm p-4 rounded-lg hover-scal">
-                    <i class="mb-32 mt-2" data-aos-delay="50" data-aos="fade" data-feather="file-text" style="width:100px;height:100px"></i>
-                    <h4 class="mb-3" data-aos-delay="50" data-aos="fade">
-                        <strong>Consulter des documents</strong>
-                    </h4>
-                    <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
-                        Vous pouvez voir les projets des autres étudiants via le Web et même les télécharger
-                                                pour les consulter hors ligne.
-                    </p>
-                </div>
-                <div class="col-sm p-4 rounded-lg hover-scal">
-                    <i class="mb-32 mt-2" data-aos-delay="50" data-aos="fade" data-feather="star" style="width:100px;height:100px"></i>
-                    <h4 class="mb-3" data-aos-delay="50" data-aos="fade">
-                        <strong>Evaluer des documents</strong>
-                    </h4>
-                    <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
-                        Vous avez également le droit de
-                                                donner votre avis sur le contenu du
-                                                projet afin de donner une evaluation à l'étudiant.
-                    </p>
+        </main>
+    {% else %}
+        <section class="jumbotron rounded-0 img-accuil mb-0 shadow border-bottom border-white">
+            <div class="container py-5">
+                <div class="row py-5">
+                    <div class="col-sm-7" data-aos="fade-down">
+                        <h1 class="display-3 text-white  mb-32">
+                            Mypfe université de béchar
+                        </h1>
+                        <p class="lead text-white-50 font-22 mb-32 text-justify font-weight-normal">
+                            Partagez vos documents avec tous les étudiants qui visistent le site. 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Ici vous pouvez déposer vos exposés, PFE (projets de fin d'études), 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                mémoires
+                        </p>
+                    </div>
+                    <div class="col-sm-5" data-aos="fade-up">
+                        <div class="bg-white rounded-lg shadow-sm">
+                            <div class="card-body p-4">
+                                <h5 class="card-title">
+                                    <i class="mr-3" data-feather="log-in"></i>
+                                    Connecter Maintenant
+                                </h5>
+                                <p class="text-black-50">
+                                    bénificier de plus fonctionnalité
+                                </p>
+                                <form action=" {{ path_for('connection') }} " method="POST">
+                                    <label>
+                                        E-mail
+                                    </label>
+                                    <input class="form-control mb-2" name="email" placeholder="Indiquer votre e-mail" type="text">
+                                    <label>
+                                        Mot de passe
+                                    </label>
+                                    <input class="form-control" name="password" placeholder="Indiquer votre mot de pass" type="password">
+                                    <button class="mt-4 btn btn-primary btn-block py-3" type="submit">
+                                        Connecter
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="bg-light">
-        <div class="container w-75 text-center" data-aos="fade-down">
-            <h3 class="display-4 pt-5 mb-3 text-center color-pr border-active-small" data-aos="fade">LES
-                                                                                THÉMATIQUES</h3>
-            <p class="lead text-center mb-5  mt-4 color-lead" data-aos="fade">Sélectionnez la catégorie qui vous
-                                                                                intéresse
-                                                                                et découvrez
-                                                                                les pfe's disponibles.</p>
-            <div class="row mx-5" data-aos="fade-right">
-                {% for categorie in cat %}
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card border-0 m-2 hover-scal">
-                            <div class="row no-gutters">
-                                <div class="col">
-                                    <div class="card-body">
-                                        <h6 class="card-title mt-3 font-22">
-                                            <a class="stretched-link" href="{{ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}">
-                                                <span class="mr-3" data-feather="book-open"></span>
-                                                {{ categorie.nom | capitalize }}
-                                            </a>
-                                        </h6>
+        </section>
+        <section class="text-white bg-grd">
+            <div class="container pt-80 pb-80" data-aos="fade-down">
+                <h2 class="text-center mb-40 display-4 border-active-small-white" data-aos="fade">
+                    Que puis-je faire dans le site ?
+                </h2>
+                <div class="row text-sm-center text-md-left no-gutters">
+                    <div
+                        class="col-sm">
+                        {# <img alt="share icon" class="img-fluid mb-32 mt-2" data-aos-delay="50" data-aos="fade" src="/public/img/share.svg" width="100"> #}
+                        <div class="m-2 p-3 hover-scal" style="height:400px">
+                            <i class="mb-32 mt-2 text-white" data-aos-delay="50" data-aos="fade" data-feather="share-2" style="width:100px;height:100px"></i>
+                            <h4 class="mb-3 text-white" data-aos-delay="50" data-aos="fade">
+                                <strong>Partager des documents</strong>
+                            </h4>
+                            <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
+                                Ce site vous donnera la possibilité de partager votre project de fin d'etude et de le rendre
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            accessible à d'autres étudiants pour le voir en ligne
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="m-2 p-3 hover-scal" style="height:400px">
+                            <i class="mb-32 mt-2 text-white" data-aos-delay="50" data-aos="fade" data-feather="file-text" style="width:100px;height:100px"></i>
+                            <h4 class="mb-3 text-white" data-aos-delay="50" data-aos="fade">
+                                <strong>Consulter des documents</strong>
+                            </h4>
+                            <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
+                                Vous pouvez voir les projets des autres étudiants via le Web et même les télécharger
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            pour les consulter hors ligne.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="m-2 p-3 hover-scal" style="height:400px">
+                            <i class="mb-32 mt-2 text-white" data-aos-delay="50" data-aos="fade" data-feather="star" style="width:100px;height:100px"></i>
+                            <h4 class="mb-3 text-white" data-aos-delay="50" data-aos="fade">
+                                <strong>Evaluer des documents</strong>
+                            </h4>
+                            <p class="text-white-50 mt-4" data-aos-delay="50" data-aos="fade">
+                                Vous avez également le droit de
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            donner votre avis sur le contenu du
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            projet afin de donner une evaluation à l'étudiant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-light">
+            <div class="container w-75 text-center" data-aos="fade-down">
+                <h3 class="display-4 pt-5 mb-3 text-center color-pr border-active-small" data-aos="fade">LES THÉMATIQUES</h3>
+                <p class="lead text-center mb-5  mt-4 color-lead" data-aos="fade">
+                    Sélectionnez la catégorie qui vous intéresse et découvrez
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        les pfe's disponibles.
+                </p>
+                <div class="row mx-5" data-aos="fade-right">
+                    {% for categorie in cat %}
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card border-0 m-2 hover-scal">
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <div class="card-body">
+                                            <h6 class="card-title mt-3 font-22">
+                                                <a class="stretched-link" href="{{ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}">
+                                                    <span class="mr-3" data-feather="book-open"></span>
+                                                    {{ categorie.nom | capitalize }}
+                                                </a>
+                                            </h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="text-center">
-                <a href="{{ path_for('categorie') }}" class="btn btn-inverted bg-grd rounded-pill p-3 my-4">
-                    <span data-feather="plus"></span>
-                    <span class="my-1 px-1">Voir Touts Les categories</span>
-                </a>
-            </div>
-        </div>
-    </section>
-    <section class="bg-white">
-        <div class="container pt-80 pb-80" data-aos="fade-down">
-            <h6 class="display-4 color-pr text-center mb-5 border-active-small">
-                Pfe's
-            </h6>
-            <div class="text-center">
-                <p class="lead color-lead text-center mb-5">
-                    Voir les dernier pfe ajouter
-                </p>
-            </div>
-            <div class="mt-3">
-                <div class="list-group">
-                    {% for pfe in pfes %}
-                        <a class="list-group-item list-group-item-action" href="{{ path_for('document',{ 'id' : pfe.id }) }}">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{ pfe.titre }}</h5>
-                            </div>
-                            <p class="mb-1">
-                                de
-                                <strong>{{ pfe.auteur }}</strong>
-                                -
-                                <strong>{{ pfe.universite }}</strong>
-                            </p>
-                            <small>ajouter le
-                                {{ pfe.date_publication }}</small>
-                        </a>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="mt-3 text-center">
-                <a href="{{ path_for('categorie') }}" class="color-secondary">
-                    <i class="mr-2" data-feather="plus"></i>
-                    voir plus
-                </a>
-            </div>
-        </div>
-    </section>
-    <section class="bg-light img-contact">
-        <div class="container pt-80 pb-80" data-aos="fade-down">
-            <div class="row py-5">
-                <div class="col-sm-5 mb-3">
-                    <h4 class="mb-5 color-pr font-weight-bold">Information de contact</h4>
-                    <p class="color-lead"><img alt="email icon" class="pr-3" src="/public/img/email-icon.svg">info@pfe-utmb.dz</p>
-                </div>
-                <div class="col-sm-7">
-                    <h4 class="mb-5 color-pr font-weight-bold">Contactez nous par formulaire</h4>
-                    <form id="contact" action="{{ path_for('envoyer') }}" method="POST" autocomplete="off">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label class="color-lead" for="nom">Votre nom</label>
-                                <input class="form-control" name="nom" placeholder="nom" required type="text">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="color-lead" for="email">Votre email</label>
-                                <input class="form-control" name="email" placeholder="exemple@site.com" required type="email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="color-lead" for="titre">Titre de message</label>
-                            <input class="form-control" name="titre" placeholder="Le sujet de message" required type="text">
-                        </div>
-                        <div class="form-group">
-                            <label class="color-lead" for="contenu">Votre message</label>
-                            <textarea class="form-control" name="contenu" placeholder="Message ..." required rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary rounded-pill hover-scal" type="submit">
-                                <i class="pr-2" data-feather="send"></i>
-                                Envoyer
-                            </button>
-                        </div>
-                    </form>
+                <div class="text-center">
+                    <a href="{{ path_for('categorie') }}" class="btn btn-inverted bg-grd rounded-pill p-3 my-4">
+                        <span data-feather="plus"></span>
+                        <span class="my-1 px-1">Voir Touts Les categories</span>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="bg-grd">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between">
-                <h2 class="font-weight-bold text-white mb-0">
-                    Qu'est-ce que tu attends ?
-                </h2>
-                <a class="btn btn-inverted shadow-sm hover-scal" href="{{ path_for('inscription') }}">
-                    <span class="mr-3" data-feather="log-in"></span>
-                    <span>Crée votre compte</span>
-                </a>
+        </section>
+        <section class="bg-white">
+            <div class="container pt-80 pb-80" data-aos="fade-down">
+                <h6 class="display-4 color-pr text-center mb-5 border-active-small">
+                    Pfe's
+                </h6>
+                <div class="text-center">
+                    <p class="lead color-lead text-center mb-5">
+                        Voir les dernier pfe ajouter
+                    </p>
+                </div>
+                <div class="mt-3">
+                    <div class="list-group">
+                        {% for pfe in pfes %}
+                            <a class="list-group-item list-group-item-action" href="{{ path_for('document',{ 'id' : pfe.id }) }}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ pfe.titre }}</h5>
+                                </div>
+                                <p class="mb-1">
+                                    de
+                                    <strong>{{ pfe.auteur }}</strong>
+                                    -
+                                    <strong>{{ pfe.universite }}</strong>
+                                </p>
+                                <small>ajouter le
+                                    {{ pfe.date_publication }}</small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="{{ path_for('categorie') }}" class="color-secondary">
+                        <i class="mr-2" data-feather="plus"></i>
+                        voir plus
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+        <section class="bg-light img-contact">
+            <div class="container pt-80 pb-80" data-aos="fade-down">
+                <div class="row py-5">
+                    <div class="col-sm-5 mb-3">
+                        <h4 class="mb-5 color-pr font-weight-bold">Information de contact</h4>
+                        <p class="color-lead"><img alt="email icon" class="pr-3" src="/public/img/email-icon.svg">info@pfe-utmb.dz</p>
+                    </div>
+                    <div class="col-sm-7">
+                        <h4 class="mb-5 color-pr font-weight-bold">Contactez nous par formulaire</h4>
+                        <form id="contact" action="{{ path_for('envoyer') }}" method="POST" autocomplete="off">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="color-lead" for="nom">Votre nom</label>
+                                    <input class="form-control" name="nom" placeholder="nom" required type="text">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="color-lead" for="email">Votre email</label>
+                                    <input class="form-control" name="email" placeholder="exemple@site.com" required type="email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="color-lead" for="titre">Titre de message</label>
+                                <input class="form-control" name="titre" placeholder="Le sujet de message" required type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="color-lead" for="contenu">Votre message</label>
+                                <textarea class="form-control" name="contenu" placeholder="Message ..." required rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary rounded-pill hover-scal" type="submit">
+                                    <i class="pr-2" data-feather="send"></i>
+                                    Envoyer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-grd">
+            <div class="container py-5">
+                <div class="d-flex justify-content-between">
+                    <h2 class="font-weight-bold text-white mb-0">
+                        Qu'est-ce que tu attends ?
+                    </h2>
+                    <a class="btn btn-inverted shadow-sm hover-scal" href="{{ path_for('inscription') }}">
+                        <span class="mr-3" data-feather="log-in"></span>
+                        <span>Crée votre compte</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
