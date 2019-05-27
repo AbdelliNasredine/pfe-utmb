@@ -1,0 +1,123 @@
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+    {% include '/admin/navigation.view.twig' with { 'active' : 3 } %}
+{% endblock %}
+{% block main %}
+    {# modale de upload document #}
+    <h4 class="color-secondary mt-2 mb-3">Documents</h4>
+    <div class="card mt-3">
+        <div class="card-header text-muted font-weight-bold">
+            <i data-feather="plus"></i>
+            Ajouter Document PFE
+        </div>
+        <div class="card-body">
+            <form action="{{ path_for('admin-add-document') }}" class="color-pr mx-auro" enctype="multipart/form-data" method="post">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="titre">Titre</label>
+                    <div class="col-sm">
+                        <input class="form-control" id="titre" name="titre" placeholder="le titre" required type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="titre">Auteur(s)</label>
+                    <div class="col-sm">
+                        <input class="form-control" id="auteur" name="auteur" placeholder="Auteur(s)" required type="text">
+                        <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="resume">Résume</label>
+                    <div class="col-sm">
+                        <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="type">Type</label>
+                    <div class="col-sm">
+                        <select class="form-control" id="type" name="type" required>
+                            <option selected value=""></option>
+                            {% for doc_type in doc_types %}
+                                <option value="{{ doc_type.id }}">{{doc_type.doc_type}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="langue">langue</label>
+                    <div class="col-sm">
+                        <select class="form-control" id="langue" name="langue" required>
+                            <option selected value=""></option>
+                            <option value="ar">Arabe</option>
+                            <option value="en">Anglais</option>
+                            <option value="fr">Français</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="domaine">département</label>
+                    <div class="col-sm">
+                        <select class="form-control" id="domaine" name="domaine" required>
+                            <option selected value=""></option>
+                            {% for categorie in cat %}
+                                <optgroup label="{{ categorie.nom }}">
+                                    {% for domain in categorie.souscategories %}
+                                        <option value="{{ domain.id }}">
+                                            {{ domain.nom }}
+                                        </option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Université</label>
+                    <div class="col-sm">
+                        <input class="form-control" name="univ" type="text" value="Université Tahri Mohamed Bechar">
+                    </div>
+                </div>
+                {# <div class="form-group row">
+                                                                                                                        <label class="col-sm-2 col-form-label">Faculté</label>
+                                                                                                                        <div class="col-sm-8">
+                                                                                                                            <input class="form-control" name="fact" type="text">
+                                                                                                                        </div>
+                                                                                                                    </div> #}
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Spécialité</label>
+                    <div class="col-sm">
+                        <input class="form-control" name="spes" type="text">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        Fichier(.pdf)
+                        <span class="text-muted font-12">
+                            max 20 méga
+                        </span>
+                    </div>
+                    <div class="col-sm">
+                        <div class="">
+                            <div class="">
+                                <input aria-describedby="inputGroupFileAddon01" id="inputGroupFile01" name="doc" required type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row pt-3">
+                    <div class="col-sm-12">
+                        <button class="btn btn-success hover-scal" type="submit">
+                            <i class="mr-2" data-feather="plus"></i>
+                            Ajoutez
+                        </button>
+                        <button class="btn btn-danger  hover-scal" type="reset">
+                            <i class="mr-2" data-feather="repeat"></i>
+                            reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

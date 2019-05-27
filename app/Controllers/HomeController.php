@@ -82,7 +82,7 @@ class HomeController extends BaseController
                 'email' => $email,
                 'titre' => $titre,
                 'contenu' => $contenu,
-                'date' => date("Y-m-d"),
+                'date' => date("Y-m-d h:m:i"),
             ]);
             $data['success'] = true;
         }

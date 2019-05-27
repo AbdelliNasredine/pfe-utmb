@@ -1,0 +1,30 @@
+{% extends '/admin/template.view.twig' %}
+{% block navigation %}
+{% include '/admin/navigation.view.twig' with { 'active' : 5 } %}{% endblock %}{% block main %}<div class="mt-3">
+<h4 class="color-secondary font-weight-bold">
+    Messages
+</h4></div><div class="card">
+<div class="card-header">
+    <i class="mr-2" data-feather="mail"></i>
+    Messgaes
+</div>
+<div class="cadr-body">
+    <ul class="list-group">
+        {% for message in msgs %}
+            <li class="list-group-item">
+                <div class="media">
+                    <img class="align-self-center mr-3" src="/public/img/msg.png" width="64">
+                    <div class="media-body">
+                        <h4 class="mt-0 color-pr">{{ message.titre }}</h4>
+                        <p class="color-lead">
+                            {{ message.contenu }}
+                        </p>
+                        <p class="float-right" style="color:rgba(0,0,0,.3)">
+                            {{ message.date | date('d M Y') }}
+                        </p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div></div>{% endblock %}

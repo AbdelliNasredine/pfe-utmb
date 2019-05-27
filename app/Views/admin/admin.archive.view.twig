@@ -15,133 +15,10 @@
                         <h4 class="font-weight-bold color-pr align-self-center">
                             Documents
                         </h4>
-                        <button class="btn btn-success hover-scal" data-target="#modale_upload" data-toggle="modal" title="ajouter document" type="button">
+                        <a href="{{ path_for('admin-add-document') }}" class="btn btn-success hover-scal">
                             <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
                             uploader document
-                        </button>
-                        {# modale de upload document #}
-                        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modale_upload" role="dialog" tabindex="-1">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Uploader un document</h5>
-                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body p-3">
-                                        <form action="{{ path_for('admin-add-document') }}" class="color-pr" enctype="multipart/form-data" method="post">
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="titre">Titre</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="titre" name="titre" placeholder="le titre" required type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="titre">Auteur(s)</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="auteur" name="auteur" placeholder="Auteur(s)" required type="text">
-                                                    <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="resume">Résume</label>
-                                                <div class="col-sm-8">
-                                                    <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="type">Type</label>
-                                                <div class="col-sm-8">
-                                                    <select class="form-control" id="type" name="type" required>
-                                                        <option selected value=""></option>
-                                                        <option value="l">mémoire de licence</option>
-                                                        <option value="m">mémoire de master</option>
-                                                        <option value="d">thése doctorat</option>
-                                                        <option value="a">autre</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="langue">langue</label>
-                                                <div class="col-sm-8">
-                                                    <select class="form-control" id="langue" name="langue" required>
-                                                        <option selected value=""></option>
-                                                        <option value="ar">Arabe</option>
-                                                        <option value="en">Anglais</option>
-                                                        <option value="fr">Français</option>
-                                                        <option value="autre">Autre</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="domaine">Categorie</label>
-                                                <div class="col-sm-8">
-                                                    <select class="form-control" id="domaine" name="domaine" required>
-                                                        <option selected value=""></option>
-                                                        {% for categorie in cat %}
-                                                            <optgroup label="{{ categorie.nom }}">
-                                                                {% for domain in categorie.souscategories %}
-                                                                    <option value="{{ domain.id }}">
-                                                                        {{ domain.nom }}
-                                                                    </option>
-                                                                {% endfor %}
-                                                            </optgroup>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Université</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" name="univ" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Faculté</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" name="fact" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Spécialité</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" name="spes" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-sm-2">
-                                                    Fichier(.pdf)
-                                                    <span class="text-muted font-12">
-                                                        max 20 méga
-                                                    </span>
-                                                </div>
-                                                <div class="col-sm-8">
-                                                    <div class="">
-                                                        <div class="">
-                                                            <input aria-describedby="inputGroupFileAddon01" id="inputGroupFile01" name="doc" required type="file">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row pt-3">
-                                                <div class="col-sm-12">
-                                                    <button class="btn btn-primary rounded-pill hover-scal" type="submit">
-                                                        <i class="mr-2" data-feather="plus"></i>
-                                                        Ajoutez
-                                                    </button>
-                                                    <button class="btn btn-danger rounded-pill hover-scal" type="reset">
-                                                        <i class="mr-2" data-feather="repeat"></i>
-                                                        reset
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                     <div>
                         <div class="custom-control custom-switch mb-3">
@@ -154,15 +31,14 @@
                             <div class="col-sm-3">
                                 <div class="card hover-scal m-1" style="height:250px">
                                     <div class="card-body p-4 d-flex flex-column">
-                                        <i class="text-muted mb-2" data-feather="file-text" style="width:24px;height:24px;"></i>
-                                        <a class="font-weight-bold text-muted d-block" href="{{ path_for('admin-view-document' , {'id': doc.id}) }}">
+                                        <a class="font-weight-bold d-block" href="{{ path_for('admin-view-document' , {'id': doc.id}) }}">
+                                            <i class="fas fa-file-pdf mr-2"></i>
                                             {{ doc.titre }}
                                         </a>
+                                        <p class="card-text text-muted font-weight-bold mt-3">
+                                            {{ doc.taille }} 
+                                        </p>
                                         <div class="d-flex mt-auto">
-                                            <a class="btn btn-info btn-sm m-1" href=" {{ path_for('admin-view-document',{ 'id' : doc.id }) }} ">
-                                                <i data-feather="info"></i>
-                                                Consulter
-                                            </a>
                                             <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
                                                 <i data-feather="download-cloud"></i>
                                                 Télecharger
@@ -191,7 +67,7 @@
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-muted">
                                 {% for doc in docs %}
                                     <tr>
                                         <td>

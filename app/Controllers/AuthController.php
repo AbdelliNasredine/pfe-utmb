@@ -27,7 +27,7 @@ class AuthController extends BaseController
         $email = filter_var($request->getParam('email'), FILTER_SANITIZE_EMAIL);
         $password = filter_var($request->getParam('password'), FILTER_SANITIZE_STRING);
         $passwordConfirmation = filter_var($request->getParam('passwordConf'), FILTER_SANITIZE_STRING);
-        $type = filter_var($request->getParam('type'),FILTER_SANITIZE_STRING);
+        $type = filter_var($request->getParam('type'),FILTER_SANITIZE_NUMBER_INT);
 
         // Les Tests de validation :
         if (!$validation->valid()) {
@@ -66,12 +66,13 @@ class AuthController extends BaseController
         }
 
         // ajoute de nv utilisateur dans la base de données
+        // avec etat == false pour l'admin le vérfier
         User::create([
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
             'password' => password_hash($password, PASSWORD_DEFAULT),
-            'type' => $type,
+            'user_types_id' => $type,
             'date_inscription' => date("Y-m-d h:i:s"),
             'etat' => false,
         ]);
@@ -109,6 +110,12 @@ class AuthController extends BaseController
         if( $auth == -1 ){
             // non verfier
             $this->flash->addMessage('error', "votre compte n'a pas encore été vérifié");
+            return $response->withRedirect($this->router->pathFor('connection'));
+        }
+
+        if( $auth == -2 ){
+            // Réfuser
+            $this->flash->addMessage('error', "votre compte a été refuser ! conntacer l'admin s'il ya un probleme");
             return $response->withRedirect($this->router->pathFor('connection'));
         }
 

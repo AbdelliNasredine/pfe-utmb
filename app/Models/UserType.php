@@ -4,17 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class UserType extends Model 
 {
-
-    protected  $table ="admins";
+    protected  $table ="user_types";
 
     protected $fillable = [
-        'identifiant',
-        'email',
-        'password',
+        'nom'
     ];
-
+    
     public $timestamps = false;
-
 }
+
+

@@ -91,7 +91,7 @@ class RechercheController extends BaseController
         }
 
         // renvoi les resultas
-        $resultats = $resultats == null ? [] : $resultats->get();
+        $resultats = $resultats == null ? [] : $resultats->with('categorie')->get();
         return $response->withJson($resultats);
 
     }

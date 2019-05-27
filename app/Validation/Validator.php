@@ -14,7 +14,7 @@ class Validator
      *
      */
 
-    private $regex_string = '/^[a-zA-Z]+$/';
+    private $regex_string = '/^[a-zA-Z ]+$/';
 
     protected $flash;
 

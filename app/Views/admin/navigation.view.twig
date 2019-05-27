@@ -1,5 +1,22 @@
 <nav class="col-md-2 d-none d-md-block bg-light sidebar pt-5">
     <div class="sidebar-sticky">
+        <div class="media px-3 my-3">
+            <img alt="" class="rounded mr-2" src="/public/img/profiles/default.png" width="48">
+            <div class="media-body">
+                <h5 class="mt-0 text-white font-weight-bold">{{ auth.admin.nom }}
+                    {{ auth.admin.prenom }}
+                </h5>
+                <p class="text-white-50 font-12">
+                    {{ auth.admin.email }}
+                </p>
+            </div>
+        </div>
+        <div class="px-2 mb-3">
+            <a class="btn btn-primary btn-block" href="{{ path_for('admin-add-document') }}">
+                <i data-feather="plus-square"></i>
+                Ajouter un PFE
+            </a>
+        </div>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link  {{ active == 1 ? 'active' : '' }} " href="{{ path_for('dashboard') }}">
@@ -8,6 +25,8 @@
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
+        </ul>
+        <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link {{ active == 2 ? 'active' : '' }} " href="{{ path_for('admin-user-page') }}">
                     <span data-feather="users"></span>
@@ -17,15 +36,29 @@
             <li class="nav-item">
                 <a class="nav-link {{ active == 3 ? 'active' : '' }} " href="{{ path_for('admin-archive-page') }}">
                     <span data-feather="folder"></span>
-                    documents
+                    Documents
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ active == 4 ? 'active' : '' }} " href=" {{ path_for('admin-compte-page') }} ">
-                    <span data-feather="settings"></span>
-                    Paramétre
+                <a class="nav-link {{ active == 5 ? 'active' : '' }} " href="{{ path_for('admin-messages-page') }}">
+                    <span data-feather="mail"></span>
+                    Messages
                 </a>
             </li>
         </ul>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {{ active == 4 ? 'active' : '' }} " href=" {{ path_for('admin-compte-page') }} ">
+                    <span data-feather="user"></span>
+                    Compte
+                </a>
+            </li>
+        </ul>
+        <div class="px-2 mt-5">
+            <a class="btn btn-primary btn-block" href="{{ path_for('admin-log-out') }}">
+                <i data-feather="log-out"></i>
+                Déconnecter
+            </a>
+        </div>
     </div>
 </nav>

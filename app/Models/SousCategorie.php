@@ -12,6 +12,7 @@ class SousCategorie extends  Model
     protected $fillable = [
         'nom',
         'categorie_id',
+        'code'
     ];
 
     public $timestamps = false;

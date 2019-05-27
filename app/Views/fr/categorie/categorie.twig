@@ -1,58 +1,47 @@
 {% extends "layout.html.twig" %}
 {% block titre %}{% endblock %}
 {% block contenu %}
-    <div class="jumbotron rounded-0 bg-img img-project pt-2 mb-0 border-bottom shadow-sm">
-        <div class="container py-2">
-            <nav aria-label="breadcrumb">
+    {# bg-img img-project  #}
+    {# bg-{{categorie.code}} #}
+    <div class="jumbotron rounded-0 pt-2 bg-grd2 mb-0 border-bottom shadow-sm">
+        <div class="container pb-5">
+            <nav aria-label="breadcrumb mb-4" >
                 <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
                     <li class="breadcrumb-item">
                         <a href="{{ path_for('home') }}" class="text-white">
-                            <i class="mt-n2" data-feather="home"></i>
+                            Accueil
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ path_for('categorie') }}" class="text-white">Categorie</a>
+                        <a href="{{ path_for('categorie') }}" class="text-white">Facultés</a>
                     </li>
                     {% if sousCategorie is empty %}
-                        <li class="breadcrumb-item">{{ categorie.nom  | capitalize }}</li>
+                        <li class="breadcrumb-item text-white-50">{{ categorie.nom  | capitalize }}</li>
                     {% else %}
                         <li class="breadcrumb-item">
                             <a href="{{ path_for('categorie',{'categorieNom': generateURL(categorie.nom) }) }}" class="text-white">
                                 {{ categorie.nom  | capitalize}}
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ sousCategorie.nom }}</li>
+                        <li class="breadcrumb-item text-white-50">{{ sousCategorie.nom }}</li>
                     {% endif %}
                 </ol>
             </nav>
-            <h3 class="text-white font-weight-bold pt-3 mt-5 mb-5 display-4">
-                {{ categorie.nom | capitalize }}
-            </h3>
+            <h6 class="display-4 text-white mt-5">
+                {{ categorie.nom }}
+            </h6>
+            {% if sousCategorie %}
+                <h4 class="text-white-50 mt-3">
+                    {{sousCategorie.nom}}
+                </h4>
+            {% endif %}
         </div>
     </div>
     <main class="bg-light">
         <div class="container py-3">
-            <div class="row no-gutters bg-white rounded shadow-sm mb-4">
-                <div class="col-sm-12 p-4 color-lead">
-                    <h3 class="color-pr">A propos</h3>
-                    <hr>
-                    <p>
-                        Bienvenue sur la base des Projets de Fin d'Etudes (PFE) de la categorie
-                        {{ categorie.nom }},
-                                                ici vous pouvez Accédez à document concernant des domaines et thématiques différentes. 
-                                                Vous pouvez aussi mettre des évaluation sur les pfe .
-                    </p>
-                    <h1 class="font-weight-bold">
-                        {{ documents|length }}
-                    </h1>
-                    <span>
-                        Documents ajouté
-                    </span>
-                </div>
-            </div>
             <div class="row no-gutters py-4 bg-white rounded shadow-sm">
                 <div class="col-2 p-2 px-3">
-                    <h6 class="color-pr mb-3 pb-3 font-weight-bold">Sous categories</h6>
+                    <h6 class="color-pr mb-3 font-weight-bold color-secondary">Les départements</h6>
                     {% for souscategorie in categorie.souscategories %}
                         <a class="font-14 d-block my-1 py-2 {{ active == souscategorie.nom ? 'link-active' : '' }}" href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) , 'sousCategorieNom' : generateURL(souscategorie.nom) } ) }}">
                             {{ souscategorie.nom }}
@@ -64,27 +53,23 @@
                         <h6 class="color-pr mb-3 pb-3 ">Resultat({{ total }})</h6>
                     </div>
                     {% if documents|length != 0 %}
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-unstyled media-wrapper">
                             {% for document in documents %}
-                                <li class="list-group-item d-flex hover-scal">
-                                    <div class="align-self-center">
-                                        <img alt="" src="/public/img/doc-icon.png" width="50">
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a class="font-weight-bold color-lead" href="{{ path_for('document' , {'id': document.id}) }}">
+
+                                <li class="media">
+                                    <img src="/public/img/doc-cover.jpg" class="align-self-start mr-3" alt="document cover" height="75">
+                                    <div class="media-body">
+                                        <h5 class="mt-0 mb-1">
+                                            <a class="color-secondary font-weight-bold"  href="{{ path_for('document' , {'id': document.id}) }}">
                                                 {{ document.titre }}
                                             </a>
                                         </h5>
-                                        <p class="card-text text-muted text-justify">
-                                            de
-                                            <i class="font-weight-bold">
-                                                {{ document.auteur }}
-                                            </i>
+                                        <h6 class="mb-3 text-muted">
+                                            {{ document.auteur }} | {{ document.souscategorie.nom }} | {{ document.universite }}
+                                        </h6>
+                                        <p class="text-justify">
+                                            {{ document.resume }}
                                         </p>
-                                    </div>
-                                    <div class="stars-outer mt-3">
-                                        <div class="stars-inner" style="width: {{ document.evaluationGenerale(document.id) }}%"></div>
                                     </div>
                                 </li>
                             {% endfor %}

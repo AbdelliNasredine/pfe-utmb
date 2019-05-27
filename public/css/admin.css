@@ -1,45 +1,48 @@
 body {
-    font-size: .875rem;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     text-rendering: optimizeLegibility !important;
     -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    background-color: rgb(235, 235, 235);
+    /* background-color: rgb(241, 241, 241); */
+    background-color: #eef5f9;
     height: 100%;
+    font-size: .85rem !important;
     /* font-family: Sans-Serif; */
 }
 
 .feather {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
 }
 
 .navbar {
-    background-color: #fff !important;
+    background-color: #fff;
+    color : #777;
 }
 
-/*
- * Sidebar
- */
+.navbar-brand{
+    background-color: #fff; 
+}
+
 
 .sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
-    background-color: #09253a !important;
-    color: #fff !important;
-    z-index: 100; /* Behind the navbar */
-    padding: 45px 0 0; /* Height of navbar */
+    background-color: #2B333E !important;
+    z-index: 100; 
+    padding: 48px 0 0; 
+    border-right: 2px solid rgba(0, 0, 0, .1);
 }
 
 .sidebar-sticky {
     position: relative;
     top: 0;
     height: calc(100vh - 48px);
-    padding-top: .5rem;
+    padding-top: 2rem;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto; 
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
@@ -49,72 +52,71 @@ body {
     }
 }
 
+.sidebar .nav-item {
+    padding: 10px;
+}
 
 
 .sidebar .nav-link {
+    font-size: 18px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     font-weight: 500;
-    color: #fff;
+    color: #AEB7C2;
 }
 
 .sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: #999;
+    margin-right: 6px;
+    color: #AEB7C2;
 }
 
 .sidebar .nav-link.active {
     box-shadow: inset -4px 0 0 0 #4099de ;
-    background-color: #ffffff44;
+    background-color: #252c35;
+    color: #fff;
     font-weight: bold;
 }
 
 .sidebar .nav-link:hover {
-    background-color: #ffffff27;
+    color: #fff;
+    transition: all .3s ease-in-out;
+}
+.sidebar .nav-link:hover .feather ,
+.sidebar .nav-link.active .feather{
+    color : #4099de;
 }
 
-.sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
-    color: inherit;
-}
 
 .sidebar-heading {
     font-size: .75rem;
     text-transform: uppercase;
 }
 
-/*
- * Content
- */
 
 [role="main"] {
-    padding-top: 133px; /* Space for fixed navbar */
+    padding-top: 133px; 
 }
 
 @media (min-width: 768px) {
     [role="main"] {
-        padding-top: 48px; /* Space for fixed navbar */
+        padding-top: 48px; 
     }
 }
 
-/*
- * Navbar
- */
 
 .navbar .nav-link {
-    padding: .75rem;
-    font-size: 1rem;
-    color: rgba(0, 0, 0, 0.4);
+    color: #777;
 } 
-.navbar .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.1); 
-    background-color:#4099de;
-    color: #ffffff;
-}  
+
+.navbar .nav-item:hover {
+    background-color: rgb(235, 235, 235);
+}
+
 .navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: #4099de;
-    color: #fff !important;
+    padding: 0 0 0 20px;
+    color: #777;
+    font-weight: bold;
+    font-size: 22px;
 }
 .breadcrumb-item + .breadcrumb-item::before{
     color: #6c757d !important;
@@ -123,4 +125,9 @@ body {
     background-color: transparent !important;
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+.card-header{
+    background-color: #4099de !important;
+    color: #fff !important;
 }

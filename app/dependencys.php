@@ -8,6 +8,9 @@
  */
 
 use App\Models\Categorie;
+use App\Models\DocumentType;
+use App\Models\User;
+
 //---------------------------ILLUMINATE DATABASE----------------------------------
 // {1}
 $capsule = new \Illuminate\Database\Capsule\Manager;
@@ -61,6 +64,8 @@ $container['view'] = function ($container) {
         'admin' => $container->auth->admin(),
     ]);
     $view->getEnvironment()->addGlobal('cat', Categorie::all() );
+    $view->getEnvironment()->addGlobal('doc_types', DocumentType::all() );
+    $view->getEnvironment()->addGlobal('lastusers', User::where('etat',0)->orderBy('date_inscription','desc')->get() );
     $view->addExtension(new \Twig_Extension_Debug());
 
     return $view;
@@ -99,7 +104,7 @@ $container['HomeController'] = function ($container) {
 $container['AuthController'] = function ($container) {
     return new \App\Controllers\AuthController($container);
 };
-//-----------------------------ADMIN CONTROLLER-----------------------------
+//-----------------------------SEARCH CONTROLLER-----------------------------
 $container['RechercheController'] = function ($container) {
     return new \App\Controllers\RechercheController($container);
 };

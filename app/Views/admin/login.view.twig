@@ -14,46 +14,52 @@
             }
         </style>
     </head>
-    <body class="bg-light pt-5">
-        <div class="mx-auto card shadow-sm border-0 mt-5" style="width:450px; hieght:800px;">
-            <div class="card-body px-5 pt-4">
-                {% if flash.getMessage('errors') %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ flash.getMessage('errors') | first }}
-                        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endif %}
-                <h3 class="text-primary mb-3">Admin login</h3>
-                <form action="{{ path_for('admin-login') }}" method="post">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" for="">
-                                <i data-feather="user" style="width:16px;height:16px"></i>
-                            </span>
+    <body class="bg-light">
+        {% include "/partials/navigation.twig" %}
+        <div class="mx-auto card shadow-sm  mt-5" style="width:450px; hieght:800px;">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="text-primary font-weight-bold mb-0">Admin login</h5>
+                </div>
+                <div class="card-body">
+                    {% if flash.getMessage('errors') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ flash.getMessage('errors') | first }}
+                            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <input class="form-control" placeholder="identifiant" name="i" type="text">
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i data-feather="lock" style="width:16px;height:16px"></i>
-                            </span>
+                    {% endif %}
+                    <form action="{{ path_for('admin-login') }}" method="post">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" for="">
+                                    <i data-feather="mail" style="width:16px;height:16px"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" id="emailId" name="i" placeholder="email" type="text">
                         </div>
-                        <input class="form-control" placeholder="mot de pass" name="p" type="password">
-                    </div>
-                    <div class="form-group mt-5">
-                        <button class="btn btn-primary btn-block py-2" type="submit">
-                            <i class="mr-2" data-feather="log-in"></i>
-                            Se connecter
-                        </button>
-                    </div>
-                </form>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i data-feather="lock" style="width:16px;height:16px"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" id="passwordId" name="p" placeholder="mot de pass" type="password">
+                        </div>
+                        <div class="form-group mt-5">
+                            <button class="btn btn-primary btn-block py-2" type="submit">
+                                <i class="mr-2" data-feather="log-in"></i>
+                                Se connecter
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <script src="/public/js/jquery-3.3.1.min.js"></script>
         <script src="/public/js/bootstrap.js"></script>
+        <script src="/public/js/main.js"></script>
         <script>
             feather.replace()
         </script>

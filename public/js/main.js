@@ -14,7 +14,13 @@ $(document).ready(function () {
         e.preventDefault();
         $("html , body").animate({ scrollTop: 0 }, 100);
     });
-
+    // --------------------------------------------------------------------
+    // Systéme d'avaluation (star rating)
+    $('.rating input').change(function () {
+        var $radio = $(this);
+        $('.rating .selected').removeClass('selected');
+        $radio.closest('label').addClass('selected');
+    });
     // --------------------------------------------------------------------
     // search forum - ajax fetch data
     $("#input_search").keyup(function () {
@@ -77,10 +83,7 @@ $(document).ready(function () {
                                     Auteur : ${ data[i].auteur}
                                 </p>
                                 <p class="mb-2">
-                                    Université : ${ data[i].universite}
-                                </p>
-                                <p class="mb-2">
-                                    Faculté : ${ data[i].faculte}
+                                    ${ data[i].resume}
                                 </p>
                             </a>
                         `
@@ -151,10 +154,7 @@ $(document).ready(function () {
                                     Auteur : ${ data[i].auteur}
                                 </p>
                                 <p class="mb-2">
-                                    Université : ${ data[i].universite}
-                                </p>
-                                <p class="mb-2">
-                                    Faculté : ${ data[i].faculte}
+                                    ${ data[i].resume}
                                 </p>
                             </a>
                         `
@@ -165,8 +165,8 @@ $(document).ready(function () {
             .fail(function () {
                 alert('erreur 500 serveur');
             });
-        
-            event.preventDefault();
+
+        event.preventDefault();
     });
 
 
@@ -177,7 +177,7 @@ $(document).ready(function () {
         // les information a envoyé
         var formData = {
             'nom': $('input[name=nom]').val(),
-            'email': $('input[name=email]').val(),
+            'email': $('input[name=c-email]').val(),
             'titre': $('input[name=titre]').val(),
             'contenu': $('textarea[name=contenu]').val(),
         };
@@ -192,6 +192,7 @@ $(document).ready(function () {
             // si l'information sont bien envoyés
             // 'data' contient la reponse de serveur (php)
             .done(function (data) {
+                console.log(data);
                 if (data.success) {
                     // le messgae et bien sauvgarder dant la base de donnée
                     $("<div class=\"alert alert-success\" role=\"alert\">\n" +
@@ -200,7 +201,7 @@ $(document).ready(function () {
                 }
             })
             .fail(function () {
-                alert('erreur !');
+                alert('MSG ! server erreur !');
             });
 
         // desactivation de 'page Refresh' lors de l'envoi des données
@@ -221,7 +222,7 @@ $(document).ready(function () {
         $("#err-email").hide();
         $("#err-pass-c").hide();
 
-        var regex_s = /^[a-zA-Z]*$/;
+        var regex_s = /^[a-zA-Z ]*$/;
         var regex_e = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
         $("#nomId").keyup(function () {

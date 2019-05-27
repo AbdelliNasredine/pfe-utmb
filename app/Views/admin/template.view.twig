@@ -7,37 +7,36 @@
         <script src="/public/js/icon-feather.js"></script>
         {# css #}
         <link href="/public/css/bootstrap.css" rel="stylesheet">
+        <link href="/public/css/datatables.min.css" rel="stylesheet">
         <link href="/public/css/style.css" rel="stylesheet">
         <link href="/public/css/admin.css" rel="stylesheet">
-        <link href="/public/css/datatables.min.css" rel="stylesheet">
+        <link href="/public/css/all.min.css" rel="stylesheet">
     </head>
     <body>
         {# Navigation top #}
         <nav class="navbar fixed-top flex-md-nowrap p-0 border-buttom shadow-sm">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href=" {{ path_for('dashboard') }} ">
-                <img alt="logo" class="mr-2" height="24" src="/public/img/logo-white.svg">
-                <strong>Administration</strong>
+                    Administration
             </a>
-            <ul class="navbar-nav flex-row">
-                <li class="nav-item text-nowrap border-right border-left">
-                    <a class="nav-link font-weight-bold" href="" title="compte">
-                        <img class="mr-2 img-thumbnail" src="/public/img/profiles/admin.png" alt="admin profil image" width="24" height="24"> 
-                        {{ auth.admin.email }}
+            <ul class="navbar-nav flex-row mr-3">
+                <li class="nav-item py-2">
+                    <a class="nav-link font-weight-bold px-3" href="{{ path_for('admin-compte-page') }} " title="compte">
+                        <i data-feather="settings" class="mr-2"></i>
+                        Options
                     </a>
                 </li>
-                <li class="nav-item text-nowrap">
+                {# <li class="nav-item text-nowrap">
                     <a class="nav-link font-weight-bold" href=" {{ path_for('admin-log-out') }} " title="deconnecter">
                         <span data-feather="log-out"></span>
                     </a>
-                </li>
+                </li> #}
             </ul>
         </nav>
         <div class="container-fluid">
             <div
                 class="row">
                 {# navigation left #}
-                {% block navigation %}
-                {% endblock %}
+                {% block navigation %}{% endblock %}
                 {# main  #}
                 <main class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-2" role="main">
                     {% if flash.getMessage('errors') %}
@@ -61,8 +60,7 @@
                         </div>
                     {% endif %}
                     {# main #}
-                    {% block main %}
-                    {% endblock %}
+                    {% block main %}{% endblock %}
                 </main>
             </div>
         </div>

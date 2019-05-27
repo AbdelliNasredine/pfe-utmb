@@ -1,20 +1,21 @@
 {% extends "layout.html.twig" %}
 {% block titre %} La liste des categories {% endblock %}
 {% block contenu %}
-    <div class="jumbotron rounded-0 bg-img img-categorie pt-2 mb-0">
+    {# bg-img img-categorie #}
+    <div class="jumbotron rounded-0 bg-grd2 pt-2 mb-0">
         <div class="container py-2 position-relative">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
                     <li class="breadcrumb-item"><a href="{{ "/" ~ lang ~ path_for('home') }}"
                                                    class="text-white">Accueil</a></li>
-                    <li class="breadcrumb-item">Categories</li>
+                    <li class="breadcrumb-item">Facultés</li>
                 </ol>
             </nav>
             <h2 class="text-white font-weight-bold pt-3 mt-5 display-4">
-                LES CATÉGORIES
+                Les Facultés
             </h2>
             <p class="lead font-weight-normal text-white">
-                RETROUVE LA LISTE DES CATÉGORIES DISPONIBLES SUR LE SITE !
+                Retrouver la liste des facultés disponibles sur le site !
             </p>
         </div>
     </div>
@@ -27,11 +28,9 @@
                             <div class="card-body">
                                 <a href="{{ path_for('categorie' , { 'categorieNom' : generateURL(categorie.nom) }) }}">
                                     <h5 class="card-title font-weight-bold pb-3">
-                                        <i class="mr-3" data-feather="folder"></i>
                                         {{ categorie.nom | capitalize }}
                                     </h5>
                                 </a>
-                                <hr>
                                 <div class="text-capitalize">
                                     <ul class="no-list-style pl-0">
                                         {% for souscategorie in categorie.souscategories %}
@@ -42,9 +41,9 @@
                                                         'sousCategorieNom' : generateURL(souscategorie.nom)
                                                     }
                                                 ) }}"
-                                                   class="p-2 color-lead font-weight-normal">
+                                                   class="pb-2 color-lead font-weight-normal font-12">
                                                     {{ souscategorie.nom }}
-                                                    <span class="ml-1 color-secondary font-12">
+                                                    <span class="ml-1 color-secondary">
                                                         ({{ souscategorie.documents().where('valid',true).count() }})
                                                     </span>
                                                 </a>

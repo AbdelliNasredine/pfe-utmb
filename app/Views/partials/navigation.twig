@@ -1,5 +1,6 @@
-<nav class="navbar  navbar-light navbar-expand-lg bg-white shadow-sm border-buttom">
-{# style="background-color:#4099de" #}
+<nav
+    class="navbar  navbar-light navbar-expand-lg bg-white shadow-sm border-buttom">
+    {# style="background-color:#4099de" #}
     <div class="container">
         <a class="navbar-brand mb-0" href="{{ path_for('home') }}" title="Accuil">
             <img alt="logo" class="mr-4" src="/public/img/logo.svg" width="42px">
@@ -11,40 +12,19 @@
             <div class="mr-auto navbar-nav d-flex flex-column flex-md-row">
                 <div class="dropdown">
                     <a aria-expanded="false" aria-haspopup="true" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="dropdownMenuCategorie" role="button">
-                        Categories
+                        Facutlé
                     </a>
-                    <div aria-labelledby="dropdownMenuCategorie" class="dropdown-menu p-3 shadow-sm" style="width:800px">
-                        <div class="row">
-                            {% for categorie in cat %}
-                                <div class="col-4">
-                                    <a href="{{ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}" class="p-0 color-pr font-18 mb-4 d-inline font-weight-bold">
-                                        {{ categorie.nom | capitalize }}
-                                    </a>
-                                    <hr>
-                                    <ul class="list-unstyled font-14 pl-2">
-                                        {% for souscategorie in categorie.souscategories %}
-                                            <li class="mb-1">
-                                                <a href=" {{ path_for('categorie',
-                                                            {
-                                                                'categorieNom': generateURL(categorie.nom) ,
-                                                                'sousCategorieNom' : generateURL(souscategorie.nom)
-                                                            }) }} ">
-                                                    {{ souscategorie.nom }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endfor %}
-                            <div class="col-4">
-                                <h6 class="dropdown-header p-0 font-18 mb-2 d-inline">
-                                    <a href="{{ path_for('categorie') }}">
-                                        <i data-feather="plus"></i>
-                                        Voir Tout
-                                    </a>
-                                </h6>
-                            </div>
-                        </div>
+                    <div aria-labelledby="dropdownMenuCategorie" class="dropdown-menu shadow-sm">
+                        <h6 class="dropdown-header">Les Faculté</h6>
+                        {% for categorie in cat %}
+                            <a href="{{ path_for('categorie' , {'categorieNom' : generateURL(categorie.nom) }) }}" class="dropdown-item">
+                                {{ categorie.nom | capitalize }}
+                            </a>
+                        {% endfor %}
+                        <a href="{{ path_for('categorie') }}" class="dropdown-item font-weight-bold color-secondary">
+                            <i data-feather="plus"></i>
+                            Voir Tout
+                        </a>
                     </div>
                 </div>
                 <a href="{{ path_for('search') }}" class="nav-item nav-link ml-3">

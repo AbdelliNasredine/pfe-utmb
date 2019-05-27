@@ -3,7 +3,6 @@
 namespace App\Authentification;
 
 use App\Models\User;
-use App\Models\Admin;
 
 class Auth
 {
@@ -17,16 +16,25 @@ class Auth
      */
     public function verifie($email, $password)
     {
-        $user = User::where('email', $email)->first();
+        $user = User::whereHas('type', function($q){
+            $q->where('nom','<>', 'admin');
+        })->where('email', $email)->first();
 
         if (!$user) {
+            // information erronée
             return false;
         }
 
         if (password_verify($password, $user->password)) {
             if($user->etat == 0 ){
+                // pas ancore verfier
                 return -1;
             }
+            if( $user->etat == -1 ){
+                // demede réfuser
+                return -2;
+            }
+            // OK
             $_SESSION['user'] = $user->id;
             return true;
         }
@@ -40,7 +48,10 @@ class Auth
      */
     public function verifieAdmin($e, $p)
     {
-        $admin = Admin::where('identifiant',$e)->first();
+        $admin = User::whereHas('type', function($q){
+            $q->where('nom', 'admin');
+        })->where('email', $e)->first();
+
 
         if(!$admin){
             return false;
@@ -92,6 +103,13 @@ class Auth
     public function deconnecter()
     {
         unset($_SESSION['user']);
+    }
+
+    /*
+     * méthod deconnecter administarteur : Vider la session de user ( user connecter )
+     */
+    public function deconnecterAdmin()
+    {
         unset($_SESSION['admin']);
     }
 
@@ -112,7 +130,7 @@ class Auth
     public function admin()
     {
         if (isset($_SESSION['admin'])) {
-            return Admin::find($_SESSION['admin']);
+            return User::find($_SESSION['admin']);
         }
     }
 }

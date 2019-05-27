@@ -45,8 +45,12 @@ class DocumentController extends BaseController
         foreach( $nbs as $nb ){
             $total_par_nb[ $nb->nb ] = $nb->total_per_nb; 
         }
-        //var_dump($total_par_nb);
-        //die();
+        $isRatedBefore = false;
+        if( $this->auth->user() ){
+            $isRatedBefore = Evaluation::where('users_id',$this->auth->user()->id)->where('documents_id',$id)->first() ? true : false;
+        }
+        // var_dump($isRatedBefore);
+        // die();
         $path = $this->language . DIRECTORY_SEPARATOR . 'document/document.twig';
         return $this->view->render($response, $path , [
             "document" => $document,
@@ -54,7 +58,8 @@ class DocumentController extends BaseController
             "evaluations" => $evals,
             "evaluationGenerale" => number_format( (float) $evalGenerale, 1, '.', ''),
             "evalParNb" => $total_par_nb,
-            "totatNb" => count($evals)
+            "totatNb" => count($evals),
+            "Is_rated" => $isRatedBefore
         ]);
     }
 
@@ -78,7 +83,9 @@ class DocumentController extends BaseController
                 $extention = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
                 if(in_array($extention,['pdf','doc','word','docx'])){
                     // succée 
-                    $filename = moveUploadedFile($dir, $uploadedFile);
+                    $filename = moveUploadedFile($dir, null ,$uploadedFile);
+                    $filesize = $uploadedFile->getSize() / (1024 * 1024);
+                    $filesize = number_format( (float) $filesize, 2, '.', '');
 
                     // convertire au pdf :
                     // test si extensien != .pdf
@@ -101,21 +108,26 @@ class DocumentController extends BaseController
                     // ajoute de document dans la base de donnée :
                     $sousCategorie = SousCategorie::find( (int) $request->getParam('domaine') );
                     $doc = Document::create([
-                        'ref' => genrateREF($this->db::select('select MAX(id) AS lastId from documents'),$request->getParam('type')),
+                        'ref' => genrateREF(
+                                            $this->db::select('select MAX(id) AS lastId from documents'),
+                                            $request->getParam('type'),
+                                            $sousCategorie->categorie_id,
+                                            $sousCategorie->id
+                                            ),
                         'auteur' => $request->getParam('auteur'),
                         'titre'  => $request->getParam('titre'),
                         'resume' => $request->getParam('resume'),
-                        'type'   => $request->getParam('type'),
-                        'langue' => $request->getParam('langue'), 
+                        'type'   => $request->getParam('type'), 
+                        'langue' => $request->getParam('langue'),
                         'universite' => $request->getParam('univ'),
-                        'faculte' => $request->getParam('fact'),
-                        'specialite' => $request->getParam('spes'),
-                        'date_publication' => date("Y-m-d"),
                         'url' => $filename,
                         'valid' => false,
-                        'user_id' => $this->auth->user()->id , 
+                        'taille' =>  $filesize . 'MB' ,
+                        'specialite' => $request->getParam('spes'),
+                        'users_id' => !$this->auth->user() ? $this->auth->admin()->id : $this->auth->user()->id, 
                         'categories_id' => $sousCategorie->categorie_id,
-                        'sous_categories_id' => $sousCategorie->id,   
+                        'sous_categories_id' => $sousCategorie->id, 
+                        'document_type_id'   => (int) $request->getParam('type'),  
                     ]);   
 
                 }else{

@@ -90,6 +90,8 @@ class CategorieController extends BaseController
                 $page = $request->getParam('page');
                 $limit = 5;
                 $pageCourante = ( isset($page) AND !empty($page) AND $page > 0 )? intval($page) : 1;
+                // var_dump($sousCategorie);
+                // die();
                 $total = $sousCategorie->documents()
                                         ->where('valid',true)
                                         ->count();
@@ -120,7 +122,7 @@ class CategorieController extends BaseController
                     "total" => $total,
                     "nombrePage" => $nbPage,
                     "pageCourante" => $pageCourante,
-                    "active" => $sousCategorieNom
+                    "active" => $sousCategorie->nom
                 ]);
                 return "categorie/categorie-nom/sous-categorie-nom";
                 break;

@@ -16,19 +16,25 @@ class Document extends Model
         'titre',
         'resume',
         'langue',
-        'type',
+        'taille',
         'universite',
-        'faculte',
         'specialite',
         'date_publication',
         'url',
         'valid',
-        'user_id',
+        'users_id',
         'categories_id',
         'sous_categories_id',
+        'document_type_id'
     ];
 
-    public $timestamps = false;
+    const CREATED_AT = 'date_publication';
+    
+    const UPDATED_AT = 'date_modification';
+
+
+
+    /*  les relations */
 
     public function categorie()
     {
@@ -42,6 +48,11 @@ class Document extends Model
     public function evaluations()
     {
         return $this->hasMany('\App\Models\Evaluation','documents_id');
+    }
+    public function type(){
+
+        return $this->belongsTo('App\Models\DocumentType','document_type_id');
+    
     }
     public function evaluationGenerale(int $id) {
 

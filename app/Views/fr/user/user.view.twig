@@ -4,7 +4,10 @@
 {% endblock %}
 {% block contenu %}
     <header>
-        <div class="jumbotron jumbotron-fluid bg-img img-user text-center mb-0">
+        <div class="jumbotron jumbotron-fluid bg-grd text-center mb-0">
+            <h1 class="text-white">
+                <i class="fas fa-user"></i>
+            </h1>
             <h4 class="display-4 font-weight-bold text-white">
                 Page de profil
             </h4>
@@ -30,6 +33,13 @@
                             <h5 class="text-center card-text color-secondary">
                                 {{ auth.user.email }}
                             </h5>
+                            <p>
+                                <h3>
+                                    <span class="badge bg-primary text-white badge-pill">
+                                        {{ auth.user.type.nom }}
+                                    </span>
+                                </h3>
+                            </p>
                         </div>
                         <hr>
                         <ul class="nav flex-column nav-pills mb-3 mx-2" id="pills-tab" role="tablist">
@@ -84,8 +94,8 @@
                             {# tableaux de mon pfe #}
                             <div aria-labelledby="pills-pfe-tab" class="tab-pane fade show active" id="pills-pfe" role="tabpanel">
                                 <div>
-                                    <h5 class="mb-3 text-muted">
-                                        Vos projet de fin d'étude (PFE's)
+                                    <h5 class="mb-3 color-secondary font-weight-bold">
+                                        Vos documents (mémoires/PFE's)
                                     </h5>
                                     <table class="table bg-white table-bordered">
                                         <thead class="bg-primary">
@@ -142,43 +152,49 @@
                             <div
                                 aria-labelledby="pills-addpfe-tab" class="tab-pane fade" id="pills-addpfe" role="tabpanel">
                                 {# formulaire d'ajoute #}
-                                <h5 class="text-muted mb-4">Ajouter votre projet de fin d'étude</h5>
+                                <h5 class="color-secondary font-weight-bold mb-4">Publier un mémoire / projet de fin d'étude</h5>
+                                <p class="font-16 color-lead">
+                                Ce site a pour but de publier un maximum de mémoires d'étudiants en accès gratuit sur internet. Pour déposer votre mémoire, 
+                                il suffit de remplir le formulaire ci-contre et de cliquer sur le bouton "Ajouter". Votre mémoire est mis en ligne peu de temps après.
+                                </p>
+                                <p class="font-16 color-lead">
+                                Si vous rencontrez des difficultés, n'hésitez pas à prendre contact avec <a href="mailto:ad8080.pfe@gmail.com" class="color-secondary">l'dministrateur</a>.
+                                </p>
                                 <form class="color-pr" action="{{ path_for('add-pfe') }}" method="post" enctype="multipart/form-data">
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="titre">Titre</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right" for="titre">Titre</label>
+                                        <div class="col-sm">
                                             <input class="form-control" id="titre" name="titre" placeholder="le titre" required type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="titre">Auteur(s)</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right" for="titre">Auteur(s)</label>
+                                        <div class="col-sm">
                                             <input class="form-control" id="auteur" name="auteur" placeholder="Auteur(s)" required type="text">
                                             <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
                                             </small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="resume">Résume</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right" for="resume">Résume</label>
+                                        <div class="col-sm">
                                             <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="type">Type</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right" for="type">Type</label>
+                                        <div class="col-sm">
                                             <select class="form-control" id="type" name="type" required>
                                                 <option selected value=""></option>
-                                                <option value="l">mémoire de licence</option>
-                                                <option value="m">mémoire de master</option>
-                                                <option value="d">thése doctorat</option>
-                                                <option value="a">autre</option>
+                                                {% for doc_type in doc_types %}
+                                                    <option value="{{ doc_type.id }}">{{doc_type.doc_type}}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="langue">langue</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label" for="langue">langue</label>
+                                        <div class="col-sm">
                                             <select class="form-control" id="langue" name="langue" required>
                                                 <option selected value=""></option>
                                                 <option value="ar">Arabe</option>
@@ -189,8 +205,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label" for="domaine">Categorie</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right" for="domaine">Département</label>
+                                        <div class="col-sm">
                                             <select class="form-control" id="domaine" name="domaine" required>
                                                 <option selected value=""></option>
                                                 {% for categorie in cat %}
@@ -206,25 +222,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Université</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right">Université</label>
+                                        <div class="col-sm">
                                             <input class="form-control" name="univ" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Faculté</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" name="fact" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Spécialité</label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-3 col-form-label float-right">Spécialité</label>
+                                        <div class="col-sm">
                                             <input class="form-control" name="spes" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-3">
                                             Fichier(.pdf)
                                             <span class="text-muted font-12">
                                                 max 20 méga
@@ -236,13 +246,9 @@
                                     </div>
                                     <div class="form-group row pt-3">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-primary rounded-pill hover-scal" type="submit">
+                                            <button class="btn btn-success hover-scal" type="submit">
                                                 <i class="mr-2" data-feather="plus"></i>
                                                 Ajoutez
-                                            </button>
-                                            <button class="btn btn-danger rounded-pill hover-scal" type="reset">
-                                                <i class="mr-2" data-feather="repeat"></i>
-                                                reset
                                             </button>
                                         </div>
                                     </div>
@@ -251,12 +257,13 @@
                             <div
                                 aria-labelledby="pills-options-tab" class="tab-pane fade" id="pills-options" role="tabpanel">
                                 {# mod image profil #}
-                                <div class="card">
-                                    <div class="card-header text-muted">
-                                        <i class="mr-2" data-feather="user"></i>
-                                        Photo de profil
+                                <div class="">
+                                    <div class="text-muted mb-3">
+                                        <h4 class="color-secondary">
+                                            Changer votre photo de profil
+                                        </h4>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="">
                                         <form action=" {{ path_for('user-profil-img') }} " enctype="multipart/form-data" method="post">
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label color-lead">Choisir une photo :</label>
@@ -265,24 +272,22 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            <button class="btn btn-primary mb-4 rounded-pill hover-scal" type="submit">
+                                            <button class="btn btn-success mb-4 hover-scal" type="submit">
                                                 <i class="mr-2" data-feather="repeat"></i>
                                                 Changer
-                                            </button>
-                                            <button class="ml-2 btn btn-danger mb-4 rounded-pill hover-scal" type="reset">
-                                                <i class="mr-2" data-feather="x"></i>
-                                                reset
                                             </button>
                                         </form>
                                     </div>
                                 </div>
-                                <div class="card mt-3">
-                                    <div class="card-header text-muted">
-                                        <i class="mr-2" data-feather="lock"></i>
-                                        Modifier mot de pass
+                                <hr>
+                                <div class="mt-3">
+                                    <div class="mb-3">
+                                        <h4 class="color-secondary">
+                                            Modifier votre mot de pass
+                                        </h4>
                                     </div>
                                     <div
-                                        class="card-body">
+                                        class="">
                                         {# mod password #}
                                         <form action=" {{ path_for('user-password') }} " class="mb-4" method="post">
                                             <div class="from-group row">
@@ -313,13 +318,9 @@
                                             </div>
                                             <div class="form-group row mt-5">
                                                 <div class="col-sm-12">
-                                                    <button class="btn btn-primary rounded-pill mr-2 hover-scal" type="submit">
+                                                    <button class="btn btn-success mr-2 hover-scal" type="submit">
                                                         <i class="mr-2" data-feather="repeat"></i>
                                                         Modifier
-                                                    </button>
-                                                    <button class="btn btn-danger rounded-pill hover-scal" type="reset">
-                                                        <i class="mr-2" data-feather="x"></i>
-                                                        reset
                                                     </button>
                                                 </div>
                                             </div>

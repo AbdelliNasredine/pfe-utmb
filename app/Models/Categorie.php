@@ -9,7 +9,8 @@ class Categorie extends Model
     protected $table = "categories";
 
     protected $fillable = [
-        'nom'
+        'nom',
+        'code'
     ];
 
     public $timestamps = false;

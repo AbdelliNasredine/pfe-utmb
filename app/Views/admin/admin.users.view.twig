@@ -60,8 +60,9 @@
                                                 <label class="col-sm-3 col-form-label font-weight-bold text-muted">Type</label>
                                                 <div class="col-sm-9">
                                                     <select class="form-control" name="type" required>
-                                                        <option selected value="etudiant">Etudiant</option>
-                                                        <option value="enseigniant">Enseigniant</option>
+                                                        <option selected value=""></option>
+                                                        <option selected value="2">Etudiant</option>
+                                                        <option value="3">Enseigniant</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -75,40 +76,43 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped" id="user_table">
+                    <table class="table" id="user_table">
                         <thead>
-                            <tr>
-                                <th scope="col">Profil</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">date d'inscription</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Actions</th>
+                            <tr class="color-pr">
+                                {#  scope="col" #}
+                                <th>Utilisateur</th>
+                                <th>Email</th>
+                                <th>Type</th>
+                                <th>Etat</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="color-lead">
                             {% for user in users %}
                                 <tr>
-                                    <td>
-                                        <img alt="" class="rounded-circle" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }}" width="32">
-                                    </td>
-                                    <td>
-                                        {{ user.nom }}
-                                    </td>
-                                    <td>
-                                        {{ user.prenom }}
+                                    <td class="d-flex">
+                                        <div>
+                                            <img class="mr-2 rounded" height="32" src="/public/img/profiles/{{ user.profile_img == null ? 'default.png' : user.profile_img }}" width="32">
+                                        </div>
+                                        <div>
+                                            {{ user.nom }}
+                                            {{ user.prenom }}
+                                        </div>
                                     </td>
                                     <td>
                                         {{ user.email }}
                                     </td>
                                     <td>
-                                        {{ user.date_inscription }}
+                                        <span class="badge badge-info">{{ user.type.nom }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-info">
-                                            {{ user.type }}
-                                        </span>
+                                        {% if user.etat == 1 %}
+                                            <div class="bg-success rounded-pill" style="width:15px; height:15px"></div>   
+                                        {% elseif user.etat == 0 %}
+                                            <div class="bg-warning rounded-pill" style="width:15px; height:15px"></div>
+                                        {% else %}
+                                            <div class="bg-danger rounded-pill" style="width:15px; height:15px"></div>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <input class="btn btn-info btn-sm view_data" id=" {{ user.id }} " name="view" type="button" value="details"/>

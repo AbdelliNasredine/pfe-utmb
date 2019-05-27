@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Categorie;
 use App\Models\SousCategorie;
 use App\Models\Evaluation;
+use App\Models\DocumentType;
+use App\Models\Message ;
 
 class AdminController extends BaseController
 {
@@ -19,12 +21,24 @@ class AdminController extends BaseController
             return $this->view->render($response, 'admin/admin.view.twig', 
                 [
                     'nbPfes'  => Document::where('valid',1)->count(),
-                    'nbUsers' => User::where('etat',1)->count(),
+                    'nbUsers' => User::whereHas('type', function($q){
+                                        $q->where('nom','<>', 'admin');
+                                    })->where('etat',1)->count(),
                     'nbEvaluations' => Evaluation::count(),
-                    'lastusers' => User::where('etat',0)->orderBy('date_inscription','desc')->get(),
-                    'lastdocuments' => Document::where('valid',0)->where('user_id','<>',0)->orderBy('date_publication','desc')->get(),
+                    'lastdocuments' => Document::where('valid',0)->orderBy('date_publication','desc')->get(),
                 ]
             );    
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
+    /* méthod d'affichage de page des message de contact */ 
+    public function messgaes($request , $response)
+    {
+        if($this->auth->isAdminConnected()){
+            return $this->view->render($response, 'admin/admin.message.view.twig' , [
+                'msgs' => Message::all()
+            ]);    
         }else{
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
@@ -75,7 +89,7 @@ class AdminController extends BaseController
     public function getlogout($request , $response)
     {
         if( $this->auth->isAdminConnected() ){
-            $this->auth->deconnecter();
+            $this->auth->deconnecterAdmin();
             return $response->withRedirect($this->router->pathFor('home'));
         }else{
             $this->flash->addMessage('errors', "Connecter avant de faire ça !");
@@ -88,7 +102,9 @@ class AdminController extends BaseController
         if($this->auth->isAdminConnected()){
             return $this->view->render($response, 'admin/admin.users.view.twig', 
                 [
-                    'users' => User::where('etat',1)->orderBy('date_inscription','desc')->get(),
+                    'users' => User::whereHas('type', function($q){
+                                $q->where('nom','<>', 'admin');
+                            })->orderBy('date_inscription','desc')->get(),
                 ]
             );    
         }else{
@@ -114,7 +130,7 @@ class AdminController extends BaseController
         $prenom = filter_var($request->getParam('prenom'),FILTER_SANITIZE_STRING);
         $email = filter_var($request->getParam('email'),FILTER_SANITIZE_STRING);
         $password = filter_var($request->getParam('pass'),FILTER_SANITIZE_STRING);
-        $type = filter_var($request->getParam('type'),FILTER_SANITIZE_STRING);
+        $type = filter_var($request->getParam('type'),FILTER_SANITIZE_NUMBER_INT);
 
         // obj de validation :
         $validation = $this->validator->validateAll($request, ['nom', 'prenom', 'email', 'pass','type']);
@@ -154,7 +170,7 @@ class AdminController extends BaseController
             'prenom' => $prenom,
             'email' => $email,
             'password' => password_hash($password, PASSWORD_DEFAULT),
-            'type' => $type,
+            'user_types_id' => $type,
             'date_inscription' => date('Y-m-d h:i:s'),
             'profile_img' => null,
             'etat' => true,
@@ -193,6 +209,12 @@ class AdminController extends BaseController
     {
         if($this->auth->isAdminConnected()){
             $id = (int) $args['id'];
+            $doc_url = Document::find($id)->url;
+            $dir =  $this->container->get('upload_directory');
+            unlink($dir . DIRECTORY_SEPARATOR . $doc_url) or die("en peut pas supprimer l'image");
+            // leur evaluations
+            Document::find($id)->evaluations()->delete();
+            // supr le doc
             Document::destroy($id);
             $this->flash->addMessage('success', "Document ". $id ." supprimer avec succeé !");
             return $response->withRedirect($this->router->pathFor('admin-archive-page'));   
@@ -206,8 +228,20 @@ class AdminController extends BaseController
         if($this->auth->isAdminConnected()){
             $user_id = (int) filter_var($args['user_id'],FILTER_SANITIZE_NUMBER_INT);
             User::where('id',$user_id)->update(['etat' => 1]);
-            $this->flash->addMessage('success', "demender inscription accepter !");
-            return $response->withRedirect($this->router->pathFor('dashboard'));   
+            $this->flash->addMessage('success', "Succée !");
+            return $response->withRedirect($this->router->pathFor('admin-user-page'));   
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    } 
+    /*  méthod de réuse de demende d'inscription */
+    public function refuseUser ($request , $response , array $args)
+    {
+        if($this->auth->isAdminConnected()){
+            $user_id = (int) filter_var($args['user_id'],FILTER_SANITIZE_NUMBER_INT);
+            User::where('id',$user_id)->update(['etat' => -1]);
+            $this->flash->addMessage('success', "Utilisateur a été blocker !");
+            return $response->withRedirect($this->router->pathFor('admin-user-page'));   
         }else{
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
@@ -223,6 +257,19 @@ class AdminController extends BaseController
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
     } 
+    
+    /* méthod d'affichage de page documen->addDocument  */
+    public function getaddDocument($request , $response)
+    {
+        if($this->auth->isAdminConnected()){
+            return $this->view->render($response, 'admin/admin.document.add.view.twig',[
+                'doc_types' => DocumentType::all()
+            ]);
+        }else{
+            return $response->withRedirect($this->router->pathFor('admin-login'));
+        }
+    }
+    
     public function addDocument($request , $response)
     {
         // le chemin d'acrchive (dossier):
@@ -239,8 +286,18 @@ class AdminController extends BaseController
                 $extention = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
                 if(in_array($extention,['pdf','doc','word','docx'])){
                     // succée 
-                    $filename = moveUploadedFile($dir, $uploadedFile);
+                    $sousCategorie = SousCategorie::find( (int) $request->getParam('domaine') );
 
+                    // géneration de référence doc :
+                    $ref = genrateREF(  
+                                        $this->db::select('select MAX(id) AS lastId from documents'),
+                                        $request->getParam('type'),
+                                        $sousCategorie->categorie_id,
+                                        $sousCategorie->id
+                                    );
+                    $filename = moveUploadedFile($dir,$ref, $uploadedFile);
+                    $filesize = $uploadedFile->getSize() / (1024 * 1024);
+                    $filesize = number_format( (float) $filesize, 2, '.', '');
                     // convertire au pdf :
                     // test si extensien != .pdf
                     if( $extention != 'pdf' ){
@@ -257,43 +314,62 @@ class AdminController extends BaseController
                         $filename = str_replace($ext,".pdf",$filename);
                         // var_dump($filename);
                         // die();
-                    }
-
+                    }    
                     // ajoute de document dans la base de donnée :
-                    $sousCategorie = SousCategorie::find( (int) $request->getParam('domaine') );
-                    $doc = Document::create([
-                        'ref' => genrateREF($this->db::select('select MAX(id) AS lastId from documents'),$request->getParam('type')),
+                    Document::create([
+                        'ref' => $ref,
                         'auteur' => $request->getParam('auteur'),
                         'titre'  => $request->getParam('titre'),
                         'resume' => $request->getParam('resume'),
-                        'type'   => $request->getParam('type'),
                         'langue' => $request->getParam('langue'), 
                         'universite' => $request->getParam('univ'),
-                        'faculte' => $request->getParam('fact'),
+                        'taille' =>  $filesize . 'MB' ,
                         'specialite' => $request->getParam('spes'),
-                        'date_publication' => date("Y-m-d"),
                         'url' => $filename,
+                        'users_id' => $this->auth->admin()->id,
                         'valid' => true,
                         'categories_id' => $sousCategorie->categorie_id,
-                        'sous_categories_id' => $sousCategorie->id,   
+                        'sous_categories_id' => $sousCategorie->id,
+                        'document_type_id'   => (int) $request->getParam('type'),   
                     ]);   
 
                 }else{
                     // erreur : extention erronner != '.pdf','.doc','.word','.docx'
                     $this->flash->addMessage('errors', "veullez choisire une fichier .pdf , .doc , .docx , .word");
-                    return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+                    return $response->withRedirect($this->router->pathFor('admin-add-document'));
                 }
             }else{
                 // erreur : fichier pas uploader
                 $this->flash->addMessage('errors', "Erreur l'ors d'upload de fichier , réessayer");
-                return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+                return $response->withRedirect($this->router->pathFor('admin-add-document'));
             }
         }else{
             // erreur : no fichier uploader / taille > 8 mega
             $this->flash->addMessage('errors', 'Erreur fichier supperiour à 20 méga, essayez autre');
-            return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+            return $response->withRedirect($this->router->pathFor('admin-add-document'));
         }
-        $this->flash->addMessage('success', 'succeé ! votre document a été ajouter avec succée ');
+        $this->flash->addMessage('success', 'succeé ! le document a été ajouter avec succée ');
         return $response->withRedirect($this->router->pathFor('admin-archive-page'));
     } 
+
+    public function updateDocument($request , $response , array $args)
+    {
+        // updating the document information :
+        // whith given id
+        $docId = (int) $args['docid'];
+        $sousCategorie = SousCategorie::find($request->getParam('domaine'));
+        Document::where('id',$docId)->update([
+            'auteur' => $request->getParam('auteur'),
+            'titre'  => $request->getParam('titre'),
+            'resume' => $request->getParam('resume'),
+            'langue' => $request->getParam('langue'), 
+            'universite' => $request->getParam('univ'),
+            'specialite' => $request->getParam('spes'),
+            'categories_id' => $sousCategorie->categorie_id,
+            'sous_categories_id' => $sousCategorie->id,
+            'document_type_id'   => (int) $request->getParam('type'),   
+        ]);
+        $this->flash->addMessage('success', 'succeé ! le document a été modifier succée ');
+        return $response->withRedirect($this->router->pathFor('admin-archive-page'));
+    }
 }

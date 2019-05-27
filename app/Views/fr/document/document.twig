@@ -9,7 +9,7 @@
                 <ol class="breadcrumb bg-transparent text-white font-weight-normal px-0">
                     <li class="breadcrumb-item">
                         <a href="{{ path_for('home') }}" class="text-white">
-                            <i data-feather="home"></i>
+                            Accueil
                         </a>
                     </li>
                     <li class="breadcrumb-item">Document</li>
@@ -51,7 +51,7 @@
                         <span class="text-muted">({{ evaluations | length  }})</span>
                     </div>
                 </div>
-                <div class="mt-3" id="pdfview" style="height:700px"></div>
+                <div class="pdfobject-container" id="pdfview"></div>
             </div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
@@ -77,7 +77,7 @@
                 <div aria-labelledby="details-tab" class="tab-pane fade show active color-lead" id="details" role="tabpanel">
                     <div class="row no-gutters px-3 pb-3 pt-4">
                         <div class="col-3">
-                            <h6 class="font-weight-bold text-muted">Titre</h6>
+                            <h6 class="font-weight-bold text-muted">Sujet</h6>
                         </div>
                         <div class="col-9">
                             <p class="mb-2">
@@ -101,15 +101,7 @@
                         </div>
                         <div class="col-9">
                             <span class="badge badge-pill badge-primary">
-                                {% if document.type == 'l' %}
-                                    Mémoire Licence
-                                {% elseif document.type == 'm' %}
-                                    Mémoire Master
-                                {% elseif document.type == 'd' %}
-                                    Thése doctorat
-                                {% else %}
-                                    Autre
-                                {% endif %}
+                                {{ document.type.doc_type }}
                             </span>
                         </div>
                     </div>
@@ -154,16 +146,6 @@
                     </div>
                     <div class="row no-gutters px-3 pb-3">
                         <div class="col-3">
-                            <h6 class="font-weight-bold text-muted">Facutlé</h6>
-                        </div>
-                        <div class="col-9">
-                            <p class="mb-2">
-                                {{ document.faculte | capitalize}}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row no-gutters px-3 pb-3">
-                        <div class="col-3">
                             <h6 class="font-weight-bold text-muted">Spécialité</h6>
                         </div>
                         <div class="col-9">
@@ -174,7 +156,7 @@
                     </div>
                     <div class="row no-gutters px-3 pb-3">
                         <div class="col-3">
-                            <h6 class="font-weight-bold text-muted">Catégories</h6>
+                            <h6 class="font-weight-bold text-muted">Faculté</h6>
                         </div>
                         <div class="col-9">
                             <p class="mb-2">
@@ -281,6 +263,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {# 4 #}
                                 <tr>
                                     <td class="px-0" width="22%">
                                         <span class="fas fa-star"></span>
@@ -295,6 +278,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {# 3 #}
                                 <tr>
                                     <td class="px-0" width="22%">
                                         <span class="fas fa-star"></span>
@@ -308,6 +292,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {# 2 #}
                                 <tr>
                                     <td class="px-0" width="22%">
                                         <span class="fas fa-star"></span>
@@ -320,6 +305,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {# 1 #}
                                 <tr>
                                     <td class="px-0" width="22%">
                                         <span class="fas fa-star"></span>
@@ -332,54 +318,58 @@
                                     </td>
                                 </tr>
                             </table>
-                            {# 4 #}
-                        {# 3 #}
-                            {# 2 #}
-                            {# 1 #}
                         </div>
                     </div>
                     <hr>
                     <div class="m-4">
-                        <ul class="list-unstyled">
+                        <ul
+                            class="list-unstyled">
+                            {# si l'utilisateur est connecter #}
                             {% if auth.connected %}
-                                {# si l'utilisateur est connecter #}
-                                <h3 class="font-weight-bold text-muted pt-3 mb-4">Ajouter votre avis
-                                </h3>
-                                <li class="bg-light py-4 rounded-lg">
-                                    <form action=" {{ path_for('add-evaluation',{'docId': document.id }) }} " class="mx-3" method="POST">
-                                        <label class="color-pr font-weight-bold font-18">
-                                            Comment pensez-vous de ce document ?
-                                        </label>
-                                        <div class="evaluation d-flex mb-4">
-                                            <div>
-                                                <input id="ev1" name="eval" type="radio" value="1">
-                                                <label class="e1" for="ev1">Trés Mauvais</label>
+                                {# si l'utilisateur connecter a déja évaluer ce documents #}
+                                {% if Is_rated == true %}
+                                    <li class="my-4 py-4 text-center bg-light rounded-lg">
+                                        Vous avez d'éja evaluer ce PFE !
+                                    </li>
+                                {% else %}
+                                    <h3 class="font-weight-bold text-muted pt-3 mb-4">Ajouter votre avis
+                                    </h3>
+                                    <li class="bg-light py-4 rounded-lg">
+                                        <form action=" {{ path_for('add-evaluation',{'docId': document.id }) }} " class="mx-3" method="POST">
+                                            <label class="color-pr font-weight-bold font-18">
+                                                Comment pensez-vous de ce document ?
+                                            </label>
+                                            <div class="rating w-100">
+                                                <label title="Excellent">
+                                                    <input name="eval" type="radio" value="5">
+                                                    5
+                                                </label>
+                                                <label title="Tré bon">
+                                                    <input name="eval" type="radio" value="4">
+                                                    4
+                                                </label>
+                                                <label title="Bien">
+                                                    <input name="eval" type="radio" value="3">
+                                                    3
+                                                </label>
+                                                <label title="Mauvais">
+                                                    <input name="eval" type="radio" value="2">
+                                                    2
+                                                </label>
+                                                <label class="selected" title="Trés mauvais">
+                                                    <input name="eval" type="radio" value="1">
+                                                    1
+                                                </label>
                                             </div>
-                                            <div>
-                                                <input id="ev2" name="eval" type="radio" value="2">
-                                                <label class="e2" for="ev2">Mauvais</label>
-                                            </div>
-                                            <div>
-                                                <input checked id="ev3" name="eval" type="radio" value="3">
-                                                <label class="e3" for="ev3">Bon</label>
-                                            </div>
-                                            <div>
-                                                <input id="ev4" name="eval" type="radio" value="4">
-                                                <label class="e4" for="ev4">Trés Bon</label>
-                                            </div>
-                                            <div>
-                                                <input id="ev5" name="eval" type="radio" value="5">
-                                                <label class="e5" for="ev5">Excellent</label>
-                                            </div>
-                                        </div>
-                                        <label class="color-pr font-weight-bold font-18 d-block">
-                                            Pourquoi ?
-                                        </label>
-                                        <textarea class="form-control" name="eval-contenu" placeholder="Ecrivez spécifiquement les raisons pour lesquelles vous avez aimé ou pas ce document ..." required rows="6"></textarea>
-                                        <input class="btn btn-sm btn-primary px-3 py-2 rounded-pill mt-3" type="submit" value="ajouter">
-                                        <input class="btn btn-sm btn-inverted px-3 py-2 rounded-pill mt-3" type="reset" value="reset">
-                                    </form>
-                                </li>
+                                            <label class="color-pr font-weight-bold font-18 d-block">
+                                                Pourquoi ?
+                                            </label>
+                                            <textarea class="form-control" name="eval-contenu" placeholder="Ecrivez spécifiquement les raisons pour lesquelles vous avez aimé ou pas ce document ..." required rows="6"></textarea>
+                                            <input class="btn btn-sm btn-primary px-3 py-2 rounded-pill mt-3" type="submit" value="ajouter">
+                                            <input class="btn btn-sm btn-inverted px-3 py-2 rounded-pill mt-3" type="reset" value="reset">
+                                        </form>
+                                    </li>
+                                {% endif %}
                             {% else %}
                                 {# si utilistaeur n'est pas connecter #}
                                 <li class="my-4 py-4 text-center bg-light rounded-lg">
@@ -390,7 +380,7 @@
                                 </li>
                             {% endif %}
                             <h3 class="font-weight-bold text-muted pt-3 mb-4">Les avis({{ evaluations | length  }})</h3>
-                            <ul class="pl-0 list-group list-group-flush">
+                            <ul class="pl-0 list-group list-group-flush eval-list">
                                 {% for evaluation in evaluations %}
                                     <li class="media p-3 mb-4 rounded-lg">
                                         <img class="mr-3 rounded-circle img-thumbnail shadow-sm" height="55" src="/public/img/profiles/{{ evaluation.user.profile_img == null ? 'default.png' : evaluation.user.profile_img }}" width="55">
@@ -399,13 +389,13 @@
                                                 {{ evaluation.user.nom }}
                                                 {{ evaluation.user.prenom }}
                                                 <span class="badge badge-primary ">
-                                                    {{ evaluation.user.type }}
+                                                    {{ evaluation.user.type.nom }}
                                                 </span>
                                             </h6>
                                             <div class="stars-outer">
                                                 <div class="stars-inner" style="width: {{ evaluation.nb * 100 / 5 }}% "></div>
                                             </div>
-                                            <p class="text-muted">
+                                            <p class="text-muted mt-3">
                                                 {{ evaluation.contenu }}
                                             </p>
                                             <i class="text-muted">
@@ -416,7 +406,7 @@
                                     </li>
                                 {% else %}
                                     <li class="media my-4 p-3 bg-light rounded-lg text-center">
-                                        <span class="font-18 font-weight-bold text-muted">
+                                        <span class="font-18 text-muted">
                                             Aucune évluation est ajouter !
                                         </span>
                                     </li>

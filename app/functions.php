@@ -43,10 +43,14 @@ function slugRemove($url){
  *  Fonction n°5 : déplacer la fichier téléchager( pfe ) + retourn le nv nom
  *                 de fichier
  */
-function moveUploadedFile($directory, UploadedFile $uploadedFile)
+function moveUploadedFile($directory, $ref , UploadedFile $uploadedFile)
 {
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-    $filename  = date("Y-m-d-his-").randomString();
+    if($ref == null){
+        $filename = date("Y-m-d").randomString();
+    }else{
+        $filename  = date("Y-m-d-").$ref;
+    }
     $filename  = sprintf('%s.%0.8s', $filename, $extension);
     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
@@ -75,7 +79,31 @@ function randomColor()
 /*
  *  Fonction n°6 : génere le reférance d'un doc passé sur leur info
  */
-function genrateREF($lastId , $type ){
-    $lastId = (int) $lastId[0]->lastId;
-    return strtoupper($type).$lastId."-".date("Ymdhis");
+function genrateREF($lastId , $type ,$fact ,$depart){
+    
+    // année 2 caréctaire:
+    $annee = date('y');
+
+    // num département :
+    $num_depart = str_pad($depart, 2,'0',STR_PAD_LEFT);
+
+    // type de document :
+    switch ($type) {
+        case 1:
+            $type = 'L';
+            break;
+        
+        case 2:
+            $type = 'M';
+            break;
+        
+        case 3:
+            $type = 'D';
+            break;
+    }
+
+    // num séq :
+    $lastId = (int) $lastId[0]->lastId == 0 ? 1 : (int) $lastId[0]->lastId ;
+    $num_seq = str_pad($lastId, 3, '0', STR_PAD_LEFT);
+    return $annee.$type.$fact.$num_depart.$num_seq;
 }

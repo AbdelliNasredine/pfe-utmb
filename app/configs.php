@@ -14,7 +14,7 @@ $config['addContentLengthHeader']   = false;
 //{2}
 $config['db']['driver']    = 'mysql';
 $config['db']['host']      = 'localhost';
-$config['db']['database']  = 'pfe_db';
+$config['db']['database']  = 'pfe_database';
 $config['db']['username']  = 'root';
 $config['db']['password']  = '';
 $config['db']['charset']   = 'utf8';

@@ -1,70 +1,106 @@
 {% extends '/admin/template.view.twig' %}
 {% block navigation %}
-    {% include '/admin/navigation.view.twig' with {'active' : 4} %}
-{% endblock %}
-{% block main %}
-    <div class="row">
-        <div class="col-sm-8 my-3">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <span class="text-muted font-weight-bold">
-                        Information de compt
-                    </span>
-                </div>
-                <div class="card-body p-4">
-                    <div class="d-flex mb-4">
-                        <img class="img-thumbnail" alt="admin profile image"  hieght="95" src="/public/img/profiles/admin.png">
-                        <div class="ml-4 mt-4">
-                            <div class="d-flex">
-                                <div class="mr-4 text-muted">
-                                    <h6 class="font-weight-bold">Email </h6>
-                                    <h6 class="font-weight-bold">Identifiant </h6>
+{% include '/admin/navigation.view.twig' with {'active' : 4} %}{% endblock %}{% block main %}<h4 class="color-secondary mt-2">Profil</h4><h5 class="text-muted mb-3">
+Gestion de profil</h5><div class="row no-gutters">
+<div class="col-sm-4">
+    <div class="card border-0 mr-2">
+        <div class="card-body pt-5 text-center">
+            <img alt="" class="rounded mb-3" src="/public/img/profiles/default.png" width="150">
+            <h4 class="mt-3 font-wieght-bold">
+                {{ auth.admin.nom | upper }}
+                {{ auth.admin.prenom | upper }}
+            </h4>
+            <p class="color-secondary">
+                Administrateur
+            </p>
+            <button class="btn btn-primary" data-target="#ModalPhto" data-toggle="modal" type="button">
+                Changer photo de profil
+            </button>
+            <div aria-hidden="true" aria-labelledby="ModalLabel" class="modal fade" id="ModalPhto" role="dialog" tabindex="-1">
+                <div class="modal-dialog text-left" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalLabel">Changer photo de profil</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="">
+                                <label for="" class="text-left d-block mb-0">Choisier une photo de profil</label>
+                                <small class="text-muted mb-4">.jpg , .gif ou .png. Max 700k</small>
+                                <div class="input-group mb-3 mt-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Télecharger</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" id="inputGroupFile01" type="file">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
                                 </div>
-                                <div class="text-muted">
-                                    <h6> {{ auth.admin.email }} </h6>
-                                    <h6> {{ auth.admin.identifiant }} </h6>
-                                </div>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Changer</button>
+                            </form>
                         </div>
                     </div>
-                    <h5 class="card-title font-weight-bold color-secondary mb-4">
-                        <i class="mr-3" data-feather="edit" style="width:24px;height:24px"></i>
-                        Changement d'informations
-                    </h5>
-                    <form action="">
-                        <div class="row mt-3">
-                            <div class="col-sm-4 color-lead">
-                                <span>Identifiant</span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="col-sm-4 color-lead">
-                                <span>Email</span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <input class="form-control" type="email">
-                            </div>
-                            <div class="col-sm-4 color-lead">
-                                <span>Mot de pass</span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <input class="form-control" type="password">
-                            </div>
-                            <div class="col-sm-4 color-lead">
-                                <span>Confirmation de mot de pass</span>
-                            </div>
-                            <div class="col-sm-8 mb-3">
-                                <input class="form-control" type="password">
-                            </div>
-                            <div class="col-sm-8 offset-4">
-                                <input type="submit" class="btn btn-primary" value="changer">
-                                <input type="reset" class="btn btn-inverted" value="reset">
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="card-body">
+            <h6 class="color-lead">email
+            </h6>
+            <h5 class="color-pr font-weight-bold">{{ auth.admin.email }}</h5>
+            <h6 class="color-lead mt-4">nom et prénom
+            </h6>
+            <h5 class="color-pr font-weight-bold">
+                {{ auth.admin.nom }}
+                {{ auth.admin.prenom }}
+            </h5>
+        </div>
     </div>
-{% endblock %}
+</div>
+<div class="col-sm-8">
+    <div class="card border-0 ">
+        <div class="card-body">
+            <h5 class="color-secondary font-weight-bold mb-4">
+                <i class="mr-2" data-feather="edit"></i>
+                Modificatin d'information personnel
+            </h5>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Nom</label>
+                        <input class="form-control" placeholder="Nom" type="text">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Prénom</label>
+                        <input class="form-control" placeholder="Prénom" type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" placeholder="{{auth.admin.email}}" type="email">
+                </div>
+                <button class="btn btn-primary" type="submit">Modfier</button>
+            </form>
+            <hr>
+            <form>
+                <h5 class="color-secondary font-weight-bold mb-4">
+                    <i class="mr-2" data-feather="lock"></i>
+                    Modificatin de mot de passe
+                </h5>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Ancien mot de passe</label>
+                        <input class="form-control" placeholder="" type="password">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Nouveaux mot de passe</label>
+                        <input class="form-control" placeholder="" type="password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Modfier</button>
+            </form>
+        </div>
+    </div>
+</div></div>{% endblock %}

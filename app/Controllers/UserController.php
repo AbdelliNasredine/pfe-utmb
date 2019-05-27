@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 
 use App\Models\User;
-use App\Models\Document;
 
 class UserController extends BaseController
 {
@@ -14,7 +13,10 @@ class UserController extends BaseController
     {
         /* recupaire les pfe de "user" */
         $user = $this->auth->user();
-        $pfes = Document::where('user_id', $user->id)->get();        
+        $pfes = $user->documents()->get(); 
+        
+        // var_dump($pfes);
+        // die();
 
         $path = $this->language . DIRECTORY_SEPARATOR . 'user/user.view.twig';
         return $this->view->render($response, $path, [
@@ -88,7 +90,7 @@ class UserController extends BaseController
                         //déja img
                         unlink($dir . DIRECTORY_SEPARATOR . $profil_img) or die("en peut pas supprimer l'image");    
                     }
-                    $filename = moveUploadedFile($dir, $uploadedFile);
+                    $filename = moveUploadedFile($dir,null, $uploadedFile);
                     // mise à joure la base de donnée :
                     User::find((int) $this->auth->user()->id)->update(['profile_img' => $filename]);
                 }else{
@@ -142,7 +144,7 @@ class UserController extends BaseController
         </tr>  
         <tr>  
             <td width="30%"><label class="font-weight-bold">Type</label></td>  
-            <td width="70%" class="text-muted">'.$user->type.'</td>  
+            <td width="70%" class="text-muted">'.$user->type->nom.'</td>  
         </tr>          
         ';
 
@@ -161,17 +163,20 @@ class UserController extends BaseController
         $editForm .= '<label class="text-muted">Prénom :</label>';
         $editForm .= '<input type="text" class="form-control" name="prenom" value="'. $user->prenom .'" required/>';
         $editForm .= '<label class="text-muted">Email :</label>';
-        $editForm .= '<input type="text" class="form-control" name="email" value="'. $user->email .'" required/>';
-        $editForm .= '<label class="text-muted">Mot de passe :</label>';
-        $editForm .= '<input type="password" class="form-control" name="password" required/>';
-        $editForm .= '<label class="text-muted">Mot de passe (Confirmation) :</label>';
-        $editForm .= '<input type="password" class="form-control" name="passwordConf" required/>';
+        $editForm .= '<input type="text" class="form-control" name="email"  placeholder="'. $user->email .'"/>';
         $editForm .= '<label class="text-muted">Type :</label>';
-        $editForm .= '<select class="custom-select" name="type" required>
+        $editForm .= '<select class="custom-select" name="type">
                             <option value="" selected></option>
-                            <option value="etudiant">Etudiant</option>
-                            <option value="enseigniant">Enseigniant</option>
-                      </>';
+                            <option value="2">Etudiant</option>
+                            <option value="3">Enseigniant</option> 
+                    <select/>';  
+        $editForm .= '<label class="text-muted mt-3 mr-3">Changer état :</label>';
+        if( $user->etat == 1 ){
+            $editForm .= '<a href="/admin/refuse-user/'.$user->id.'" class="btn btn-danger"> blocker </a>';
+        }else{
+            $editForm .= '<a href="/admin/accept-user/'.$user->id.'" class="btn btn-success"> déblocker </a>';
+        }
+        $editForm .='<br>';  
         $editForm .= '<input type="submit" class="btn btn-success mt-3 mr-2" value="modifier"/>';
         $editForm .= '<input type="reset" class="btn btn-secondary mt-3" value="reset"/>';
         $editForm .= '</form>';
@@ -181,7 +186,7 @@ class UserController extends BaseController
     {
         if($this->auth->isAdminConnected()){
             // validation des donnée envoyeé
-            $validation = $this->validator->validateAll($request, ['nom', 'prenom', 'email', 'password', 'passwordConf','type']);
+            $validation = $this->validator->validateAll($request, ['nom', 'prenom']);
 
             // filtrage de donnée :
             $nom = filter_var($request->getParam('nom'), FILTER_SANITIZE_STRING);
@@ -189,14 +194,9 @@ class UserController extends BaseController
             $email = filter_var($request->getParam('email'), FILTER_SANITIZE_EMAIL);
             $password = filter_var($request->getParam('password'), FILTER_SANITIZE_STRING);
             $passwordConfirmation = filter_var($request->getParam('passwordConf'), FILTER_SANITIZE_STRING);
-            $type = filter_var($request->getParam('type'),FILTER_SANITIZE_STRING);
+            $type = filter_var($request->getParam('type'),FILTER_SANITIZE_NUMBER_INT);
+            $user_id = (int) filter_var($request->getParam('id'),FILTER_SANITIZE_NUMBER_INT);
             // Les Tests de validation :
-            if (!$validation->valid()) {
-
-                // les champ ne sont pas valid (vide) :
-                return $response->withRedirect($this->router->pathFor('admin-user-page'));
-
-            }
             if (!$validation->isString($nom)) {
 
                 // nom contint des caratére come (0-9 % ^ $ ... etc)
@@ -204,22 +204,51 @@ class UserController extends BaseController
                 return $response->withRedirect($this->router->pathFor('admin-user-page'));
 
             }
-            if (!$validation->isString($nom)) {
+            if (!$validation->isString($prenom)) {
 
                 // prenom contint des caratére come (0-9 % ^ $ ... etc)
                 $this->flash->addMessage('errors', "Champ Prenom doit contenir seulement les alphabet !");
                 return $response->withRedirect($this->router->pathFor('admin-user-page'));
 
             }
-            $user_id = (int) filter_var($request->getParam('id'),FILTER_SANITIZE_NUMBER_INT);
-            User::where('id',$user_id)->update([
-                'nom' => $nom ,
-                'prenom' => $prenom ,
-                'password' => $password,
-                'email' => $email ,
-                'type' => $type ,
-            ]);
-            $this->flash->addMessage('success', "Utilisateur ". $user_id ." a été modifier avec succée !");
+
+            if( $password !== $passwordConfirmation ){
+                $this->flash->addMessage('errors', "mot de pass ne corréspond pas au mot pass de confirmation");
+                return $response->withRedirect($this->router->pathFor('admin-user-page')); 
+            }
+
+            if(!empty($nom)){
+                User::where('id',$user_id)->update([
+                    'nom' => $nom,
+                ]);
+            }
+
+            if(!empty($prenom)){
+                User::where('id',$user_id)->update([
+                    'prenom' => $prenom,
+                ]);
+            }
+
+            if(!empty($email)){
+                User::where('id',$user_id)->update([
+                    'email' => $email,
+                ]);
+            }
+
+
+            if(!empty($password)){
+                User::where('id',$user_id)->update([
+                    'password' => password_hash($password,PASSWORD_DEFAULT),
+                ]);
+            }
+
+            if(!empty($type)){
+                User::where('id',$user_id)->update([
+                    'user_types_id' => $type,
+                ]);
+            }
+
+            $this->flash->addMessage('success', "Utilisateur a été modifier avec succée !");
             return $response->withRedirect($this->router->pathFor('admin-user-page'));   
         }else{
             return $response->withRedirect($this->router->pathFor('admin-login'));
