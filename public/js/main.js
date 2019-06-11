@@ -12,7 +12,9 @@ $(document).ready(function () {
     });
     $(".btn_up").on("click", function (e) {
         e.preventDefault();
-        $("html , body").animate({ scrollTop: 0 }, 100);
+        $("html , body").animate({
+            scrollTop: 0
+        }, 100);
     });
     // --------------------------------------------------------------------
     // Systéme d'avaluation (star rating)
@@ -35,11 +37,11 @@ $(document).ready(function () {
         }
         // l'appel ajax (asyncron javascript)
         $.ajax({
-            type: 'GET',
-            url: `http://${baseURL}/search/s/${searchQuery}`,
-            dataType: 'json',
-            encode: true
-        })
+                type: 'GET',
+                url: `http://${baseURL}/search/s/${searchQuery}`,
+                dataType: 'json',
+                encode: true
+            })
             .done(function (data) {
                 // les resultat de recherche :
                 $("#search_er").html("");
@@ -77,7 +79,9 @@ $(document).ready(function () {
                             <a href="/document/${ data[i].id}" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h4 class="mb-2 color-pr font-weight-bold">${ data[i].titre}</h4>
-                                    <div><small>ajouter le ${ data[i].date_publication}</small></div>
+                                    <div>
+                                        <span class="badge badge-primary">${ data[i].type.doc_type }</span>
+                                    </div>
                                 </div>
                                 <p class="mb-2">
                                     Auteur : ${ data[i].auteur}
@@ -106,14 +110,18 @@ $(document).ready(function () {
         var lang = $("#input_search_av_lang").val();
         var domaine = $("#input_search_av_domain").val();
         var annee = $("#input_search_av_annee").val();
+        if(annee.length != 4){
+            alert("format d'année invalide");
+            return false;
+        }
         // la requet ajax de recherche
         // &type=${type}&lang=${lang}&domaine=${domaine}&annee=${annee}
         $.ajax({
-            type: 'GET',
-            url: `http://${baseURL}/search/a?titre=${titre}&type=${type}&lang=${lang}&domaine=${domaine}&annee=${annee}`,
-            dataType: 'json',
-            encode: true
-        })
+                type: 'GET',
+                url: `http://${baseURL}/search/a?titre=${titre}&type=${type}&lang=${lang}&domaine=${domaine}&annee=${annee}`,
+                dataType: 'json',
+                encode: true
+            })
             .done(function (data) {
                 console.log(data);
                 $("#search_result").removeClass('d-none');
@@ -148,7 +156,9 @@ $(document).ready(function () {
                             <a href="/document/${ data[i].id}" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h4 class="mb-2 color-pr font-weight-bold">${ data[i].titre}</h4>
-                                    <div><small>ajouter le ${ data[i].date_publication}</small></div>
+                                    <div>
+                                        <span class="badge badge-primary">${ data[i].type.doc_type }</span>
+                                    </div>
                                 </div>
                                 <p class="mb-2">
                                     Auteur : ${ data[i].auteur}
@@ -183,12 +193,12 @@ $(document).ready(function () {
         };
         // l'appel ajax (asyncron javascript)
         $.ajax({
-            type: 'POST',
-            url: `http://${baseURL}/contact`,
-            data: formData,
-            dataType: 'json',
-            encode: true
-        })
+                type: 'POST',
+                url: `http://${baseURL}/contact`,
+                data: formData,
+                dataType: 'json',
+                encode: true
+            })
             // si l'information sont bien envoyés
             // 'data' contient la reponse de serveur (php)
             .done(function (data) {

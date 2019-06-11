@@ -77,6 +77,7 @@ class DocumentController extends BaseController
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedFile = $uploadedFiles['doc'];
 
+
         // validation de fichier :
         if( !empty($uploadedFile) ){
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {

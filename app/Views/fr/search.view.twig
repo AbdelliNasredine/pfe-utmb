@@ -37,75 +37,63 @@
                             <div class="mt-2 p-3 bg-light rounded-lg collapse" id="search_avanc">
                                 <h2 class="color-pr">Recherche Avancée</h2>
                                 <form id="search_av">
-                                    <div class="input-group w-75">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Le titre
-                                            </span>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <label class="color-lead" for="">Titre</label>
+                                            <input class="form-control" id="input_search_av_titre" type="text">
                                         </div>
-                                        <input class="form-control" id="input_search_av_titre" type="text">
-                                    </div>
-                                    <div class="input-group w-75 mt-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
+                                        <div class="form-group col-3 mt-3">
+                                            <label class="color-lead" for="">
                                                 Type de document
-                                            </span>
+                                            </label>
+                                            <select class="custom-select" id="input_search_av_type">
+                                                <option value=""></option>
+                                                {% for type in doc_types %}
+                                                    <option value="{{type.id}}">{{type.doc_type}}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
-                                        <select class="custom-select" id="input_search_av_type">
-                                            <option value=""></option>
-                                            <option value="l">Mémoir de licence</option>
-                                            <option value="m">Mémoir de master</option>
-                                            <option value="d">Thése de doctorat</option>
-                                            <option value="autre">Autre</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group w-75 mt-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
+                                        <div class="form-group col-3 mt-3">
+                                            <label class="color-lead" for="">
                                                 La langue
-                                            </span>
+                                            </label>
+                                            <select class="custom-select" id="input_search_av_lang">
+                                                <option value=""></option>
+                                                <option value="ar">Arabe</option>
+                                                <option value="en">Anglais</option>
+                                                <option value="fr">Français</option>
+                                                <option value="autre">Autre</option>
+                                            </select>
                                         </div>
-                                        <select class="custom-select" id="input_search_av_lang">
-                                            <option value=""></option>
-                                            <option value="ar">Arabe</option>
-                                            <option value="en">Anglais</option>
-                                            <option value="fr">Français</option>
-                                            <option value="autre">Autre</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group w-75 mt-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
+                                        <div class="form-group col-6 mt-3">
+                                            <label class="color-lead" for="">
                                                 Département
-                                            </span>
+                                            </label>
+                                            <select class="custom-select" id="input_search_av_domain">
+                                                <option value=""></option>
+                                                {% for categorie in categories %}
+                                                    <optgroup label="{{ categorie.nom }}">
+                                                        {% for souscategorie in categorie.souscategories %}
+                                                            <option value="{{ souscategorie.id }}">
+                                                                {{ souscategorie.nom }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </optgroup>
+                                                {% endfor %}
+                                            </select>
                                         </div>
-                                        <select class="custom-select" id="input_search_av_domain">
-                                            <option value=""></option>
-                                            {% for categorie in categories %}
-                                                <optgroup label="{{ categorie.nom }}">
-                                                    {% for souscategorie in categorie.souscategories %}
-                                                        <option value="{{ souscategorie.id }}">
-                                                            {{ souscategorie.nom }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="input-group mt-3" style="width:30%">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                Année de publication
-                                            </span>
+                                        <div class="form-group col-2 mt-3">
+                                            <label class="color-lead" for="">
+                                                Année
+                                            </label>
+                                            <input class="form-control" id="input_search_av_annee" maxlength="4" type="number" value="2019"/>
                                         </div>
-                                        <input class="form-control" id="input_search_av_annee" maxlength="4" pattern="[0-9]{4}" type="text" value="2019"/>
-                                    </div>
-                                    <small>(*)enter année</small>
-                                    <div class="mt-3">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="mr-2" data-feather="search"></i>
-                                            Recherche
-                                        </button>
+                                        <div class="form-group col-12 mt-3">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="mr-2" data-feather="search"></i>
+                                                Recherche
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

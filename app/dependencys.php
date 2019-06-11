@@ -1,7 +1,7 @@
 <?php
 /*
  **  dependencys.php contient :
- **      {1}   illuminate/databse "ORM" configuration
+ **      {1}   illuminate/database "ORM" configuration
  **      {2}   ajoute/config de moteur d'affichag des vue 'twig'
  **      {3}   config de page 404 'page d'ereur'
  **      {4}   l'ajout des controller dans le $container

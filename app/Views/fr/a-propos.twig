@@ -12,71 +12,73 @@
             A propos de nous
         </title>
     </head>
-    <body>
+    <body class="bg-img img-a-propos">
         <header>
-            <div class="bg-img img-login py-5">
+            <div class="bg-grd2 py-5">
                 <div class="bg-white d-inline px-5 py-3 shadow-sm rounded-right">
                     <a class="font-weight-bold font-18 color-pr text-" href="{{ path_for('home') }}">Page d'Acuile</a>
                 </div>
                 <div class="container">
-                    <div class="text-center">
-                        <img alt="logo" src="/public/img/logo-white.svg" width="75">
-                    </div>
                     <h6 class="display-4 text-center text-white mt-2 mb-5 font-weight-bold">
                         A propos de nous
                     </h6>
                 </div>
             </div>
         </header>
-        <nav class="nav color-pr">
-            <div class="container d-flex justify-content-center mt-3">
-                <a class="nav-link font-24 px-0 border-active mr-5 font-weight-bold" href="#">A propos</a>
-            </div>
-        </nav>
-        <main class="bg-white">
-            <div class="container my-3 pt-5 text-center">
-                <img alt="coded by illustration" class="img-fluid mb-4" src="/public/img/programming.svg" width="800">
-                <h2 class="color-secondary font-weight-bold">Les outils de developments</h2>
-                <p class="color-lead lead my-3 text-justify">
-                    Nous avant utiliseé
-                    <i class="font-weight-bold color-secondary">PHP</i>
-                    comme language de programmation
-                                coté serveur
-                                et nous avant choisie
-                    <i class="font-weight-bold color-secondary">Slim 3</i>
-                    comme Framework de
-                                dévelopement,
-                                et nous utilisont
-                    <i class="font-weight-bold color-secondary">Bootstrap 4</i>
-                    comme lib de style CSS
-                                et finalement le fameux
-                    <i class="font-weight-bold color-secondary">JQuery</i>
-                    comme lib de JavaScript
-                </p>
-                <img alt="language" class="img-fluid mb-4" src="/public/img/backgrounds/pr-lang-bg.png" width="800">
-                <h2 class="color-secondary font-weight-bold">qui sommes nous ?</h2>
-                <p class="lead color-lead my-3 text-justify">
-                    Ce site a été développé dans le cadre de projet de fin d'etude et pour l'obtution de déplome licence en
-                                informatique , nous somme deux étudiant :
-                </p>
-                <div class="d-flex justify-content-center mb-5 mt-5">
-                    <div class="text-center mr-5">
-                        <h2 class="font-weight-bold color-secondary">Abdelli Nasredine</h2>
-                        <a class="mr-3" href="">
-                            <i class="mr-2" data-feather="github"></i>
-                            github
-                        </a>
-                        <a href="">
-                            <i class="mr-2" data-feather="facebook"></i>
-                            facebook
-                        </a>
-                    </div>
-                    <div class="text-center ml-5">
-                        <h2 class="font-weight-bold color-secondary">Bouregaa Ismail</h2>
-                        <a href="">
-                            <i class="mr-2" data-feather="facebook"></i>
-                            facebook
-                        </a>
+        <main class="bg-white container my-5 shadow-sm">
+            <nav class="nav color-pr">
+                <div class="container d-flex justify-content-center mt-3">
+                    <a class="nav-link font-24 px-0 border-active mr-5 font-weight-bold" href="#">A propos</a>
+                </div>
+            </nav>
+            <div class="row">
+                <div class="col-10 offset-1 mt-5">
+                    <h2 class="display-4  color-secondary font-weight-bold">Les outils de developments</h2>
+                    <p class="color-lead lead my-3 text-justify">
+                        Nous avant utiliseé
+                        <i class="font-weight-bold color-secondary">PHP</i>
+                        comme language de programmation
+                                                                                                                                                        coté serveur
+                                                                                                                                                        et nous avant choisie
+                        <i class="font-weight-bold color-secondary">Slim 3</i>
+                        comme Framework de
+                                                                                                                                                        dévelopement,
+                                                                                                                                                        et nous utilisont
+                        <i class="font-weight-bold color-secondary">Bootstrap 4</i>
+                        comme lib de style CSS
+                                                                                                                                                        et finalement le fameux
+                        <i class="font-weight-bold color-secondary">JQuery</i>
+                        comme lib de JavaScript
+                    </p>
+                </div>
+                <div class="col-10 offset-1 mt-5">
+                    <h2 class="display-4 color-secondary font-weight-bold">Qui sommes nous ?</h2>
+                    <p class="lead color-lead my-3 text-justify">
+                        Ce site a été développé dans le cadre de projet de fin d'etude et pour l'obtution de déplome licence en informatique , nous somme deux étudiant
+                    </p>
+                </div>
+                <div class="col-12 rounded-lg">
+                    <div class="d-flex justify-content-center mb-5 mt-5">
+                        <div class="text-center mr-5">
+                            <img alt="" class="rounded-lg mb-3 shadow" src="/public/img/profiles/default.png" width="75">
+                            <h2 class="font-weight-bold color-secondary">Abdelli Nasredine</h2>
+                            <a class="mr-3" href="https://github.com/AbdelliNasredine">
+                                <i class="mr-2" data-feather="github"></i>
+                                github
+                            </a>
+                            <a href="">
+                                <i class="mr-2" data-feather="mail"></i>
+                                abdou.nasredine@gmail.com
+                            </a>
+                        </div>
+                        <div class="text-center ml-5">
+                            <img alt="" class="rounded-lg mb-3 shadow" src="/public/img/ismail.png" width="75">
+                            <h2 class="font-weight-bold color-secondary">Bouregaa Ismail</h2>
+                            <a href="">
+                                <i class="mr-2" data-feather="mail"></i>
+                                ii289119@gmail.com
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

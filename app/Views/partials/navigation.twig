@@ -6,7 +6,7 @@
             <img alt="logo" class="mr-4" src="/public/img/logo.svg" width="42px">
         </a>
         <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-            <span class=""><img alt="" src="/public/img/menu-icon.svg" width="18px"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="mr-auto navbar-nav d-flex flex-column flex-md-row">
@@ -27,8 +27,11 @@
                         </a>
                     </div>
                 </div>
-                <a href="{{ path_for('search') }}" class="nav-item nav-link ml-3">
+                <a href="{{ path_for('search') }}" class="nav-item nav-link ml-md-3">
                     Recherche
+                </a>
+                <a href="{{ path_for('a-propos') }}" class="nav-item nav-link ml-md-3">
+                    A propos de nous
                 </a>
             </div>
             <div class="navbar-nav ml-auto">
@@ -50,10 +53,10 @@
                         </div>
                     </div>
                 {% else %}
-                    <a class="nav-item btn btn-outline-primary py-1 ml-40 my-md-0 my-2" href="{{ path_for('connection') }}">
+                    <a class="nav-item btn btn-outline-primary py-1 mr-lg-4 my-md-0 my-2" href="{{ path_for('connection') }}">
                         Connexion
                     </a>
-                    <a class="nav-item btn btn-primary py-1 my-md-0 my-2" href="{{ path_for('inscription') }}">
+                    <a class="nav-item btn btn-primary py-1 my-lg-0 my-2" href="{{ path_for('inscription') }}">
                         Inscrciption
                     </a>
                 {% endif %}

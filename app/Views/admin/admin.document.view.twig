@@ -1,336 +1,344 @@
 {% extends '/admin/template.view.twig' %}
 {% block navigation %}
-{% include '/admin/navigation.view.twig' with {'active' : 3} %}{% endblock %}{% block main %}<div class="row mt-2 no-gutters">
-<div class="col-sm-12">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href=" {{ path_for('admin-archive-page')  }} ">Document</a>
-            </li>
-            <li aria-current="page" class="breadcrumb-item active">
-                {{ doc.titre }}
-            </li>
-        </ol>
-    </nav>
-</div>
-<div
-    class="col-sm-8">
-    {# affichache de pdf #}
-    <div class="m-2 card p-4 shadow-sm">
-        <div>
-            <h5 class="font-weight-normal color-pr">
-                {{ doc.titre }}
-            </h5>
-            <div id="pdfview"></div>
-        </div>
-    </div>
-</div>
-<div
-    class="col-sm-4">
-    {# details de doc #}
-    <div class="m-2 card p-4 shadow-sm">
-        <h5 class="font-weight-bold text-muted">
-            Opérations
-        </h5>
-        <div class="d-flex mb-3">
-            {% if doc.valid == 0 %}
-                {# no valid #}
-                <button class="btn btn-success btn-sm mr-2 hover-scal" data-target="#modal_validation" data-toggle="modal" type="button">
-                    Valider le document
-                </button>
-                {# modale de validation #}
-                <div class="modal fade" id="modal_validation" role="dialog" tabindex="-1">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Validation de document</h5>
-                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Voulez-vous valider ce document ? le document sera visible au tous utilisateur</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
-                                <a class="btn btn-primary" href=" {{ path_for('admin-validate-document',{'id' : doc.id }) }} ">Valider</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            <a title="Télecharger" class="btn btn-success btn-sm mr-2 hover-scal" href="{{ path_for('download',{'url' : doc.url }) }}">
-                <i data-feather="download"></i>
-            </a>
-            <button class="btn btn-danger btn-sm mr-2 hover-scal" data-target="#modal_supprimer" data-toggle="modal" title="supprimer" type="button">
-                <i data-feather="trash-2"></i>
-            </button>
-            <button class="btn btn-warning btn-sm hover-scal" data-target="#modal_edit" data-toggle="modal" title="Modifier" type="button">
-                <i data-feather="edit"></i>
-            </button>
-            {# modale de supprimer #}
-            <div class="modal fade" id="modal_supprimer" role="dialog" tabindex="-1">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Suppression de document</h5>
-                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Voulez-vous supprimer le document? le document sera définitivement supprimé</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
-                            <a class="btn btn-danger" href=" {{ path_for('admin-delete-document',{'id' : doc.id}) }} ">Supprimer</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {# modale de mofication #}
-            <div class="modal fade" id="modal_edit" role="dialog" tabindex="-1">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Modification de document</h5>
-                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{ path_for('admin-update-document',{'docid' : doc.id}) }}" class="color-pr mx-auro" method="post">
-                                <table class="table table-borderless">
-                                    <tbody>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Titre</label>
-                                            </th>
-                                            <td width="90%">
-                                                <input type="text" class="form-control" name="titre" value="{{doc.titre}}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Auteur</label>
-                                            </th>
-                                            <td width="90%">
-                                                <input type="text" class="form-control" name="auteur" value="{{doc.auteur}}">
-                                                <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
-                                                </small>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Résume</label>
-                                            </th>
-                                            <td width="90%">
-                                                <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4">{{ doc.resume }}
-                                                </textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Type</label>
-                                            </th>
-                                            <td width="90%">
-                                                <select class="form-control" id="type" name="type" required>
-                                                    <option selected value=""></option>
-                                                    {% for doc_type in doc_types %}
-                                                        <option value="{{ doc_type.id }}" {{ doc.type.id == doc_type.id ? 'selected' : '' }}>{{doc_type.doc_type}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">langue</label>
-                                            </th>
-                                            <td width="90%">
-                                                <select class="form-control" id="langue" name="langue" required>
-                                                    <option {{ doc.langue == "ar" ? 'selected' : '' }} value="ar">Arabe</option>
-                                                    <option {{ doc.langue == "en" ? 'selected' : '' }} value="en">Anglais</option>
-                                                    <option {{ doc.langue == "fr" ? 'selected' : '' }} value="fr">Français</option>
-                                                    <option {{ doc.langue == "aute" ? 'selected' : '' }} value="autre">Autre</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">département</label>
-                                            </th>
-                                            <td width="90%">
-                                                <select class="form-control" id="domaine" name="domaine" required>
-                                                    <option selected value=""></option>
-                                                    {% for categorie in cat %}
-                                                        <optgroup label="{{ categorie.nom }}">
-                                                            {% for domain in categorie.souscategories %}
-                                                                <option {{ doc.souscategorie.id == domain.id ? 'selected' : '' }} value="{{ domain.id }}">
-                                                                    {{ domain.nom }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </optgroup>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Université</label>
-                                            </th>
-                                            <td width="90%">
-                                                <input class="form-control" name="univ" type="text" value="Université Tahri Mohamed Bechar">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th width="10%">
-                                                <label class="text-muted">Spécialité</label>
-                                            </th>
-                                            <td width="90%">
-                                                <input class="form-control" name="spes" type="text" value="{{ doc.specialite }}">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-warning hover-scal" type="submit">
-                                    <i class="mr-2" data-feather="repeat"></i>
-                                    Modifier
-                                </button>
-                                <button class="btn btn-secondary hover-scal" type="reset">
-                                    <i class="mr-2" data-feather="x"></i>
-                                    reset
-                                </button>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Férmer</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h5 class="font-weight-bold text-muted mb-3">
-            Details
-        </h5>
-        <div class="table-responsive">
-            <table class="table table-sm">
-                <tr>
-                    <td width="30%">
-                        <span class="font-weight-bold">
-                            Titre
-                        </span>
-                    </td>
-                    <td class="text-muted" width="70%">
+    {% include '/admin/navigation.view.twig' with {'active' : 3} %}
+{% endblock %}
+{% block main %}
+    <div class="row mt-2 no-gutters">
+        <div class="col-sm-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href=" {{ path_for('admin-archive-page')  }} ">Document</a>
+                    </li>
+                    <li aria-current="page" class="breadcrumb-item active">
                         {{ doc.titre }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <span class="font-weight-bold">
-                            Auteur
-                        </span>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.auteur }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <span class="font-weight-bold">
-                            Type
-                        </span>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.type.doc_type }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Date de publication</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.date_publication | date("d M Y", "Europe/Paris")}}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Université</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.universite }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Faculté</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.categorie.nom }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Département</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.souscategorie.nom }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Specialité</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.specialite }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Taille</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {{ doc.taille }}
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Evaluation générale</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        <div class="div w-100">
-                            <div class="stars-outer">
-                                <div class="stars-inner" style="width:{{ doc.evaluationgenerale(doc.id) }}%"></div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div
+            class="col-sm-8">
+            {# affichache de pdf #}
+            <div class="m-2 card p-4 shadow-sm">
+                <div>
+                    <h5 class="font-weight-normal color-pr">
+                        {{ doc.titre }}
+                    </h5>
+                    <div id="pdfview"></div>
+                </div>
+            </div>
+            <div class="m-2 card p-4 shadow-sm mt-3">
+                <h5 class="font-weight-bold text-muted">
+                    Résume
+                </h5>
+                <p class="text-justify">
+                    {{ doc.resume }}
+                </p>
+            </div>
+        </div>
+        <div
+            class="col-sm-4">
+            {# details de doc #}
+            <div class="m-2 card p-4 shadow-sm">
+                <h5 class="font-weight-bold text-muted">
+                    Opérations
+                </h5>
+                <div class="d-flex mb-3">
+                    {% if doc.valid == 0 %}
+                        {# no valid #}
+                        <button class="btn btn-success btn-sm mr-2 hover-scal" data-target="#modal_validation" data-toggle="modal" type="button">
+                            Valider le document
+                        </button>
+                        {# modale de validation #}
+                        <div class="modal fade" id="modal_validation" role="dialog" tabindex="-1">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Validation de document</h5>
+                                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Voulez-vous valider ce document ? le document sera visible au tous utilisateur</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
+                                        <a class="btn btn-primary" href=" {{ path_for('admin-validate-document',{'id' : doc.id }) }} ">Valider</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="30%">
-                        <label class="font-weight-bold">Etat</label>
-                    </td>
-                    <td class="text-muted" width="70%">
-                        {% if doc.valid == 0 %}
-                            <span class="badge badge-danger">
-                                Non valider
-                            </span>
-                        {% else %}
-                            <span class="badge badge-success">
-                                Valider
-                            </span>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
+                    {% endif %}
+                    <a title="Télecharger" class="btn btn-success btn-sm mr-2 hover-scal" href="{{ path_for('download',{'url' : doc.url }) }}">
+                        <i data-feather="download"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm mr-2 hover-scal" data-target="#modal_supprimer" data-toggle="modal" title="supprimer" type="button">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                    <button class="btn btn-warning btn-sm hover-scal" data-target="#modal_edit" data-toggle="modal" title="Modifier" type="button">
+                        <i data-feather="edit"></i>
+                    </button>
+                    {# modale de supprimer #}
+                    <div class="modal fade" id="modal_supprimer" role="dialog" tabindex="-1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Suppression de document</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez-vous supprimer le document? le document sera définitivement supprimé</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuller</button>
+                                    <a class="btn btn-danger" href=" {{ path_for('admin-delete-document',{'id' : doc.id}) }} ">Supprimer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# modale de mofication #}
+                    <div class="modal fade" id="modal_edit" role="dialog" tabindex="-1">
+                        <div class="modal-dialog modal-lg" role="document" style="height:500px ; overflow-y: scrol;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modification de document</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="overflow-y: scroll; height: 460px;">
+                                    <form action="{{ path_for('admin-update-document',{'docid' : doc.id}) }}" class="color-pr mx-auro" method="post">
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Titre</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <input type="text" class="form-control" name="titre" value="{{doc.titre}}">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Auteur</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <input type="text" class="form-control" name="auteur" value="{{doc.auteur}}">
+                                                        <small class="text-muted">Si il y a plusieurs auteurs , séparer les par des vergule ","
+                                                        </small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Résume</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <textarea class="form-control" id="resume" name="resume" placeholder="votre résume" required rows="4">{{ doc.resume }}
+                                                        </textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Type</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <select class="form-control" id="type" name="type" required>
+                                                            <option selected value=""></option>
+                                                            {% for doc_type in doc_types %}
+                                                                <option value="{{ doc_type.id }}" {{ doc.type.id == doc_type.id ? 'selected' : '' }}>{{doc_type.doc_type}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">langue</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <select class="form-control" id="langue" name="langue" required>
+                                                            <option {{ doc.langue == "ar" ? 'selected' : '' }} value="ar">Arabe</option>
+                                                            <option {{ doc.langue == "en" ? 'selected' : '' }} value="en">Anglais</option>
+                                                            <option {{ doc.langue == "fr" ? 'selected' : '' }} value="fr">Français</option>
+                                                            <option {{ doc.langue == "aute" ? 'selected' : '' }} value="autre">Autre</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">département</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <select class="form-control" id="domaine" name="domaine" required>
+                                                            <option selected value=""></option>
+                                                            {% for categorie in cat %}
+                                                                <optgroup label="{{ categorie.nom }}">
+                                                                    {% for domain in categorie.souscategories %}
+                                                                        <option {{ doc.souscategorie.id == domain.id ? 'selected' : '' }} value="{{ domain.id }}">
+                                                                            {{ domain.nom }}
+                                                                        </option>
+                                                                    {% endfor %}
+                                                                </optgroup>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Université</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <input class="form-control" name="univ" type="text" value="Université Tahri Mohamed Bechar">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="10%">
+                                                        <label class="text-muted">Spécialité</label>
+                                                    </th>
+                                                    <td width="90%">
+                                                        <input class="form-control" name="spes" type="text" value="{{ doc.specialite }}">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-warning hover-scal" type="submit">
+                                            <i class="mr-2" data-feather="repeat"></i>
+                                            Modifier
+                                        </button>
+                                        <button class="btn btn-secondary hover-scal" type="reset">
+                                            <i class="mr-2" data-feather="x"></i>
+                                            reset
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Férmer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="font-weight-bold text-muted mb-3">
+                    Details
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Titre
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.titre }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Auteur
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.auteur }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <span class="font-weight-bold">
+                                    Type
+                                </span>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.type.doc_type }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Date de publication</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.date_publication | date("d M Y", "Europe/Paris")}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Université</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.universite }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Faculté</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.categorie.nom }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Département</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.souscategorie.nom }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Specialité</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.specialite }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Taille</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {{ doc.taille }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Evaluation générale</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                <div class="div w-100">
+                                    <div class="stars-outer">
+                                        <div class="stars-inner" style="width:{{ doc.evaluationgenerale(doc.id) }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%">
+                                <label class="font-weight-bold">Etat</label>
+                            </td>
+                            <td class="text-muted" width="70%">
+                                {% if doc.valid == 0 %}
+                                    <span class="badge badge-danger">
+                                        Non valider
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-success">
+                                        Valider
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-sm-12">
-    <div class="m-2 card p-4 shadow-sm">
-        <h5 class="font-weight-bold text-muted">
-            Résume
-        </h5>
-        <p class="text-justify">
-            {{ doc.resume }}
-        </p>
-    </div>
-</div></div>{% endblock %}{% block js %}<script>PDFObject.embed("/uploads/{{ doc.url }}", "#pdfview");</script>{% endblock %}
+{% endblock %}
+{% block js %}
+    <script>
+        PDFObject.embed("/uploads/{{ doc.url }}", "#pdfview");
+    </script>
+{% endblock %}

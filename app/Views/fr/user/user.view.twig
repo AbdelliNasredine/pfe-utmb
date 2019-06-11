@@ -25,7 +25,7 @@
                 <div class="col-sm-4 mb-3">
                     <div class="card border-0 shadow-sm mr-lg-3">
                         <div class="card-body text-center">
-                            <img alt="profil image" class="rounded-circle img-thumbnail shadow-sm" height="90" src="/public/img/profiles/{{ auth.user.profile_img == null ? 'default.png' : auth.user.profile_img }}" width="90">
+                            <img alt="profil image" class="rounded-lg img-thumbnail shadow-sm" height="150" src="/public/img/profiles/{{ auth.user.profile_img == null ? 'default.png' : auth.user.profile_img }}" width="150">
                             <h3 class="font-weight-bold card-title mt-4 mb-0 color-pr">
                                 {{ auth.user.nom | capitalize }}
                                 {{ auth.user.prenom | capitalize  }}
@@ -154,11 +154,8 @@
                                 {# formulaire d'ajoute #}
                                 <h5 class="color-secondary font-weight-bold mb-4">Publier un mémoire / projet de fin d'étude</h5>
                                 <p class="font-16 color-lead">
-                                Ce site a pour but de publier un maximum de mémoires d'étudiants en accès gratuit sur internet. Pour déposer votre mémoire, 
-                                il suffit de remplir le formulaire ci-contre et de cliquer sur le bouton "Ajouter". Votre mémoire est mis en ligne peu de temps après.
-                                </p>
-                                <p class="font-16 color-lead">
-                                Si vous rencontrez des difficultés, n'hésitez pas à prendre contact avec <a href="mailto:ad8080.pfe@gmail.com" class="color-secondary">l'dministrateur</a>.
+                                    Ce site a pour but de publier un maximum de mémoires d'étudiants en accès gratuit sur internet. Pour déposer votre mémoire, 
+                                    il suffit d'ajoutez votre mémoire dans formulaire ci-contre et de cliquer sur le bouton "Ajouter". Votre mémoire est mis en ligne peu de temps après.
                                 </p>
                                 <form class="color-pr" action="{{ path_for('add-pfe') }}" method="post" enctype="multipart/form-data">
                                     <div class="form-group row">
@@ -335,3 +332,4 @@
         </div>
     </main>
 {% endblock %}
+{% block scriptBody %}{% endblock %}

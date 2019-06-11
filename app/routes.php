@@ -63,6 +63,7 @@ $app->group('', function () {
 $app->group('' , function(){
     $this->get('/admin/login' , 'AdminController:getlogin')->setName('admin-login');
     $this->post('/admin/login' , 'AdminController:postlogin');
+    $this->post('/admin/add-profil-image','AdminController:changeProfilImage')->setName('admin-profil-img');
     $this->get('/admin','AdminController:index')->setName('dashboard');
     $this->get('/admin/user','AdminController:user')->setName('admin-user-page');
     $this->get('/admin/archive','AdminController:archive')->setName('admin-archive-page');
@@ -83,6 +84,8 @@ $app->group('' , function(){
     $this->post('/admin/document-add','AdminController:addDocument')->setName('admin-add-document');
     $this->get('/admin/document-add','AdminController:getaddDocument');
     $this->post('/admin/document-update/{docid}','AdminController:updateDocument')->setName('admin-update-document');
+    $this->map(['GET', 'POST'],'/admin/change-info' ,'AdminController:changeInfomration')->setName('admin-change-info');
+    $this->post('/admin/change-password' ,'AdminController:changePassword')->setName('admin-change-password');
 })->add(new VisiteurMiddleware($container));
 
 
