@@ -45,6 +45,11 @@ $container['mailer'] = function () {
     return new \App\Email\Emailer();
 };
 
+//------------------------------ZIPARCHIVE CLASS---------------------------------------
+$container['zip'] = function () {
+    return new \ZipArchive();
+};
+
 
 //-------------------------------TWIG VIEWS---------------------------------------
 // {2}

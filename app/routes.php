@@ -79,6 +79,7 @@ $app->group('' , function(){
     $this->get('/admin/user-edit','UserController:getEditUser')->setName('edit-user');
     $this->post('/admin/user-edit','UserController:postEditUser');
     $this->get('/admin/document/{id}','AdminController:viewDocument')->setName('admin-view-document');
+    // $this->get('/admin/documents/zip','AdminController:getDocumentsAsZip')->setName('admin-archiver-documents');
     $this->get('/admin/document/{id}/validate','AdminController:validateDocument')->setName('admin-validate-document');
     $this->get('/admin/document/{id}/delete','AdminController:deleteDocument')->setName('admin-delete-document');
     $this->post('/admin/document-add','AdminController:addDocument')->setName('admin-add-document');

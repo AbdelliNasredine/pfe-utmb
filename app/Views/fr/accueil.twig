@@ -1,30 +1,26 @@
 {% extends "layout.html.twig" %}
 
-{% block script %}
-    <script>
-        window.addEventListener('load', function () {
-            var spn = document.querySelector(".spinnerBg");
-            if (spn) {
-                spn.className += " fade";
-            }
-        });
-    </script>
-{% endblock %}
 
 {% block titre %}
     Acuille - MonPFE
 {% endblock %}
 
 {% block contenu %}
-    <div class="spinnerBg" id="spn">
-        <div class="spinner"></div>
+    {# contact / a-propos pages #}
+    <div class="left-content d-flex flex-column">
+        <a class="social-email" href="#contact-section">
+            <i class="fas fa-envelope-open"></i>
+        </a>
+        <a class="social-facebook" href="#">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a class="social-google" href="#">
+            <i class="fab fa-google-plus-g"></i>
+        </a>
     </div>
-    <a class="btn_up d-none" href="#">
-        <i data-feather="chevron-up"></i>
-    </a>
     {% if auth.connected %}
         {# Si user est connecter #}
-        <nav class="bg-grd py-3">
+        <nav class="bg-grd2 py-5 mt-5">
             <div class="container">
                 <h3 class="text-white font-weight-bold">
                     Bienvenue sur le site des PFE's universitaire's
@@ -47,7 +43,7 @@
                             <ul class="list-unstyled media-wrapper mb-3">
                                 {% for pfe in all %}
                                     <li class="media">
-                                        <img src="/public/img/doc-cover.jpg" class="align-self-center mr-3" alt="document cover" height="75">
+                                        <img alt="document cover" class="align-self-center mr-3" height="75" src="/public/img/doc-cover.jpg">
                                         <div class="media-body">
                                             <h5 class="mt-0 mb-1">
                                                 <a class="color-secondary font-weight-bold" href="{{ path_for('document' , {'id': pfe.id}) }}">
@@ -97,50 +93,50 @@
                                 <p class="card-text text-muted">
                                     Une question? une remarque ? une demende ?
                                 </p>
-                                <button type="button" class="card-link btn btn-primary" data-toggle="modal" data-target="#contactmodal">
+                                <button class="card-link btn btn-primary" data-target="#contactmodal" data-toggle="modal" type="button">
                                     Contactez-nous
                                 </button>
                             </div>
                         </div>
                     </div>
                     {# modale's #}
-                    <div class="modal fade" id="contactmodal" tabindex="-1" role="dialog" aria-labelledby="contactmodalLabel" aria-hidden="true">
+                    <div aria-hidden="true" aria-labelledby="contactmodalLabel" class="modal fade" id="contactmodal" role="dialog" tabindex="-1">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title color-secondary" id="contactmodalLabel">Contactez nous</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="contact" action="{{ path_for('envoyer') }}" method="POST" autocomplete="off">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label class="color-lead" for="nom">Votre nom</label>
-                                            <input class="form-control" name="nom" placeholder="nom" required type="text">
+                                <div class="modal-header">
+                                    <h5 class="modal-title color-secondary" id="contactmodalLabel">Contactez nous</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="contact" action="{{ path_for('envoyer') }}" method="POST" autocomplete="off">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="color-lead" for="nom">Votre nom</label>
+                                                <input class="form-control" name="nom" placeholder="nom" required type="text">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="color-lead" for="email">Votre email</label>
+                                                <input class="form-control" name="c-email" placeholder="exemple@site.com" required type="email">
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="color-lead" for="email">Votre email</label>
-                                            <input class="form-control" name="c-email" placeholder="exemple@site.com" required type="email">
+                                        <div class="form-group">
+                                            <label class="color-lead" for="titre">Titre de message</label>
+                                            <input class="form-control" name="titre" placeholder="Le sujet de message" required type="text">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="color-lead" for="titre">Titre de message</label>
-                                        <input class="form-control" name="titre" placeholder="Le sujet de message" required type="text">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="color-lead" for="contenu">Votre message</label>
-                                        <textarea class="form-control" name="contenu" placeholder="Message ..." required rows="5"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary rounded-pill hover-scal" type="submit">
-                                            <i class="pr-2" data-feather="send"></i>
-                                            Envoyer
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                        <div class="form-group">
+                                            <label class="color-lead" for="contenu">Votre message</label>
+                                            <textarea class="form-control" name="contenu" placeholder="Message ..." required rows="5"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary rounded-pill hover-scal" type="submit">
+                                                <i class="pr-2" data-feather="send"></i>
+                                                Envoyer
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,35 +144,22 @@
             </div>
         </main>
     {% else %}
-        {# contact / a-propos pages #}
-        <div class="left-content d-flex flex-column">
-            <a href="#contact-section">
-                <i class="fas fa-envelope-open"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-facebook"></i>
-            </a>
-            <a href="#">
-                <i class="fab fa-google-plus-g"></i>
-            </a>
-        </div>
         {# Si user n'est pas connecter #}
-        <section class="jumbotron rounded-0 img-accuil mb-0 shadow border-bottom border-white">
-            <div class="container py-5">
+        <section class="jumbotron rounded-0 bg-grd2 mb-0 shadow border-bottom border-white">
+            <div class="container">
                 <div class="row py-5">
-                    <div class="col-sm-7" data-aos="fade-down">
-                        <img class="ml-n4" src="/public/img/logo-white" alt="main logo" width="120">
-                        <h1 class="display-3 text-white  mb-32">
-                            Mon PFE 
+                    <div class="col-md-7" data-aos="fade-down">
+                        <h1 class="display-3 font-weight-bold text-white mt-5  mb-32">
+                            Mon PFE
                         </h1>
                         <p class="lead text-white-50 font-22 mb-32 text-justify font-weight-normal">
                             Partagez vos documents avec tous les étudiants qui visistent le site. 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Ici vous pouvez déposer vos exposés, PFE (projets de fin d'études), 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        mémoires
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Ici vous pouvez déposer vos exposés, PFE (projets de fin d'études), 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    mémoires
                         </p>
                     </div>
-                    <div class="col-sm-5" data-aos="fade-up">
-                        <div class="bg-white rounded-lg shadow-sm">
+                    <div class="col-md-5" data-aos="fade-up">
+                        <div class="bg-white rounded-lg shadow">
                             <div class="card-body p-4">
                                 <h5 class="card-title">
                                     <i class="mr-3" data-feather="log-in"></i>
@@ -214,7 +197,7 @@
                         class="col-sm">
                         {# <img alt="share icon" class="img-fluid mb-32 mt-2" data-aos-delay="50" data-aos="fade" src="/public/img/share.svg" width="100"> #}
                         <div class="m-2 p-3" style="height:400px">
-                            <div class="bg-grd p-5 rounded-lg d-inline-block">
+                            <div class="bg-grd-green p-5 rounded-lg d-inline-block">
                                 <i class="text-white" data-aos-delay="50" data-aos="fade" data-feather="share-2" style="width:100px;height:100px"></i>
                             </div>
                             <h4 class="mb-3 mt-4" data-aos-delay="50" data-aos="fade">
@@ -222,7 +205,7 @@
                             </h4>
                             <p class="text-muted mt-4" data-aos-delay="50" data-aos="fade">
                                 Ce site vous donnera la possibilité de partager votre project de fin d'etude et de le rendre
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            accessible à d'autres étudiants pour le voir en ligne
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            accessible à d'autres étudiants pour le voir en ligne
                             </p>
                         </div>
                     </div>
@@ -236,13 +219,13 @@
                             </h4>
                             <p class="text-muted mt-4" data-aos-delay="50" data-aos="fade">
                                 Vous pouvez voir les projets des autres étudiants via le Web et même les télécharger
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            pour les consulter hors ligne.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            pour les consulter hors ligne.
                             </p>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="m-2 p-3" style="height:400px">
-                            <div class="bg-grd p-5 rounded-lg d-inline-block">
+                            <div class="bg-grd-red p-5 rounded-lg d-inline-block">
                                 <i class="text-white" data-aos-delay="50" data-aos="fade" data-feather="star" style="width:100px;height:100px"></i>
                             </div>
                             <h4 class="mb-3 mt-4" data-aos-delay="50" data-aos="fade">
@@ -250,8 +233,8 @@
                             </h4>
                             <p class="text-muted mt-4" data-aos-delay="50" data-aos="fade">
                                 Vous avez également le droit de
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            donner votre avis sur le contenu du
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            projet afin de donner une evaluation à l'étudiant.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            donner votre avis sur le contenu du
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            projet afin de donner une evaluation à l'étudiant.
                             </p>
                         </div>
                     </div>
@@ -266,7 +249,7 @@
                 </p>
                 <div class="row mx-5" data-aos="fade-right">
                     {% for categorie in cat %}
-                        <div class="col-12 col-sm-6 col-md-4">
+                        <div class="col-12 col-sm-12 col-md-4">
                             <div class="card border-0 m-2 hover-scal">
                                 <div class="row no-gutters">
                                     <div class="col">

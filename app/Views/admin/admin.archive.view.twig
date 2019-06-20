@@ -15,10 +15,16 @@
                         <h4 class="font-weight-bold color-pr align-self-center">
                             Documents
                         </h4>
-                        <a href="{{ path_for('admin-add-document') }}" class="btn btn-success hover-scal">
-                            <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
-                            uploader document
-                        </a>
+                        <div>
+                            <a href="{{ path_for('admin-add-document') }}" class="btn btn-primary btn-sm hover-scal">
+                                <i data-feather="upload-cloud" style="width:24px;height:24px"></i>
+                                uploader document
+                            </a>
+                            {# <a href="{{ path_for('admin-archiver-documents') }}" class="btn btn-primary btn-sm hover-scal">
+                                <i data-feather="archive"></i>
+                                Archiver
+                            </a> #}
+                        </div>
                     </div>
                     <div>
                         <div class="custom-control custom-switch mb-3">
@@ -36,7 +42,7 @@
                                             {{ doc.titre }}
                                         </a>
                                         <p class="card-text text-muted font-weight-bold mt-3">
-                                            {{ doc.taille }} 
+                                            {{ doc.taille }}
                                         </p>
                                         <div class="d-flex mt-auto">
                                             <a class="btn btn-success btn-sm m-1" href=" {{ path_for('download',{'url' : doc.url }) }} ">
@@ -57,7 +63,7 @@
                     </div>
                     {# tabele vue #}
                     <div class="d-none table_vue">
-                        <table class="table table-striped" id="user_table">
+                        <table class="table table-striped" id="memoires_table">
                             <thead>
                                 <tr>
                                     <th scope="col">Réf</th>

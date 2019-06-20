@@ -6,6 +6,7 @@ use App\Models\Document;
  *  Fonction n°1 : generer une chaine de caractaire aliatoir
  *  taille 6 caractaire
  */
+
 function randomString()
 {
     $legnth = 6;
@@ -95,3 +96,24 @@ function genrateREF($lastId, $type, $fact, $depart)
     $num_seq = str_pad($lastId, 3, '0', STR_PAD_LEFT);
     return $annee . $type . $fact . $num_depart . $num_seq;
 }
+
+/*
+ *  Fonction n°6 : creation de zip
+ */
+
+// function createZip($files, $zip , $dir)
+// { 
+//     $zip_name = date("Y-m-d") . ".zip";
+//     if ($zip->open($zip_name , ZipArchive::CREATE) !== TRUE) {
+//         // Erreur d'ovriteur de zip 
+//         $this->flash->addMessage('errors', "Erreur vous pouvez pas télecharger l'archive");
+//     }
+//     $docs = Document::all();
+//     foreach ($docs as $doc) {
+//         $zip->addFile($dir . DIRECTORY_SEPARATOR . $doc->url);
+//     }
+//     // férmeture de zip object
+//     $zip->close();
+
+//     return $zip_name;
+// }

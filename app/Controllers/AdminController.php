@@ -124,6 +124,22 @@ class AdminController extends BaseController
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }
     }
+    /* méthod de téléchargement de tout fichier comme fichier.zip pour l'archivage */
+    // public function getDocumentsAsZip($request, $response)
+    // {
+    //     $dir =  $this->container->get('upload_directory');
+    //     $documents = Document::all(); 
+    //     // instance de zip Lib
+    //     $zip_name = createZip( $documents , $this->zip , $dir);
+    //     if (file_exists($zip_name)) {
+    //         // push to download the zip  
+    //         header('Content-type: application/zip');
+    //         header('Content-Disposition: attachment; filename="' . $zip_name . '"');
+    //         readfile($zip_name);
+    //         // remove zip file is exists in temp path  
+    //         unlink($zip_name);
+    //     }
+    // }
     /* méthod d'ajoute un utilsateur */
     public function addUser($request, $response)
     {
@@ -183,8 +199,8 @@ class AdminController extends BaseController
     {
         if ($this->auth->isAdminConnected()) {
             $doc = Document::find((int)$args['id']);
-            $evals = Evaluation::where('documents_id',$doc->id)->orderBy('date','desc')->get();
-            return $this->view->render($response, 'admin/admin.document.view.twig', ['doc' => $doc , 'evals' => $evals]);
+            $evals = Evaluation::where('documents_id', $doc->id)->orderBy('date', 'desc')->get();
+            return $this->view->render($response, 'admin/admin.document.view.twig', ['doc' => $doc, 'evals' => $evals]);
         } else {
             return $response->withRedirect($this->router->pathFor('admin-login'));
         }

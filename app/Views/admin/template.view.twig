@@ -10,6 +10,7 @@
         <link href="/public/css/datatables.min.css" rel="stylesheet">
         <link href="/public/css/style.css" rel="stylesheet">
         <link href="/public/css/admin.css" rel="stylesheet">
+        <link href="/public/css/tableexport.min.css" rel="stylesheet">
         <link href="/public/css/all.min.css" rel="stylesheet">
     </head>
     <body>
@@ -69,7 +70,13 @@
         <script src="/public/js/bootstrap.js"></script>
         <script src="/public/js/datatables.min.js"></script>
         <script src="/public/js/pdfobject.min.js"></script>
+        <script src="/public/js/FileSaver.min.js"></script>
+        <script src="/public/js/xls.core.min.js"></script>
+        <script src="/public/js/tableexport.min.js"></script>
         <script src="/public/js/admin.js"></script>
+        <script>
+            $("table").tableExport();
+        </script>
         {% block js %}{% endblock %}
     </body>
 </html>

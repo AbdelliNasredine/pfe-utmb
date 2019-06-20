@@ -5,19 +5,14 @@
 
 {% block contenu %}
     <section class="bg-light">
-        <div class="container pt-5 ">
+        <div class="container mt-5">
             <div class="px-md-5 py-5">
-                <div class="card shadow-sm w-75 mx-auto">
-                    <div class="card-img bg-img img-singin h-25 text-center py-5">
-                        <h1 class="text-white">Forumulaire d'inscription</h1>
-                        <p class="lead text-white-50 font-weight-bold">
+                <div class="shadow-sm mx-auto">
+                    <div class="card-body bg-white px-4 py-4">
+                        <h1 class="color-pr">Forumulaire d'inscription</h1>
+                        <p class="color-lead lead font-weight-bold">
                             vous pouver créer votre compt ici
                         </p>
-                    </div>
-                    <div class="card-body p-5">
-                        <h5 class="card-subtitle mb-4 text-muted">
-                            Remplir le formulaire ci dessous
-                        </h5>
                         {% if flash.getMessage('global') %}
                             <div class="alert alert-success" role="alert">
                                 {{ flash.getMessage('global') | first }}
@@ -47,14 +42,16 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="nomId">
-                                        Votre Nom *
+                                        Votre Nom
+                                        <span class="text-danger">*</span>
                                     </label>
                                     <input class="form-control" id="nomId" name="nom" required type="text">
                                     <small class="form-text text-muted" id="err-nom"></small>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="prenomId">
-                                        Votre Prenom *
+                                        Votre Prenom
+                                        <span class="text-danger">*</span>
                                     </label>
                                     <input class="form-control" id="prenomId" name="prenom" required type="text">
                                     <small class="form-text text-muted" id="err-prenom"></small>
@@ -62,7 +59,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="emailId">
-                                    Votre Email *
+                                    Votre Email
+                                    <span class="text-danger">*</span>
                                 </label>
                                 <input class="form-control" id="emailId" name="email" required type="email">
                                 <small class="form-text text-muted" id="err-email"></small>
@@ -70,7 +68,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="passwordId">
-                                        Mot de pass *
+                                        Mot de pass
+                                        <span class="text-danger">*</span>
                                     </label>
                                     <input class="form-control" id="passwordId" name="password" required type="password">
                                     <small class="form-text text-muted" id="err-pass">
@@ -79,23 +78,26 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="passwordConfId">
-                                        Mot de pass(Confirmation) *
+                                        Mot de pass(Confirmation)
+                                        <span class="text-danger">*</span>
                                     </label>
                                     <input class="form-control" id="passwordConfId" name="passwordConf" required type="password">
                                     <small class="form-text text-muted" id="err-pass-c"></small>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="type">Vous éte un ? *</label>
+                                <label for="type">Vous éte un ?
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <select class="form-control" id="type" name="type" required>
-                                    <option value="" selected></option>
-                                    <option value="2" >Etudiant</option>
-                                    <option value="3" >Enseigniant</option>
+                                    <option selected value=""></option>
+                                    <option value="2">Etudiant</option>
+                                    <option value="3">Enseigniant</option>
                                 </select>
                             </div>
                             <div class="form-group float-right">
                                 <span class="color-lead font-12">
-                                    (*) Champ obligatoir
+                                    (<span class="text-danger">*</span>) Champ obligatoir
                                 </span>
                             </div>
                             <div class="form-group">

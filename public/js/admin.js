@@ -32,8 +32,17 @@ $(document).ready(function () {
             }
         });
     });
-    //data-table -> users
+    //data-table -> users:
     $('#user_table').DataTable({
+        "scrollY":        "300px",
+        // "scrollCollapse": true,
+        // "paging":         false,
+        "language": {
+            "url": `http://${baseUrl}/public/js/lang-fr.json`
+        }
+    });
+    // memoires table data table:
+    $('#memoires_table').DataTable({
         "language": {
             "url": `http://${baseUrl}/public/js/lang-fr.json`
         }

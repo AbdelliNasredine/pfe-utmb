@@ -11,8 +11,8 @@ body {
 }
 
 .feather {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
 }
 
 .navbar {
@@ -130,4 +130,19 @@ body {
 .card-header{
     background-color: #4099de !important;
     color: #fff !important;
+}
+
+.button-default{
+    background-color: #4099de;
+    color: #fff !important;
+    border-radius: 4px;
+    margin-right: 10px !important;
+    padding: 6px 18px;
+    outline: none;
+    border: none;
+}
+
+.button-default:hover {
+    transition: all .4s ease-in-out;
+    background-color: #53adf1;
 }
